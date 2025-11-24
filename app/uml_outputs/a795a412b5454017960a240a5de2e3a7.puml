@@ -1,0 +1,96 @@
+@startuml
+package "Patient Record and Scheduling System" {
+
+    abstract class Person {
+        - firstName: String
+        - lastName: String
+        + getFullName(): String
+    }
+
+    class Patient {
+        - patientID: int
+        - dateOfBirth: Date
+        - address: String
+        - phoneNumber: String
+        + getPatientInfo(): String
+        + updatePatientInfo(info: String): void
+        + getVisitHistory(): List<Visit>
+    }
+
+    class Family {
+        - familyID: int
+        - headOfFamily: Patient
+        + addFamilyMember(patient: Patient): void
+        + removeFamilyMember(patient: Patient): void
+        + getPrimaryCarePhysician(): Doctor
+        + setPrimaryCarePhysician(doctor: Doctor): void
+    }
+
+    class Visit {
+        - visitID: int
+        - visitDate: Date
+        - diagnosis: String
+        - treatment: String
+        + recordDiagnosis(diagnosis: String): void
+        + recordTreatment(treatment: String): void
+        + prescribeMedication(medication: Medication): void
+        + getVisitDetails(): String
+    }
+
+    class Medication {
+        - medicationID: int
+        - name: String
+        - dosage: String
+        + getMedicationInfo(): String
+        + updateDosage(dosage: String): void
+    }
+
+    class Doctor extends Person {
+        - doctorID: int
+        - specialty: String
+        + viewPatientHistory(patient: Patient): List<Visit>
+        + enterTreatmentInfo(visit: Visit, info: String): void
+        + prescribeMedication(visit: Visit, medication: Medication): void
+    }
+
+    class Nurse extends Person {
+        - nurseID: int
+        + recordVisitResults(visit: Visit, diagnosis: String, treatment: String): void
+        + printPatientHistory(patient: Patient): void
+        + addMedication(visit: Visit, medication: Medication): void
+    }
+
+    class Receptionist extends Person {
+        - receptionistID: int
+        + enterNewPatientInfo(patient: Patient): void
+        + scheduleAppointment(patient: Patient, doctor: Doctor, date: Date): Appointment
+        + updatePatientInfo(patient: Patient): void
+    }
+
+    class Appointment {
+        - appointmentID: int
+        - appointmentDate: Date
+        - appointmentTime: Time
+        - status: String
+        + scheduleAppointment(): void
+        + cancelAppointment(): void
+        + rescheduleAppointment(newDate: Date, newTime: Time): void
+    }
+
+    Patient --|> Person
+    Patient "1" *-- "1..*" Visit : has >
+    Patient "1..*" --o "1" Family : belongs to >
+    
+    Family "1" --> "1" Doctor : has primary care physician >
+    
+    Visit "1" --> "1" Doctor : seen by >
+    Visit "1" --> "1" Nurse : attended by >
+    Visit "1" --> "1..*" Medication : prescribes >
+    
+    Receptionist "1..*" --> "*" Appointment : schedules >
+    Appointment "1" --> "0..1" Visit : may result in >
+    
+    Nurse "1..*" --> "*" Visit : records information >
+    Doctor "1" --> "*" Visit : reviews >
+}
+@enduml

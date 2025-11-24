@@ -1,0 +1,109 @@
+@startuml
+package "Auto Repair Shop" {
+
+    abstract class Item {
+        - category: String
+        - serialNumber: String
+        - price: double
+        + getCategory(): String
+        + getSerialNumber(): String
+        + getPrice(): double
+        + setPrice(price: double): void
+        + getCompatibleModels(): List<CarModel>
+        + addCompatibleModel(model: CarModel): void
+        + isCompatibleWith(carModel: CarModel): boolean
+    }
+
+    class Part extends Item {
+        - partId: int
+        + getPartId(): int
+    }
+
+    class Accessory extends Item {
+        - accessoryId: int
+        + getAccessoryId(): int
+    }
+
+    class Employee {
+        - employeeId: int
+        - name: String
+        - address: String
+        + getEmployeeId(): int
+        + getName(): String
+        + getAddress(): String
+        + setAddress(address: String): void
+        + getAssignedServices(): List<AssemblyService>
+    }
+
+    class AssemblyService {
+        - serviceId: int
+        - kilometers: int
+        - workHours: int
+        - admissionDate: Date
+        - finishDate: Date
+        + getServiceId(): int
+        + getKilometers(): int
+        + getWorkHours(): int
+        + getAdmissionDate(): Date
+        + getFinishDate(): Date
+        + setFinishDate(date: Date): void
+        + getCar(): Car
+        + getResponsibleEmployee(): Employee
+        + getParts(): List<Part>
+        + getAccessories(): List<Accessory>
+        + addPart(part: Part): boolean
+        + addAccessory(accessory: Accessory): boolean
+        + validateItemCompatibility(item: Item): boolean
+        + calculateTotalCost(): double
+        + completeService(finishDate: Date): void
+    }
+
+    class Car {
+        - licensePlate: String
+        - make: String
+        - model: String
+        - color: String
+        - registrationDate: Date
+        + getLicensePlate(): String
+        + getMake(): String
+        + getModel(): String
+        + getColor(): String
+        + setColor(color: String): void
+        + getRegistrationDate(): Date
+        + getOwner(): Owner
+        + getServiceHistory(): List<AssemblyService>
+        + getCarModel(): CarModel
+    }
+
+    class Owner {
+        - ownerId: int
+        - name: String
+        - address: String
+        - phone: String
+        + getOwnerId(): int
+        + getName(): String
+        + getAddress(): String
+        + getPhone(): String
+        + setPhone(phone: String): void
+        + setAddress(address: String): void
+        + getCars(): List<Car>
+        + addCar(car: Car): void
+    }
+
+    class CarModel {
+        - make: String
+        - model: String
+        + getMake(): String
+        + getModel(): String
+        + getCompatibleItems(): List<Item>
+    }
+
+    Employee "1" -- "0..*" AssemblyService : responsible for >
+    Owner "1" -- "1..*" Car : owns >
+    AssemblyService "0..*" -- "1" Car : performed on >
+    AssemblyService "0..*" o-- "0..*" Part : uses >
+    AssemblyService "0..*" o-- "0..*" Accessory : uses >
+    Item "0..*" -- "1..*" CarModel : < is compatible with
+    Car "1" -- "1" CarModel : is of type >
+}
+@enduml

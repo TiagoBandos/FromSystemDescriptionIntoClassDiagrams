@@ -1,0 +1,77 @@
+@startuml
+interface ContractComponent {
+  + getCharges(): double
+  + getBalance(): double
+  + setBalance(balance: double): void
+}
+
+class Contract implements ContractComponent {
+  - contractNumber: int
+  - balance: double
+  + Contract(contractNumber: int, balance: double)
+  + getBalance(): double
+  + setBalance(balance: double): void
+  + getCharges(): double
+}
+
+abstract class ContractOption implements ContractComponent {
+  # decoratedContract: ContractComponent
+  + ContractOption(decoratedContract: ContractComponent)
+  + getBalance(): double
+  + setBalance(balance: double): void
+  + {abstract} getCharges(): double
+}
+
+class DataOption extends ContractOption {
+  - monthlyCharge: double = 1.00
+  - dataLimit: int = 100
+  + DataOption(decoratedContract: ContractComponent)
+  + getCharges(): double
+}
+
+class SMSOption extends ContractOption {
+  - monthlyCharge: double = 0.50
+  - smsLimit: int = 50
+  + SMSOption(decoratedContract: ContractComponent)
+  + getCharges(): double
+}
+
+class MinutesOption extends ContractOption {
+  - monthlyCharge: double = 1.50
+  - minutesLimit: int = 50
+  + MinutesOption(decoratedContract: ContractComponent)
+  + getCharges(): double
+}
+
+class DoubleTransferRateOption extends ContractOption {
+  - monthlyCharge: double = 2.00
+  + DoubleTransferRateOption(decoratedContract: ContractComponent)
+  + getCharges(): double
+}
+
+Contract <|.. ContractComponent
+ContractOption <|.. ContractComponent
+ContractOption o-- ContractComponent
+
+note right of ContractOption::getCharges
+  Returns this.monthlyCharge + 
+  decoratedContract.getCharges()
+end note
+
+note right of ContractOption::getBalance
+  Returns decoratedContract.getBalance()
+end note
+
+note right of ContractOption::setBalance
+  Calls decoratedContract.setBalance(balance)
+end note
+
+note right of Contract::getCharges
+  Returns 0.0 (no monthly charges)
+end note
+
+note bottom of ContractComponent
+  Common interface for both the basic Contract
+  and all decorators (ContractOptions)
+end note
+@enduml

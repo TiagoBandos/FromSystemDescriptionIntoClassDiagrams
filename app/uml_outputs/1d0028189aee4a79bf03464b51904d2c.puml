@@ -1,0 +1,86 @@
+@startuml
+package "MyDoctor Application" {
+
+    abstract class User {
+        - userId: int
+        - name: String
+        - email: String
+        + login(): boolean
+        + logout(): void
+        + updateProfile(): boolean
+    }
+
+    class Hospital {
+        - hospitalId: int
+        - name: String
+        - address: String
+        + addOffice(office: Office): void
+        + getOffices(): List<Office>
+    }
+
+    class Office {
+        - officeId: int
+        - address: String
+        - phoneNumber: String
+        + getAvailableSchedules(date: Date): List<Schedule>
+    }
+
+    class Doctor extends User {
+        - doctorId: int
+        - specialization: String
+        + applyToOffice(office: Office): boolean
+        + createSchedule(office: Office, date: Date, startTime: Time, endTime: Time): Schedule
+        + getSchedules(): List<Schedule>
+        + validateScheduleOverlap(newSchedule: Schedule): boolean
+    }
+
+    class Patient extends User {
+        - patientId: int
+        + viewDoctors(): List<Doctor>
+        + viewOfficeSchedules(office: Office, date: Date): List<Schedule>
+        + bookAppointment(doctor: Doctor, schedule: Schedule, appointmentType: AppointmentType, startTime: Time): Appointment
+    }
+
+    class Schedule {
+        - scheduleId: int
+        - date: Date
+        - startTime: Time
+        - endTime: Time
+        + isAvailable(startTime: Time, duration: int): boolean
+        + getDoctor(): Doctor
+        + getOffice(): Office
+    }
+
+    class Appointment {
+        - appointmentId: int
+        - date: Date
+        - startTime: Time
+        - endTime: Time
+        - status: String
+        - appointmentType: AppointmentType
+        + calculateEndTime(): Time
+        + isTimeSlotAvailable(): boolean
+        + sendConfirmationEmail(): void
+        + getSchedule(): Schedule
+    }
+
+    enum AppointmentType {
+        BLOOD_TEST(15)
+        CONSULTATION(30)
+        SURGERY(60)
+        - durationMinutes: int
+        + getDurationMinutes(): int
+    }
+
+    Hospital "1" o--> "*" Office : contains >
+    Doctor "*" -- "*" Office : applies to practice >
+    Doctor "1" -- "*" Schedule : creates >
+    Office "1" -- "*" Schedule : has >
+    Schedule "1" -- "*" Appointment : enables >
+    Patient "1" -- "*" Appointment : books >
+    Doctor "1" -- "*" Appointment : performs >
+    Appointment "*" --> "1" Patient : is for >
+    Appointment "*" --> "1" AppointmentType : is of type >
+    Appointment "*" --> "1" Schedule : belongs to >
+}
+@enduml

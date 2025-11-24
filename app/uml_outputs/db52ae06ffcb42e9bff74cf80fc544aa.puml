@@ -1,0 +1,92 @@
+@startuml
+
+abstract class Scene {
+    - code: String
+    - description: String
+    --
+    + Scene(code: String, description: String)
+    + getCode(): String
+    + getDescription(): String
+    + setCode(code: String): void
+    + setDescription(description: String): void
+}
+
+class Setup {
+    - code: String
+    - description: String
+    - scene: Scene
+    --
+    + Setup(code: String, description: String, scene: Scene)
+    + getCode(): String
+    + getDescription(): String
+    + setCode(code: String): void
+    + setDescription(description: String): void
+    + getScene(): Scene
+}
+
+class Take {
+    - number: int
+    - filmLength: double
+    - reelCode: String
+    - setup: Setup
+    --
+    + Take(number: int, filmLength: double, reelCode: String, setup: Setup)
+    + getNumber(): int
+    + getFilmLength(): double
+    + getReelCode(): String
+    + setNumber(number: int): void
+    + setFilmLength(length: double): void
+    + setReelCode(code: String): void
+    + isValidNumber(): boolean
+    + getSetup(): Setup
+}
+
+class Location {
+    - code: String
+    - address: String
+    - description: String
+    --
+    + Location(code: String, address: String, description: String)
+    + getCode(): String
+    + getAddress(): String
+    + getDescription(): String
+    + setCode(code: String): void
+    + setAddress(address: String): void
+    + setDescription(description: String): void
+}
+
+class InternalScene {
+    --
+    + InternalScene(code: String, description: String)
+    + isTheaterScene(): boolean
+}
+
+class ExternalScene {
+    - sceneType: String
+    - location: Location
+    --
+    + ExternalScene(code: String, description: String, sceneType: String, location: Location)
+    + getSceneType(): String
+    + setSceneType(type: String): void
+    + isDayScene(): boolean
+    + isNightScene(): boolean
+    + isValidSceneType(): boolean
+    + getLocation(): Location
+    + setLocation(location: Location): void
+}
+
+Scene "1" *-- "1..*" Setup : contains >
+Setup "1" *-- "1..*" Take : contains >
+Scene <|-- InternalScene
+Scene <|-- ExternalScene
+ExternalScene "1..*" -- "1" Location : filmed at >
+
+note bottom of Take
+  number must be positive
+end note
+
+note right of ExternalScene
+  sceneType can be "day" or "night"
+end note
+
+@enduml

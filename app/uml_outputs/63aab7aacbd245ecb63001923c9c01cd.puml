@@ -1,0 +1,150 @@
+@startuml
+package Airline {
+  class Airline {
+    - id: String
+    + getFlights(): List<Flight>
+    + getAircrafts(): List<Aircraft>
+    + getPilots(): List<Pilot>
+    + addFlight(flight: Flight): void
+    + addAircraft(aircraft: Aircraft): void
+    + addPilot(pilot: Pilot): void
+  }
+
+  class Flight {
+    - id: String
+    - departureAirport: Airport
+    - arrivalAirport: Airport
+    - departureTime: DateTime
+    - arrivalTime: DateTime
+    - aircraft: Aircraft
+    + getInfo(): String
+    + assignPilot(pilot: Pilot, role: PilotRole): boolean
+    + getAssignedPilots(): List<FlightCrew>
+    + getCaptain(): Pilot
+    + getCopilot(): Pilot
+    + validateCrewRequirements(): boolean
+  }
+
+  class Airport {
+    - id: String
+    - name: String
+    - location: String
+    + getId(): String
+    + getName(): String
+    + getLocation(): String
+  }
+
+  class Aircraft {
+    - id: String
+    - type: AircraftType
+    - state: AircraftState
+    - status: AircraftStatus
+    - location: Airport
+    + repair(): void
+    + takeoff(): void
+    + land(): void
+    + isOperational(): boolean
+    + getRequiredCrewRoles(): List<PilotRole>
+  }
+
+  enum AircraftState {
+    WORKING
+    UNDER_REPAIR
+  }
+
+  enum AircraftStatus {
+    LANDED
+    AIRBORNE
+  }
+
+  class AircraftType {
+    - name: String
+    - requiredRoles: Map<PilotRole, Integer>
+    + getName(): String
+    + getRequiredRoles(): Map<PilotRole, Integer>
+    + getMinimumPilots(): int
+    + validateCrewRequirements(crew: List<FlightCrew>): boolean
+  }
+
+  class FlightCrew {
+    - pilot: Pilot
+    - role: PilotRole
+    + getPilot(): Pilot
+    + getRole(): PilotRole
+    + isValidAssignment(): boolean
+  }
+
+  enum PilotRole {
+    CAPTAIN
+    COPILOT
+    NAVIGATOR
+  }
+}
+
+package Pilot {
+  class Pilot {
+    - id: String
+    - name: String
+    - experienceLevel: int
+    + getId(): String
+    + getName(): String
+    + getExperienceLevel(): int
+    + canServeAsRole(role: PilotRole): boolean
+    + canServeAsCaptain(): boolean
+  }
+}
+
+Airline "1" *-- "0..*" Flight
+Airline "1" *-- "0..*" Aircraft
+Airline "1" *-- "0..*" Pilot
+
+Flight "1" *-- "1..*" FlightCrew
+Flight "1" -- "1" Aircraft
+
+Airport "1" -- "0..*" Flight : departure >
+Airport "1" -- "0..*" Flight : arrival >
+
+Aircraft "1" -- "1" AircraftType
+Aircraft "1" -- "1" Airport : located at >
+Aircraft "1" -- "1" AircraftStatus
+
+FlightCrew "1" -- "1" Pilot
+FlightCrew "1" -- "1" PilotRole
+
+note right of Pilot::canServeAsCaptain
+  Returns true only if 
+  experienceLevel == 3
+end note
+
+note right of FlightCrew::isValidAssignment
+  Validates if the pilot's experience
+  level is sufficient for the role
+  (e.g., Captain requires level 3)
+end note
+
+note right of AircraftType::requiredRoles
+  Maps pilot roles to required count
+  (e.g., CAPTAIN->1, COPILOT->1, NAVIGATOR->0)
+end note
+
+note right of AircraftType::validateCrewRequirements
+  Ensures there's at least one captain with level 3
+  and one co-pilot, plus any other required roles
+end note
+
+note right of Flight::validateCrewRequirements
+  Enforces that the flight has exactly:
+  - One captain (with experience level 3)
+  - One co-pilot
+  - Any additional roles required by aircraft type
+end note
+
+note bottom of Flight
+  {constraint: Each Flight must have exactly one CAPTAIN and one COPILOT}
+end note
+
+' Add explicit constraints on the FlightCrew association
+Flight "1" *-- "1" FlightCrew : has captain {role = CAPTAIN} >
+Flight "1" *-- "1" FlightCrew : has co-pilot {role = COPILOT} >
+Flight "1" *-- "0..*" FlightCrew : has other crew >
+@enduml

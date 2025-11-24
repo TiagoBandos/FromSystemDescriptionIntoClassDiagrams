@@ -1,0 +1,107 @@
+@startuml
+package "Saturn Int. Security System" {
+
+    abstract class Card {
+        - cardNumber: String
+        + verifyCard(): boolean
+    }
+
+    class EmployeeCard extends Card {
+        - name: String
+        - department: String
+        + verifyCard(): boolean
+        + getEmployeeDetails(): String
+    }
+
+    class GuestCard extends Card {
+        - issueDate: Date
+        + verifyCard(): boolean
+        + isValid(): boolean
+    }
+
+    class Employee {
+        - employeeNumber: String
+        - name: String
+        - department: String
+        + wearCard(): void
+    }
+
+    class Guest {
+        - name: String
+        - visitDate: Date
+        + returnCard(): void
+    }
+
+    class Car {
+        - licensePlate: String
+        + enterParkingLot(): void
+        + exitParkingLot(): void
+    }
+
+    class Reception {
+        + issueGuestCard(guest: Guest): GuestCard
+        + collectReturnedCard(card: GuestCard): void
+        + sendCardInAdvance(guest: Guest): void
+    }
+
+    class CardReader {
+        - location: String
+        + readCard(card: Card): boolean
+        + signalBarrier(): void
+        + checkParkingAvailability(): boolean
+    }
+
+    class EntranceBarrier {
+        - isRaised: boolean
+        + rise(): void
+        + lower(): void
+    }
+
+    class ExitBarrier {
+        - isRaised: boolean
+        + rise(): void
+        + lower(): void
+        + detectCar(): boolean
+        + autoRiseForExitingCar(): void
+    }
+
+    class ParkingLotStatus {
+        - isFull: boolean
+        + displayFullSign(): void
+        + turnOffFullSign(): void
+        + updateStatus(isFull: boolean): void
+    }
+
+    class ParkingLot {
+        - totalSpaces: int
+        - occupiedSpaces: int
+        + parkCar(): boolean
+        + leaveCar(): void
+        + isFull(): boolean
+        + getAvailableSpaces(): int
+        + notifyStatusChange(): void
+    }
+
+    Employee "1" -- "1" EmployeeCard : has >
+    Guest "1" -- "0..1" GuestCard : receives >
+    
+    Card "0..*" -- "1..*" CardReader : is read by >
+    
+    CardReader "1" -- "1" EntranceBarrier : controls >
+    ParkingLot "1" -- "1" ExitBarrier : has >
+    
+    Reception "1" -- "*" GuestCard : issues >
+    Guest "*" -- "1" Reception : returns card to >
+    
+    ParkingLot "1" -- "1" ParkingLotStatus : updates >
+    ParkingLotStatus "1" -- "1" EntranceBarrier : displays at >
+    
+    ParkingLot "1" -- "1..*" CardReader : provides availability info to >
+    
+    Employee "1" -- "0..1" Car : may drive >
+    Guest "1" -- "0..1" Car : may drive >
+    
+    Car "*" -- "1" ExitBarrier : triggers >
+    Car "*" -- "1" EntranceBarrier : passes through >
+}
+@enduml

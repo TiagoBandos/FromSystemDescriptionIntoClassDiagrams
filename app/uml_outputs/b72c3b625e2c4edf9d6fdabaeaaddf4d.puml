@@ -1,0 +1,77 @@
+@startuml
+interface IContract {
+  + getCharges(): double
+  + getBalance(): double
+  + setBalance(balance: double): void
+}
+
+class Contract implements IContract {
+  - contractNumber: int
+  - balance: double
+  + Contract(contractNumber: int, balance: double)
+  + getBalance(): double
+  + setBalance(balance: double): void
+  + getCharges(): double
+}
+
+abstract class ContractOption implements IContract {
+  - wrappedContract: IContract
+  + ContractOption(wrappedContract: IContract)
+  + {abstract} getCharges(): double
+  + getBalance(): double { return wrappedContract.getBalance(); }
+  + setBalance(balance: double): void { wrappedContract.setBalance(balance); }
+}
+
+class DataOption extends ContractOption {
+  - monthlyCharge: double = 1.00
+  + DataOption(wrappedContract: IContract)
+  + getCharges(): double { return wrappedContract.getCharges() + monthlyCharge; }
+}
+
+class SMSOption extends ContractOption {
+  - monthlyCharge: double = 0.50
+  + SMSOption(wrappedContract: IContract)
+  + getCharges(): double { return wrappedContract.getCharges() + monthlyCharge; }
+}
+
+class MinutesOption extends ContractOption {
+  - monthlyCharge: double = 1.50
+  + MinutesOption(wrappedContract: IContract)
+  + getCharges(): double { return wrappedContract.getCharges() + monthlyCharge; }
+}
+
+class DoubleTransferRateOption extends ContractOption {
+  - monthlyCharge: double = 2.00
+  + DoubleTransferRateOption(wrappedContract: IContract)
+  + getCharges(): double { return wrappedContract.getCharges() + monthlyCharge; }
+}
+
+class Client {
+  + main(args: String[]): void
+}
+
+note right of Client
+  Example usage:
+  IContract contract = new Contract(12345, 50.0);
+  // Add 100MB data option
+  contract = new DataOption(contract);
+  // Add 50 SMS option
+  contract = new SMSOption(contract);
+  // Add another 100MB data option
+  contract = new DataOption(contract);
+  
+  // Total charges: 0.0 + 1.0 + 0.5 + 1.0 = 2.5€
+  System.out.println(contract.getCharges());
+end note
+
+note "Decorator Pattern Implementation:\n- Each ContractOption wraps an IContract\n- getCharges() adds option charge to wrapped contract\n- getBalance() and setBalance() delegate to wrapped contract" as N1
+
+ContractOption o-- IContract : wraps >
+Contract <.. ContractOption : can wrap
+Client ..> IContract : uses
+Client ..> Contract : creates
+Client ..> DataOption : creates
+Client ..> SMSOption : creates
+Client ..> MinutesOption : creates
+Client ..> DoubleTransferRateOption : creates
+@enduml

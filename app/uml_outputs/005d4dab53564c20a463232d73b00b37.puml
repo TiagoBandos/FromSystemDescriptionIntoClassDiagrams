@@ -1,0 +1,101 @@
+@startuml
+
+class Factory {
+    - id: int
+    - name: String
+    - address: String
+    + addMachine(machine: Machine): void
+    + removeMachine(machine: Machine): void
+}
+
+class Machine {
+    - id: int
+    - serialNumber: String
+    - make: String
+    - model: String
+    - purchaseDate: Date
+    + assignWorker(worker: Worker): void
+    + removeWorker(worker: Worker): void
+    + produceProduct(productType: ProductType, quantity: int): List<Product>
+}
+
+class Worker {
+    - id: int
+    - firstName: String
+    - lastName: String
+    - birthDate: Date
+    - address: String
+    - skills: List<Skill>
+    - machines: List<Machine>
+    + addSkill(skill: Skill): void
+    + removeSkill(skill: Skill): void
+    + assignToMachine(machine: Machine): void
+}
+
+class Skill {
+    - id: int
+    - name: String
+    + getDescription(): String
+}
+
+class ProductType {
+    - id: int
+    - name: String
+    - material: String
+    - weight: double
+    - price: double
+    + createProduct(): Product
+    + getPrice(): double
+}
+
+class Product {
+    - id: int
+    - serialNumber: String
+    - productionDate: Date
+    - productType: ProductType
+    + getProductType(): ProductType
+}
+
+class Client {
+    - id: int
+    - name: String
+    - address: String
+    - phoneNumber: String
+    - contactPerson: String
+    + placeOrder(products: Map<ProductType, Integer>): PurchaseOrder
+    + updateContactInfo(address: String, phone: String, contact: String): void
+}
+
+class PurchaseOrder {
+    - id: int
+    - orderNumber: String
+    - orderDate: Date
+    - expectedDeliveryDate: Date
+    - actualDeliveryDate: Date
+    - client: Client
+    - orderedProducts: List<OrderedProduct>
+    + addProduct(productType: ProductType, quantity: int): void
+    + removeProduct(productType: ProductType): void
+    + updateDeliveryDate(date: Date): void
+    + calculateTotal(): double
+}
+
+class OrderedProduct {
+    - id: int
+    - productType: ProductType
+    - quantity: int
+    - purchaseOrder: PurchaseOrder
+    + getSubtotal(): double
+}
+
+Factory "1" -- "*" Machine : has >
+Worker "*" -- "*" Machine : operates >
+Worker "1" -- "*" Skill : has >
+ProductType "*" -- "1" Machine : produced by >
+Product "*" -- "1" ProductType : is of type >
+PurchaseOrder "1" -- "*" OrderedProduct : contains >
+PurchaseOrder "*" -- "1" Client : placed by <
+OrderedProduct "*" -- "1" ProductType : refers to >
+Client "1" -- "*" PurchaseOrder : places >
+
+@enduml

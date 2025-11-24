@@ -1,0 +1,119 @@
+@startuml
+package "Airport Management System" {
+
+    class AirportManagement {
+        - name: String
+        - city: String
+        - area: String
+        + open()
+        + manageLuggage()
+    }
+
+    class Flight {
+        - id: String
+        - name: String
+        - departureTime: DateTime
+        - arrivalTime: DateTime
+        - capacity: int
+        - price: double
+        - source: String
+        - destination: String
+        + getFlightDetails()
+    }
+
+    class TicketCounter {
+        - id: String
+        - source: String
+        - destination: String
+        + bookTicket(passenger: Passenger, flight: Flight): Ticket
+        + getTicketDetails(ticketId: String): Ticket
+        + payForTicket(ticketId: String, amount: double): boolean
+    }
+
+    class Ticket {
+        - id: String
+        - price: double
+        - seatNumber: String
+        - status: String
+        + getDetails(): String
+    }
+
+    class NoticeBoard {
+        - flightId: String
+        - flightName: String
+        - arrivalTime: DateTime
+        - departureTime: DateTime
+        - source: String
+        - destination: String
+        + displayFlightDetails()
+        + displayFlightStatus()
+        + displayCurrentFlights()
+        + displayUpcomingFlights()
+    }
+
+    class Passenger {
+        - id: String
+        - name: String
+        - age: int
+        + checkIn()
+        + getPassengerDetails()
+    }
+
+    class Runway {
+        - number: int
+        - isOccupied: boolean
+        - length: double
+        + checkRunwayStatus(): boolean
+        + isReserved(): boolean
+        + getCurrentFlight(): Flight
+    }
+
+    class Luggage {
+        - id: String
+        - status: String
+        + getLuggageDetails(): String
+        + getStatus(): String
+    }
+
+    class Employee {
+        - id: String
+        - name: String
+        - salary: double
+        + getEmployeeDetails(): String
+    }
+
+    class AirportEmployee {
+        - designation: String
+        - department: String
+    }
+
+    class AirplaneEmployee {
+        - designation: String
+    }
+
+    AirportManagement "1" *-- "1..*" Flight
+    AirportManagement "1" *-- "1..*" TicketCounter
+    AirportManagement "1" *-- "1" NoticeBoard
+    AirportManagement "1" *-- "1..*" Runway
+    AirportManagement "1" *-- "1..*" Passenger
+    AirportManagement "1" *-- "1..*" Luggage
+    AirportManagement "1" *-- "1..*" Employee
+
+    Employee <|-- AirportEmployee
+    Employee <|-- AirplaneEmployee
+
+    Passenger "1" -- "1..*" Luggage : owns >
+    Passenger "*..*" -- "*..*" TicketCounter : uses >
+    
+    Passenger "1" -- "*..*" Ticket : purchases >
+    Ticket "*" -- "1" Flight : for >
+    TicketCounter "1" -- "*" Ticket : issues >
+
+    Flight "0..1" -- "0..1" Runway : uses >
+    
+    NoticeBoard "1" -- "*..*" Flight : displays >
+    
+    Luggage "*" -- "1" Flight : associated with >
+    Luggage "*" -- "1" Passenger : belongs to >
+}
+@enduml

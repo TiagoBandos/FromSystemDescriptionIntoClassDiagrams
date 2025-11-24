@@ -1,0 +1,26 @@
+@startuml
+
+class User {
+  - userId : int
+  - username : String
+  - email : String
+  + createProject(projectName : String) : Project
+  + viewProjects() : List<Project>
+  + deleteProject(projectId : int) : boolean
+  + updateUserProfile(username : String, email : String) : void
+  + changePassword(oldPassword : String, newPassword : String) : boolean
+}
+
+class Project {
+  - projectId : int
+  - name : String
+  - description : String
+  - startDate : Date
+  - endDate : Date
+  + updateProject(name : String, description : String, startDate : Date, endDate : Date) : void
+  + getProjectDetails() : ProjectDetails
+}
+
+User "1" *-- "*" Project : manages >
+
+@enduml

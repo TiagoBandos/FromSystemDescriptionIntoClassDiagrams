@@ -1,0 +1,77 @@
+@startuml
+package "Bank System" {
+
+    class Bank {
+        - name: String
+        - branchCode: String
+        + getName(): String
+        + getBranchCode(): String
+    }
+
+    class Customer {
+        - name: String
+        - address: String
+        + getName(): String
+        + getAddress(): String
+        + setName(name: String): void
+        + setAddress(address: String): void
+    }
+
+    abstract class Account {
+        - balance: Double
+        + getBalance(): Double
+        + deposit(amount: Double): void
+        + withdraw(amount: Double): boolean
+    }
+
+    class SavingsAccount extends Account {
+        - interestRate: Double
+        + getInterestRate(): Double
+        + setInterestRate(rate: Double): void
+        + calculateInterest(): Double
+    }
+
+    class InvestmentAccount extends Account {
+        + buyStock(stock: Stock, quantity: Integer): StockOrder
+        + sellStock(stock: Stock, quantity: Integer): Double
+    }
+
+    class Stock {
+        - ticker: String
+        - quantity: Integer
+        - price: Double
+        + getTicker(): String
+        + getQuantity(): Integer
+        + getPrice(): Double
+        + setQuantity(quantity: Integer): void
+        + setPrice(price: Double): void
+    }
+
+    class BankService {
+        + buyStock(account: InvestmentAccount, stock: Stock, quantity: Integer): StockOrder
+        + applyCommission(order: StockOrder): Double
+        + createAccount(customer: Customer, type: String): Account
+    }
+
+    class StockOrder {
+        - quantity: Integer
+        - orderDate: Date
+        - commission: Double
+        + getQuantity(): Integer
+        + getOrderDate(): Date
+        + getCommission(): Double
+        + setCommission(commission: Double): void
+    }
+
+    Customer "1" *-- "0..*" Account : owns
+    Account <|-- SavingsAccount
+    Account <|-- InvestmentAccount
+    InvestmentAccount "1" o-- "0..*" Stock : contains
+    BankService ..> InvestmentAccount : manages
+    BankService ..> StockOrder : processes
+    BankService ..> Customer : serves
+    StockOrder "1" -- "1" Stock : references
+    Bank "1" *-- "1..*" BankService : provides
+    Bank "1" -- "0..*" Customer : serves
+}
+@enduml

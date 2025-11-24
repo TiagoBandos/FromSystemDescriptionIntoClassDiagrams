@@ -1,0 +1,172 @@
+@startuml
+package Factory {
+    class Factory {
+        - id: int
+        - name: String
+        - address: String
+        + getId(): int
+        + getName(): String
+        + getAddress(): String
+        + setName(name: String): void
+        + setAddress(address: String): void
+        + addMachine(machine: Machine): void
+    }
+
+    class Machine {
+        - id: int
+        - serialNumber: String
+        - make: String
+        - model: String
+        - purchaseDate: Date
+        + getId(): int
+        + getSerialNumber(): String
+        + getMake(): String
+        + getModel(): String
+        + getPurchaseDate(): Date
+        + setSerialNumber(serialNumber: String): void
+        + setMake(make: String): void
+        + setModel(model: String): void
+        + setPurchaseDate(date: Date): void
+        + addWorker(worker: Worker): void
+        + addProductType(productType: ProductType): void
+    }
+
+    class Worker {
+        - id: int
+        - firstName: String
+        - lastName: String
+        - birthDate: Date
+        - address: String
+        + getId(): int
+        + getFirstName(): String
+        + getLastName(): String
+        + getBirthDate(): Date
+        + getAddress(): String
+        + setFirstName(firstName: String): void
+        + setLastName(lastName: String): void
+        + setBirthDate(birthDate: Date): void
+        + setAddress(address: String): void
+        + addSkill(skill: Skill): void
+        + assignToMachine(machine: Machine): void
+    }
+
+    class Skill {
+        - id: int
+        - name: String
+        + getId(): int
+        + getName(): String
+        + setName(name: String): void
+    }
+
+    class WorkerSkill {
+        - id: int
+        - proficiencyLevel: String
+        - dateAcquired: Date
+        + getId(): int
+        + getWorker(): Worker
+        + getSkill(): Skill
+        + getProficiencyLevel(): String
+        + getDateAcquired(): Date
+        + setProficiencyLevel(level: String): void
+        + setDateAcquired(date: Date): void
+    }
+
+    class ProductType {
+        - id: int
+        - name: String
+        - material: String
+        - weight: double
+        + getId(): int
+        + getName(): String
+        + getMaterial(): String
+        + getWeight(): double
+        + setName(name: String): void
+        + setMaterial(material: String): void
+        + setWeight(weight: double): void
+        + createProduct(): Product
+    }
+
+    class Product {
+        - id: int
+        - serialNumber: String
+        + getId(): int
+        + getSerialNumber(): String
+        + getProductType(): ProductType
+        + setSerialNumber(serialNumber: String): void
+    }
+
+    class OrderItem {
+        - id: int
+        - quantity: int
+        + getId(): int
+        + getQuantity(): int
+        + getProduct(): Product
+        + getPurchaseOrder(): PurchaseOrder
+        + setQuantity(quantity: int): void
+    }
+
+    class PurchaseOrder {
+        - id: int
+        - orderNumber: String
+        - orderDate: Date
+        - expectedDeliveryDate: Date
+        - actualDeliveryDate: Date
+        + getId(): int
+        + getOrderNumber(): String
+        + getOrderDate(): Date
+        + getExpectedDeliveryDate(): Date
+        + getActualDeliveryDate(): Date
+        + setOrderNumber(orderNumber: String): void
+        + setOrderDate(orderDate: Date): void
+        + setExpectedDeliveryDate(date: Date): void
+        + setActualDeliveryDate(date: Date): void
+        + addOrderItem(product: Product, quantity: int): OrderItem
+        + getClient(): Client
+    }
+
+    class Client {
+        - id: int
+        - name: String
+        - address: String
+        - phoneNumber: String
+        - contactPerson: String
+        + getId(): int
+        + getName(): String
+        + getAddress(): String
+        + getPhoneNumber(): String
+        + getContactPerson(): String
+        + setName(name: String): void
+        + setAddress(address: String): void
+        + setPhoneNumber(phoneNumber: String): void
+        + setContactPerson(contactPerson: String): void
+        + createOrder(): PurchaseOrder
+    }
+
+    class WorkerMachineAssignment {
+        - id: int
+        - assignmentDate: Date
+        + getId(): int
+        + getWorker(): Worker
+        + getMachine(): Machine
+        + getAssignmentDate(): Date
+        + setAssignmentDate(date: Date): void
+    }
+}
+
+' Relationships
+Factory "1" *-- "1..*" Machine : has >
+
+Machine "1" -- "1..*" ProductType : produces >
+ProductType "1" -- "0..*" Product : defines >
+
+Worker "1..*" -- "1..*" Machine
+(Worker, Machine) .. WorkerMachineAssignment
+
+Worker "1..*" -- "1..*" Skill
+(Worker, Skill) .. WorkerSkill
+
+PurchaseOrder "1" *-- "1..*" OrderItem : contains >
+OrderItem "1" -- "1" Product : references >
+
+Client "1" -- "0..*" PurchaseOrder : places >
+@enduml

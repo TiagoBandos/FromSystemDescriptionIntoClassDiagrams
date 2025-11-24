@@ -1,0 +1,127 @@
+@startuml
+
+package "Auto Repair Shop" {
+
+    abstract class Item {
+        - serialNumber: String
+        - price: double
+        + getPrice(): double
+        + getSerialNumber(): String
+        + isCompatibleWithCar(Car): boolean
+    }
+
+    class Employee {
+        - employeeId: int
+        - name: String
+        - address: String
+        + getEmployeeId(): int
+        + getName(): String
+        + getAddress(): String
+        + setAddress(String): void
+        + executeService(AssemblyService): void
+    }
+
+    class AssemblyService {
+        - serviceId: int
+        - mileage: int
+        - workHours: int
+        - admissionDate: Date
+        - finishDate: Date
+        + getServiceId(): int
+        + getMileage(): int
+        + getWorkHours(): int
+        + getAdmissionDate(): Date
+        + getFinishDate(): Date
+        + setFinishDate(Date): void
+        + addPart(Part): void
+        + addAccessory(Accessory): void
+        + calculateTotalCost(): double
+        + getUsedItems(): List<Item>
+        + getResponsibleEmployee(): Employee
+        + getCar(): Car
+    }
+
+    class Part extends Item {
+        - partId: int
+        - category: PartCategory
+        + getPartId(): int
+        + getCategory(): PartCategory
+    }
+
+    class Accessory extends Item {
+        - accessoryId: int
+        - category: AccessoryCategory
+        + getAccessoryId(): int
+        + getCategory(): AccessoryCategory
+    }
+
+    class Car {
+        - licensePlate: String
+        - make: String
+        - model: String
+        - color: String
+        - mileage: int
+        + getLicensePlate(): String
+        + getMake(): String
+        + getModel(): String
+        + getColor(): String
+        + setColor(String): void
+        + getMileage(): int
+        + updateMileage(int): void
+        + getCarModel(): CarModel
+    }
+
+    class Owner {
+        - ownerId: int
+        - name: String
+        - address: String
+        - phoneNumber: String
+        + getOwnerId(): int
+        + getName(): String
+        + getAddress(): String
+        + getPhoneNumber(): String
+        + setAddress(String): void
+        + setPhoneNumber(String): void
+        + addCar(Car): void
+        + getCars(): List<Car>
+    }
+
+    enum PartCategory {
+        RADIO
+        TYRE
+        ENGINE_COMPONENT
+        BRAKE_SYSTEM
+        TRANSMISSION
+    }
+
+    enum AccessoryCategory {
+        RADIO
+        TYRE
+        SEAT_COVER
+        FLOOR_MAT
+        GPS_NAVIGATOR
+    }
+
+    enum CarModel {
+        TOYOTA_CAMRY
+        HONDA_CIVIC
+        FORD_FOCUS
+        VOLKSWAGEN_GOLF
+        BMW_3_SERIES
+        // Other car models
+    }
+
+    note "Parts and accessories are only sold together with assembly services" as SalesPolicy
+
+    Employee "1" -- "0..*" AssemblyService : responsibleFor >
+    Owner "1" o-- "1..*" Car : owns >
+    AssemblyService "0..*" -- "1" Car : performedOn >
+    AssemblyService "1" o-- "1..*" Part : uses >
+    AssemblyService "1" o-- "0..*" Accessory : uses >
+    Part "0..*" -- "1..*" CarModel : compatibleWith >
+    Accessory "0..*" -- "1..*" CarModel : compatibleWith >
+    Car -- CarModel : hasModel >
+    SalesPolicy .. AssemblyService
+}
+
+@enduml

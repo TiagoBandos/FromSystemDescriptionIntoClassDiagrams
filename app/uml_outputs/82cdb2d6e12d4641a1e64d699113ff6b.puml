@@ -1,0 +1,84 @@
+@startuml
+package Delivery {
+
+  class Customer {
+    - vatNumber: String
+    - name: String
+    - phoneNumber: String
+    - address: String
+    - username: String
+    - password: String
+    --
+    + login(username: String, password: String): boolean
+    + sendPackage(recipient: Customer, weight: Double, isUrgent: boolean): String
+    + getAssignedDeliveryCenter(): DeliveryCenter
+    + selectDeliveryCenter(center: DeliveryCenter): void
+  }
+
+  class DeliveryCenter {
+    - name: String
+    - address: String
+    --
+    + receivePackage(package: Package): void
+    + routePackage(package: Package, destinationCenter: DeliveryCenter): void
+    + assignCourier(package: Package): Courier
+    + getPackagesForDelivery(): List<Package>
+  }
+
+  class Courier {
+    - vatNumber: String
+    - name: String
+    - phoneNumber: String
+    --
+    + deliverPackage(package: Package): void
+    + getAssignedPackages(): List<Package>
+  }
+
+  class Package {
+    - id: String
+    - weight: Double
+    - isUrgent: boolean
+    - status: PackageStatus
+    - creationDate: Date
+    - originCenter: DeliveryCenter
+    - destinationCenter: DeliveryCenter
+    --
+    + trackPackage(): PackageStatus
+    + getOriginCenter(): DeliveryCenter
+    + getDestinationCenter(): DeliveryCenter
+    + updateStatus(status: PackageStatus): void
+  }
+
+  enum PackageStatus {
+    REGISTERED
+    IN_ORIGIN_CENTER
+    IN_TRANSIT
+    IN_DESTINATION_CENTER
+    DELIVERED
+  }
+
+  class InternalRoutingSystem {
+    --
+    + routePackage(package: Package, origin: DeliveryCenter, destination: DeliveryCenter): void
+    + trackPackageLocation(packageId: String): DeliveryCenter
+  }
+
+  ' Customer relationships
+  Customer "1" -- "1" DeliveryCenter : is assigned to >
+  Customer "1" -- "*" Package : sends >
+  Customer "1" -- "*" Package : receives <
+  Customer "*" -- "*" DeliveryCenter : can choose >
+
+  ' DeliveryCenter relationships
+  DeliveryCenter "1" o-- "*" Courier : employs >
+  DeliveryCenter "1" -- "*" Package : processes >
+  DeliveryCenter "1..*" -- "1" InternalRoutingSystem : uses >
+
+  ' Package relationships
+  Package "1" -- "1" Courier : is assigned to >
+  Package "*" -- "1" DeliveryCenter : originates from >
+  Package "*" -- "1" DeliveryCenter : is delivered to >
+  Package "1" -- "1" PackageStatus : has >
+
+}
+@enduml

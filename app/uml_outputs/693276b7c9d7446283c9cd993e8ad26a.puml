@@ -1,0 +1,79 @@
+@startuml
+package "Bicycle Rental System" {
+
+    enum BikeType {
+        ROAD
+        MOUNTAIN
+        BMX
+        HYBRID
+    }
+
+    class Client {
+        - NIN: String {unique}
+        - TIN: String {unique}
+        - name: String
+        - address: String
+        + validateUniqueness(): boolean
+        + makeReservation(BikeModel, Date, Store): Reservation
+    }
+
+    class BikeModel {
+        - name: String {unique}
+        - type: BikeType
+        - gears: int
+        + getBikes(): List<Bike>
+    }
+
+    class Bike {
+        - id: String {unique}
+        + getAvailability(Date): boolean
+        + getModel(): BikeModel
+        + isReservedForDate(Date): boolean
+    }
+
+    class Store {
+        - name: String {unique}
+        - address: String
+        + getAvailableBikes(BikeModel, Date): List<Bike>
+    }
+
+    class Reservation {
+        - pickupDate: Date
+        - bikeModel: BikeModel
+        - client: Client
+        - store: Store
+        + getClient(): Client
+        + getStore(): Store
+        + getBikeModel(): BikeModel
+        + getPickupDate(): Date
+        + convertToRental(Bike): Rental
+        + validateAvailability(): boolean
+    }
+
+    class Rental {
+        - pickupDate: Date
+        - returnDate: Date
+        - bike: Bike
+        - client: Client
+        + returnBike(Date): void
+        + getClient(): Client
+        + getBike(): Bike
+        + getPickupDate(): Date
+        + getReturnDate(): Date
+    }
+
+    Client "1" -- "0..*" Reservation : makes >
+    Client "1" -- "0..*" Rental : has >
+
+    Reservation "0..1" -- "0..1" Rental : converts to >
+    Reservation "0..*" -- "1" Store : pickup location >
+    Reservation "0..*" -- "1" BikeModel : requests >
+
+    Rental "0..*" -- "1" Bike : uses >
+    
+    BikeModel "1" -- "1..*" Bike : has >
+    Store "1" -- "0..*" Bike : stores >
+    
+    BikeModel "1" -- "1" BikeType : is of >
+}
+@enduml

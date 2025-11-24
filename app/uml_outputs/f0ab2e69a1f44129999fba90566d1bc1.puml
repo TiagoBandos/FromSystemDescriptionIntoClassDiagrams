@@ -1,0 +1,116 @@
+@startuml
+package "MyDoctor Application" {
+
+  class Hospital {
+    - hospitalId : Integer
+    - name : String
+    - address : String
+    + getOffices() : List<Office>
+    + addOffice(office : Office) : Boolean
+  }
+
+  class Office {
+    - officeId : Integer
+    - address : String
+    - phoneNumber : String
+    + getSchedules() : List<Schedule>
+    + addSchedule(schedule : Schedule) : Boolean
+  }
+
+  class User {
+    - userId : Integer
+    - name : String
+    - email : String
+    # login(username : String, password : String) : Boolean
+    # logout() : Boolean
+  }
+
+  class Doctor extends User {
+    - doctorId : Integer
+    - specialization : String
+    + applyToOffice(office : Office) : Boolean
+    + createSchedule(office : Office, startTime : Date, endTime : Date) : Schedule
+    + getAppointments() : List<Appointment>
+    + checkAvailability(startTime : Date, endTime : Date) : Boolean
+    + checkScheduleConflictsAcrossOffices(startTime : Date, endTime : Date) : Boolean
+  }
+
+  class Patient extends User {
+    - patientId : Integer
+    + viewDoctors() : List<Doctor>
+    + viewOfficeSchedules(office : Office) : List<Schedule>
+    + bookAppointment(doctor : Doctor, schedule : Schedule, appointmentType : AppointmentType, startTime : Date) : Appointment
+    + getAppointments() : List<Appointment>
+  }
+
+  class Schedule {
+    - scheduleId : Integer
+    - startTime : Date
+    - endTime : Date
+    - doctor : Doctor
+    - office : Office
+    + isOverlapping(otherSchedule : Schedule) : Boolean
+    + getAvailableTimeSlots(duration : Integer) : List<Date>
+  }
+
+  class Appointment {
+    - appointmentId : Integer
+    - startTime : Date
+    - endTime : Date
+    - status : String
+    - doctor : Doctor
+    - patient : Patient
+    - schedule : Schedule
+    - office : Office
+    - appointmentType : AppointmentType
+    + calculateEndTime() : Date
+    + sendConfirmationEmail() : Boolean
+    + isConflicting(appointment : Appointment) : Boolean
+    + cancel() : Boolean
+  }
+
+  enum AppointmentType {
+    BLOOD_TEST
+    CONSULTATION
+    SURGERY
+    + getDuration() : Integer
+  }
+
+  Hospital "1" *-- "many" Office : contains >
+
+  Doctor "many" -- "many" Office : practices in >
+  Doctor "1" -- "many" Schedule : creates >
+  Office "1" -- "many" Schedule : hosts >
+
+  Patient "1" -- "many" Appointment : books >
+  Doctor "1" -- "many" Appointment : attends >
+  Schedule "1" -- "many" Appointment : contains >
+  Office "1" -- "many" Appointment : hosts >
+
+  Appointment "1" -- "1" AppointmentType : is of type >
+
+  note right of AppointmentType
+    BLOOD_TEST: 15 minutes
+    CONSULTATION: 30 minutes
+    SURGERY: 60 minutes
+  end note
+
+  note right of Schedule
+    Schedules represent doctor availability
+    in specific offices and cannot overlap
+    for the same doctor.
+  end note
+
+  note right of Appointment
+    Appointments are created within a doctor's
+    schedule and cannot overlap with other
+    appointments for the same doctor.
+  end note
+  
+  note right of Doctor::checkScheduleConflictsAcrossOffices
+    Checks if a proposed schedule conflicts
+    with any existing schedules for this doctor
+    across all offices.
+  end note
+}
+@enduml

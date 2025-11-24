@@ -1,0 +1,107 @@
+@startuml
+package "Veterinary Clinic" {
+
+    class Animal {
+        - id: int
+        - name: String
+        - breedId: int
+        + getId(): int
+        + getName(): String
+        + setName(name: String): void
+        + getBreed(): Breed
+        + setBreed(breed: Breed): void
+        + getOwner(): Owner
+        + setOwner(owner: Owner): void
+    }
+
+    class Owner {
+        - id: int
+        - name: String
+        - address: String
+        - phoneNumber: String
+        + getId(): int
+        + getName(): String
+        + setName(name: String): void
+        + getAddress(): String
+        + setAddress(address: String): void
+        + getPhoneNumber(): String
+        + setPhoneNumber(number: String): void
+        + getAnimals(): List<Animal>
+        + addAnimal(animal: Animal): void
+        + removeAnimal(animal: Animal): void
+    }
+
+    class Breed {
+        - name: String
+        + getName(): String
+        + setName(name: String): void
+        + getCommonConditions(): List<Condition>
+        + addCommonCondition(condition: Condition): void
+        + removeCommonCondition(condition: Condition): void
+    }
+
+    class Appointment {
+        - id: int
+        - date: Date
+        - time: Time
+        + getId(): int
+        + getDate(): Date
+        + setDate(date: Date): void
+        + getTime(): Time
+        + setTime(time: Time): void
+        + getAnimal(): Animal
+        + setAnimal(animal: Animal): void
+        + getPhysician(): Physician
+        + setPhysician(physician: Physician): void
+        + getConditions(): List<Condition>
+        + addCondition(condition: Condition): void
+        + removeCondition(condition: Condition): void
+    }
+
+    class Physician {
+        - id: int
+        - name: String
+        - address: String
+        - phoneNumber: String
+        + getId(): int
+        + getName(): String
+        + setName(name: String): void
+        + getAddress(): String
+        + setAddress(address: String): void
+        + getPhoneNumber(): String
+        + setPhoneNumber(number: String): void
+        + scheduleAppointment(animal: Animal, date: Date, time: Time): Appointment
+    }
+
+    class Condition {
+        - commonName: String
+        - scientificName: String
+        + getCommonName(): String
+        + setCommonName(name: String): void
+        + getScientificName(): String
+        + setScientificName(name: String): void
+    }
+
+    note bottom of Condition
+        The scientificName must be unique
+        across all Condition instances
+    end note
+
+    Animal "0..*" -- "0..1" Owner : has owner >
+    Animal "0..*" -- "1" Breed : belongs to >
+    Appointment "0..*" -- "1" Animal : for >
+    Appointment "0..*" -- "1" Physician : attended by >
+    Appointment "0..*" -- "0..*" Condition : detects >
+    Breed "1" -- "0..*" Condition : has common >
+
+    class VeterinaryClinic {
+        + registerAnimal(name: String, breed: Breed, owner: Owner): Animal
+        + registerOwner(name: String, address: String, phoneNumber: String): Owner
+        + registerBreed(name: String): Breed
+        + registerCondition(commonName: String, scientificName: String): Condition
+        + registerPhysician(name: String, address: String, phoneNumber: String): Physician
+        + scheduleAppointment(animal: Animal, physician: Physician, date: Date, time: Time): Appointment
+        + rescueAnimal(name: String, breed: Breed): Animal
+    }
+}
+@enduml

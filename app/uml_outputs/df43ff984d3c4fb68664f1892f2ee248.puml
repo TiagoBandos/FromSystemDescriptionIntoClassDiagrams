@@ -1,0 +1,78 @@
+@startuml
+interface ContractComponent {
+  + getBalance(): double
+  + setBalance(balance: double): void
+  + getCharges(): double
+}
+
+class Contract implements ContractComponent {
+  - contractNumber: int
+  - balance: double
+  + Contract(contractNumber: int, balance: double)
+  + getBalance(): double
+  + setBalance(balance: double): void
+  + getCharges(): double
+}
+
+abstract class ContractDecorator implements ContractComponent {
+  - decoratedContract: ContractComponent
+  + ContractDecorator(decoratedContract: ContractComponent)
+  + getBalance(): double {return decoratedContract.getBalance()}
+  + setBalance(balance: double): void {decoratedContract.setBalance(balance)}
+  + getCharges(): double {return decoratedContract.getCharges()}
+}
+
+note right of ContractDecorator::getCharges
+  Base implementation returns decorated component's charges.
+  Subclasses override to add their specific charge.
+end note
+
+class DataOption extends ContractDecorator {
+  - monthlyCharge: double = 1.00
+  + DataOption(decoratedContract: ContractComponent)
+  + getCharges(): double {return super.getCharges() + monthlyCharge}
+  + getBalance(): double {return super.getBalance()}
+  + setBalance(balance: double): void {super.setBalance(balance)}
+}
+
+class SMSOption extends ContractDecorator {
+  - monthlyCharge: double = 0.50
+  + SMSOption(decoratedContract: ContractComponent)
+  + getCharges(): double {return super.getCharges() + monthlyCharge}
+  + getBalance(): double {return super.getBalance()}
+  + setBalance(balance: double): void {super.setBalance(balance)}
+}
+
+class MinutesOption extends ContractDecorator {
+  - monthlyCharge: double = 1.50
+  + MinutesOption(decoratedContract: ContractComponent)
+  + getCharges(): double {return super.getCharges() + monthlyCharge}
+  + getBalance(): double {return super.getBalance()}
+  + setBalance(balance: double): void {super.setBalance(balance)}
+}
+
+class DoubleTransferRateOption extends ContractDecorator {
+  - monthlyCharge: double = 2.00
+  + DoubleTransferRateOption(decoratedContract: ContractComponent)
+  + getCharges(): double {return super.getCharges() + monthlyCharge}
+  + getBalance(): double {return super.getBalance()}
+  + setBalance(balance: double): void {super.setBalance(balance)}
+}
+
+note "Decorator Pattern Implementation:\n- Each decorator wraps a ContractComponent\n- Multiple options can be stacked\n- getBalance() and setBalance() delegate to decorated component\n- getCharges() adds option charge to decorated component's charges" as N1
+
+ContractDecorator o-- "1" ContractComponent : decorates >
+
+note bottom of Contract
+  getCharges() returns 0.0 as basic contract
+  has no monthly charges
+end note
+
+note right of Contract::getBalance
+  Returns the current balance
+end note
+
+note right of Contract::setBalance
+  Updates the balance value
+end note
+@enduml

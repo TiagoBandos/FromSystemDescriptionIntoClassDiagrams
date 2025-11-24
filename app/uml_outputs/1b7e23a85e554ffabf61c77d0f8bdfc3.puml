@@ -1,0 +1,92 @@
+@startuml
+package "Restaurant Management System" {
+
+    class Ingredient {
+        - name: String {unique}
+        - measureUnit: String
+        - quantity: float
+        + getName(): String
+        + getMeasureUnit(): String
+        + getQuantity(): float
+        + setQuantity(quantity: float): void
+        + updateStock(amount: float): void
+    }
+
+    class Dish {
+        - id: int {unique}
+        - name: String {unique}
+        - price: float
+        + getId(): int
+        + getName(): String
+        + getPrice(): float
+        + setPrice(price: float): void
+        + addIngredient(ingredient: Ingredient, quantity: float): void
+        + removeIngredient(ingredient: Ingredient): void
+        + getIngredients(): List<DishIngredient>
+    }
+
+    class DishIngredient {
+        - quantity: float
+        + getQuantity(): float
+        + setQuantity(quantity: float): void
+    }
+
+    class Table {
+        - id: int {unique}
+        - maxCapacity: int
+        + getId(): int
+        + getMaxCapacity(): int
+        + isAvailable(): boolean
+    }
+
+    class Meal {
+        - id: int
+        - date: Date
+        - startTime: Time
+        - endTime: Time
+        + getId(): int
+        + getDate(): Date
+        + getStartTime(): Time
+        + getEndTime(): Time
+        + addDish(dish: Dish, quantity: int): void
+        + removeDish(dish: Dish): void
+        + calculateTotal(): float
+    }
+
+    class MealDish {
+        - quantity: int
+        + getQuantity(): int
+        + setQuantity(quantity: int): void
+    }
+
+    class Waiter {
+        - id: int {unique}
+        - name: String
+        - address: String
+        - phoneNumber: String
+        + getId(): int
+        + getName(): String
+        + getAddress(): String
+        + getPhoneNumber(): String
+    }
+
+    class Client {
+        - taxID: String {unique}
+        - name: String
+        - address: String
+        + getTaxID(): String
+        + getName(): String
+        + getAddress(): String
+    }
+
+    Dish "1" -- "0..*" DishIngredient
+    DishIngredient "0..*" -- "1" Ingredient
+
+    Meal "1" -- "0..*" MealDish
+    MealDish "0..*" -- "1" Dish
+
+    Meal "0..*" -- "1" Table
+    Meal "0..*" -- "1" Waiter
+    Meal "0..*" -- "0..1" Client
+}
+@enduml

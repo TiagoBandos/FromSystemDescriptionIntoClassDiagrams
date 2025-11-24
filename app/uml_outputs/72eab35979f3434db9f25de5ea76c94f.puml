@@ -1,0 +1,92 @@
+@startuml
+class Library {
+  - books: List<Book>
+  - users: List<User>
+  + addBook(book: Book): void
+  + removeBook(book: Book): void
+  + findBookByTitle(title: String): Book
+  + findBookByAuthor(author: String): List<Book>
+  + findBookByISBN(isbn: String): Book
+  + isBookAvailable(book: Book): boolean
+  + registerUser(user: User): void
+  + findUserByName(name: String): User
+  + findUserById(id: String): User
+}
+
+abstract class User {
+  - fullName: String
+  - id: String
+  # borrowedBooks: List<Book>
+  - borrowHistory: List<BorrowHistory>
+  + getFullName(): String
+  + getId(): String
+  + getBorrowedBooks(): List<Book>
+  + getBorrowHistory(): List<BorrowHistory>
+  + borrowBook(book: Book): boolean
+  + returnBook(book: Book): boolean
+  + canBorrowMoreBooks(): boolean
+  + getNumberOfBorrowedBooks(): int
+}
+
+class UnderAgedUser extends User {
+  - studentCard: String
+  + getStudentCard(): String
+  + validateStudentCard(): boolean
+}
+
+class AdultUser extends User {
+  - idCard: String
+  + getIdCard(): String
+  + validateIdCard(): boolean
+}
+
+class Book {
+  - title: String
+  - author: String
+  - isbn: String
+  - genre: String
+  - publicationYear: int
+  - publisher: String
+  - available: boolean
+  + getTitle(): String
+  + getAuthor(): String
+  + getISBN(): String
+  + getGenre(): String
+  + getPublicationYear(): int
+  + getPublisher(): String
+  + isAvailable(): boolean
+  + setAvailable(available: boolean): void
+}
+
+class BorrowHistory {
+  - borrowDate: Date
+  - returnDate: Date
+  - book: Book
+  + getBorrowDate(): Date
+  + getReturnDate(): Date
+  + setReturnDate(date: Date): void
+  + getBook(): Book
+}
+
+Library "1" o-- "0..*" Book: contains >
+Library "1" o-- "0..*" User: manages >
+
+User "1" -- "0..4" Book: borrows >
+User "1" -- "0..*" BorrowHistory: has >
+BorrowHistory "0..*" -- "1" Book: references >
+
+note right of User::canBorrowMoreBooks
+  Returns true if user has 
+  fewer than 4 borrowed books
+end note
+
+note right of User::borrowBook
+  Checks if user can borrow more books
+  before allowing a new borrow
+end note
+
+note right of Library::isBookAvailable
+  Checks if a book is available
+  for borrowing
+end note
+@enduml

@@ -1,0 +1,64 @@
+@startuml
+
+package "Project Management System" {
+
+  class ProjectManager {
+    - name: String
+    + initiateProject(project: Project): void
+    + terminateProject(project: Project): void
+    + leadTeam(team: Team): void
+  }
+
+  class Team {
+    - name: String
+    - members: int
+    + executeProject(project: Project): void
+  }
+
+  class Project {
+    - startDate: Date
+    - endDate: Date
+    - status: String
+    + create(): void
+    + initiate(): void
+    + terminate(reason: String): void
+  }
+
+  abstract class WorkProduct {
+    - description: String
+    - percentComplete: int
+    + {abstract} validate(validationMethod: String): boolean
+  }
+
+  class Requirement extends WorkProduct {
+    + validate(validationMethod: String): boolean
+    + publish(media: PublicationMedia): void
+  }
+
+  class System extends WorkProduct {
+    + validate(validationMethod: String): boolean
+    + deploy(platform: Platform): void
+  }
+
+  enum PublicationMedia {
+    INTRANET
+    PAPER
+  }
+
+  class Platform {
+    - name: String
+    - specifications: String
+  }
+
+  ProjectManager "1" -- "1" Team : leads >
+  Team "1" -- "1..*" Project : executes >
+  ProjectManager "1" -- "1..*" Project : manages >
+  
+  Project "1" o-- "1..*" WorkProduct : uses/produces >
+  note right of Project: "Uses Requirements and produces Systems"
+  
+  Requirement -- "1..*" PublicationMedia : published on >
+  System -- "1..*" Platform : deployed on >
+}
+
+@enduml
