@@ -1,0 +1,45 @@
+@startuml
+
+abstract class WorkProduct {
+  - description: String
+  - percentComplete: float
+  + validate(): void
+}
+
+class Requirement {
+  - media: String
+  + validateWithUsers(): void
+  + publish(): void
+}
+
+class System {
+  - platform: String
+  + validateAgainstRequirements(): void
+  + deploy(): void
+}
+
+class Project {
+  - startDate: Date
+  - endDate: Date
+  + initiate(): void
+  + terminate(): void
+}
+
+class ProjectManager {
+  + createProject(): Project
+  + manageProject(Project): void
+}
+
+class Team {
+}
+
+WorkProduct <|-- Requirement
+WorkProduct <|-- System
+
+ProjectManager --> Project : manages
+ProjectManager --> Team : leads
+Project o-- Team : has
+Project --> Requirement : uses
+Project --> System : produces
+
+@enduml

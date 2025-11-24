@@ -1,0 +1,62 @@
+@startuml
+actor "Gestor de Projeto" as ProjectManager
+participant "Sistema de Gestão de Projetos" as PMS
+box "Gestão de Projeto Interna" #LightBlue
+    participant "Projeto" as Project
+    participant "Requisito" as Requirement
+    participant "Entrega do Sistema" as SystemArtifact
+end box
+actor "Utilizador" as User
+
+ProjectManager -> PMS: criarProjeto(detalhes, datasInicioFim)
+activate PMS
+create Project
+PMS -> Project: <<criar>> (detalhes, datasInicioFim)
+activate Project
+Project --> PMS: projetoCriado(idProjeto)
+deactivate Project
+
+ProjectManager -> PMS: iniciarProjeto(idProjeto)
+PMS -> Project: definirEstado(Iniciado)
+
+ProjectManager -> PMS: adicionarRequisitos(idProjeto, dadosReq)
+activate Project
+loop para cada Requisito
+    create Requirement
+    Project -> Requirement: <<criar>> (dadosReqIndividual)
+    activate Requirement
+    Requirement --> Project: requisitoAdicionado()
+    deactivate Requirement
+end
+deactivate Project
+
+ProjectManager -> PMS: solicitarValidacaoRequisitos(idProjeto)
+PMS -> User: convidarParaWorkshop(requisitosDoProjeto)
+activate User
+User --> PMS: fornecerFeedbackWorkshop()
+deactivate User
+PMS -> Requirement: <<validar>> (porFeedbackUsuario)
+
+ProjectManager -> PMS: publicarRequisitos(idProjeto, tipoMedia)
+PMS -> Requirement: <<publicar>> (tipoMedia)
+
+ProjectManager -> PMS: gerarEntregaSistema(idProjeto, especificacoes)
+activate Project
+create SystemArtifact
+Project -> SystemArtifact: <<criar>> (especificacoesEntrega)
+activate SystemArtifact
+SystemArtifact --> Project: entregaSistemaGerada()
+deactivate SystemArtifact
+deactivate Project
+
+ProjectManager -> PMS: validarEntregaSistema(idProjeto)
+PMS -> SystemArtifact: <<testar>> (contraRequisitos)
+
+ProjectManager -> PMS: implantarEntregaSistema(idProjeto, plataforma)
+PMS -> SystemArtifact: <<implantar>> (plataforma)
+
+ProjectManager -> PMS: terminarProjeto(idProjeto, motivo)
+PMS -> Project: definirEstado(Terminado, motivo)
+
+deactivate PMS
+@enduml

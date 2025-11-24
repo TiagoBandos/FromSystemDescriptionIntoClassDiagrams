@@ -1,0 +1,45 @@
+@startuml
+
+class ProjectManager {
+  + leadTeam()
+}
+
+class ProjectManagementSystem {
+  + createProject()
+}
+
+class Project {
+  - startDate: Date
+  - endDate: Date
+  - percentComplete: float
+  + initiate()
+  + terminate()
+}
+
+abstract class WorkProduct {
+  - description: String
+  - percentComplete: float
+  + validate()
+}
+
+class Requirement {
+  + publish()
+  + validateWithUsers()
+}
+
+class System {
+  + deploy(platform: String)
+  + testAgainstRequirements()
+}
+
+class Team
+
+ProjectManager --> ProjectManagementSystem : uses
+ProjectManager "1" --> "1..*" Team : leads
+ProjectManagementSystem "1" --> "0..*" Project : manages
+Project "1" --> "1..*" Requirement : uses
+Project "1" --> "1" System : produces
+WorkProduct <|-- Requirement
+WorkProduct <|-- System
+
+@enduml

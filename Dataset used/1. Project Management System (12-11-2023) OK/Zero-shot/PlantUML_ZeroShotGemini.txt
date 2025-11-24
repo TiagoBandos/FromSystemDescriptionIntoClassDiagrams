@@ -1,0 +1,76 @@
+@startuml
+skinparam handwritten true
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+
+' Abstract Class
+abstract class WorkProduct {
+  -- Attributes --
+  - String description
+  - double completionPercentage
+  -- Methods --
+  + {abstract} validate()
+}
+
+' Concrete Classes
+class Requirement {
+  -- Methods --
+  + validateWithUsersInWorkshops()
+  + publish()
+}
+
+class System {
+  -- Methods --
+  + testAgainstRequirements()
+  + deployOnPlatform()
+}
+
+class Project {
+  -- Attributes --
+  - Date startDate
+  - Date endDate
+  - String status
+  -- Methods --
+  + initiate()
+  + terminate()
+}
+
+class ProjectManager {
+  -- Attributes --
+  - String name
+  - String employeeId
+}
+
+class Team {
+  -- Attributes --
+  - String name
+}
+
+class MediaType {
+  -- Attributes --
+  - String type 'e.g., "Intranet", "Paper Form"'
+}
+
+class Platform {
+  -- Attributes --
+  - String name
+  - String type
+}
+
+' Inheritance
+WorkProduct <|-- Requirement
+WorkProduct <|-- System
+
+' Associations
+ProjectManager "1" o-- "*" Project : leads >
+Team "1" o-- "*" Project : executes >
+
+Project "1" *-- "*" Requirement : has_input >
+Project "1" *-- "1" System : produces_output >
+
+Requirement "*" -- "*" MediaType : published_on >
+System "*" -- "*" Platform : deployed_on >
+
+' Dependencies
+System ..> Requirement : validates_against >
+@enduml

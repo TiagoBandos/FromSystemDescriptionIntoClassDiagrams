@@ -1,0 +1,32 @@
+@startuml
+class Take{
+    nbr: integer
+    filmed_meters : Real
+    reel : string
+}
+class Setup{
+    code: string
+    photographic_pars: Text
+}
+class Scene{
+    code: string
+    description: Text
+}
+class Internal{
+    theater: string
+}
+class External{
+    night_scene : boolean
+}
+class Location{
+    name: string
+    address: string
+    description: text
+}
+Take "1..*" -- "1" Setup: tk_of_stp
+Setup "1..*" -- "1" Scene: stp_for_scn
+Scene <|-- Internal
+Scene <|-- External
+External "0..*" -- "1" Location : located
+
+@enduml

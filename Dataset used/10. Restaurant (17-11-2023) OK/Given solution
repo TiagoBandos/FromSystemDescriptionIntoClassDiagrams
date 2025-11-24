@@ -1,0 +1,48 @@
+@startuml
+class Ingredient {
+  Name
+  Unit
+  Stock
+}
+
+class Dish {
+  ID
+  NAME
+}
+
+class Quantity
+class Times_Served
+
+class Meal {
+  DATE
+  STARTTIME
+  ENDTIME
+}
+
+class Person {
+  NAME
+  ADDRESS
+}
+
+class Client {
+  TAX_ID
+}
+
+class Waiter {
+  ID
+  PHONE
+}
+
+class Table {
+  ID
+  CAPACITY
+}
+
+Ingredient "1..*" -- "*" Dish : Quantity
+Dish "*" -- "*" Meal : Times_Served
+Meal "*" -- "0..1" Client
+Meal "*" -- "1" Waiter
+Meal "*" -- "1" Table
+Person <|-- Client
+Person <|-- Waiter
+@enduml

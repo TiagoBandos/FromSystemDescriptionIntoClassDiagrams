@@ -1,0 +1,62 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+abstract class WorkProduct {
+  - description: String
+  - percentComplete: float
+  + validate(): boolean
+}
+
+class Requirements {
+  - publicationMedia: List<String>
+  + validateWithUsers(): boolean
+}
+
+class System {
+  - deploymentPlatforms: List<String>
+  + validateAgainstRequirements(): boolean
+}
+
+class Project {
+  - startDate: Date
+  - endDate: Date
+  - status: ProjectStatus
+  + initiate()
+  + terminate()
+}
+
+class Team {
+  - members: List<TeamMember>
+  + executeProject()
+}
+
+class ProjectManager {
+  + leadProject()
+  + initiateProject()
+  + terminateProject()
+}
+
+enum ProjectStatus {
+  INITIATED
+  IN_PROGRESS
+  COMPLETED
+  TERMINATED
+}
+
+' Inheritance Relationships
+WorkProduct <|-- Requirements
+WorkProduct <|-- System
+
+' Associations
+Project "1" o-- "1" ProjectManager : managed by
+Project "1" o-- "1" Team : executed by
+Project "1" *-- "1" Requirements : has input
+Project "1" *-- "1" System : produces output
+
+ProjectManager "1" -- "1" Team : leads
+
+' Relationships
+Requirements ..> Project : input to
+System ..> Project : output of
+
+@enduml

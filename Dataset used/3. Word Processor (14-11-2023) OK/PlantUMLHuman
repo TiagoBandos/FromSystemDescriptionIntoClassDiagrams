@@ -1,0 +1,79 @@
+@startuml
+
+class Header {
+    -date:Date
+    -time:Time
+    -pageNumber:int
+}
+
+class Footer {
+    -date:Date
+    -time:Time
+    -pageNumber:int
+}
+
+class User {
+    +open()
+    +save()
+    +print()
+    +new()
+}
+
+class Document {
+    -numberOfPages:int
+}
+
+class Page {
+    -header:Header
+    -body:Body
+    -footer:Footer
+}
+
+class Body {
+    -sentences:List(Sentence)
+}
+
+class Sentence {
+    -words:List(Word)
+    -punctuationList(Puntuaction)
+}
+
+class Word {
+    -letter:String
+    -digits:String
+    -special character:String
+}
+
+class Puntuaction {
+    -character:String
+}
+
+class Table {
+    -rows:int
+    -columns:int
+}
+
+class Cell {
+    -text:String
+    -picture:Picture
+}
+
+class Picture {
+    -imageType:String
+    -imageSize:String
+}
+
+Header "0..1" --* "1" Page
+Footer "0..1" --* "1" Page
+Page "1..*" --* "1" Document
+User "1" -- "0..*" Document
+Page "1" *-- "1" Body
+Body "1" --o "0..*" Sentence
+Sentence "1" o-- "0..*" Word
+Sentence "1" o-- "0..*" Puntuaction
+Body "1" o-- "0..*" Table
+Body "1" o-- "0..*" Picture
+Table "1" *-- "1..*" Cell
+Picture "0...*" --o "1" Cell
+
+@enduml

@@ -1,0 +1,47 @@
+@startuml
+    class ProjectManager {
+        + manageProject(project: Project): void
+        + leadTeam(team: Team): void
+    }
+    
+    class ProjectManagementSystem {
+        + createProject(): Project
+    }
+    
+    class Project {
+        - startDate: Date
+        - endDate: Date
+        + initiate(): void
+        + terminate(): void
+    }
+    
+    class Team {
+        + executeProject(project: Project): void
+    }
+    
+    abstract class WorkProduct {
+        - description: string
+        - percentComplete: double
+        + {abstract} validate(): boolean
+    }
+    
+    class Requirements {
+        + validateWithUsers(): boolean
+        + publishOn(media: string): void
+    }
+    
+    class System {
+        + testAgainstRequirements(req: Requirements): boolean
+        + deployOnto(platform: string): void
+    }
+    
+    WorkProduct <|-- Requirements
+    WorkProduct <|-- System
+    
+    ProjectManager --> ProjectManagementSystem : uses
+    ProjectManager "1" --> "0..*" Project : manages
+    ProjectManager "1" --> "1" Team : leads
+    Team "1" --> "0..*" Project : executes
+    Project "1" *-- "1..*" Requirements : uses_as_input
+    Project "1" *-- "1" System : produces_as_output
+@enduml

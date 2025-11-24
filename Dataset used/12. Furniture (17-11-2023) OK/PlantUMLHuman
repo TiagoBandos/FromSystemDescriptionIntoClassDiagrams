@@ -1,0 +1,39 @@
+@startuml
+
+class Store {
+    -address:String
+    -Fax:int
+}
+
+class FurnitureLine {
+    -name:String
+}
+
+class PieceOfFurniture {
+    -type:String
+    -reference:String
+    -price:float
+}
+
+class Order {
+    -number:int
+    -date:Date
+}
+
+class Component {
+    -numericalcode:int
+    -price:float
+}
+
+class ComponentType {
+    -name:String
+}
+
+Store "1" -- "0..*" Order
+Store "0..*" -- "0..*" PieceOfFurniture
+FurnitureLine "1" -- "0..*" PieceOfFurniture
+Order "0..*" -- "0..*" PieceOfFurniture
+PieceOfFurniture "0..*" -- "1..*" Component
+Component "0..*" -- "1" ComponentType
+
+@enduml

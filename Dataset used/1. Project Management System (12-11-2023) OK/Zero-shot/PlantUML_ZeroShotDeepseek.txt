@@ -1,0 +1,98 @@
+@startuml ProjectManagementSystem
+
+' Work Product and its subclasses
+abstract class WorkProduct {
+  + description: String
+  + percentageCompleted: Float
+  + {abstract} validate(): boolean
+}
+
+class Requirement {
+  + publish(media: String): void
+  + validate(): boolean
+}
+
+class System {
+  + deploy(platform: String): void
+  + validate(): boolean
+}
+
+WorkProduct <|-- Requirement
+WorkProduct <|-- System
+
+' Project related classes
+class Project {
+  - name: String
+  - startDate: Date
+  - endDate: Date
+  - status: ProjectStatus
+  + initiate(): void
+  + terminate(reason: String): void
+}
+
+class ProjectManager {
+  + name: String
+  + leadTeam(): void
+}
+
+class Team {
+  + members: List<Person>
+  + executeProject(): void
+}
+
+enum ProjectStatus {
+  CREATED
+  INITIATED
+  TERMINATED
+  COMPLETED
+}
+
+' Relationships
+ProjectManager "1" --> "1..*" Team : leads
+ProjectManager "1" --> "1..*" Project : manages
+Team "1" --> "1..*" Project : executes
+Project "1" *-- "1..*" Requirement : has >
+Project "1" *-- "1..*" System : produces >
+
+' Validation dependencies
+Requirement ..> User : <<depends>> 
+System ..> Requirement : <<depends>>
+
+' Supporting classes
+class User {
+  + name: String
+  + role: String
+}
+
+class Platform {
+  + name: String
+  + version: String
+}
+
+class Media {
+  + type: String
+}
+
+' Additional relationships
+System --> Platform : deployed on >
+Requirement --> Media : published via >
+
+note top of WorkProduct
+  Work product has:
+  - description
+  - percentage of work completed
+  - may be validated
+  Validation depends on the type
+end note
+
+note right of Requirement::validate
+  Validated with users
+  in workshops
+end note
+
+note right of System::validate
+  Validated by being tested
+  against the requirements
+end note
+
+@enduml

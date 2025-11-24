@@ -1,0 +1,12 @@
+The project manager leads a team to execute the project within the project's start and end dates.
+Once the project is created in the project management system, a manager may initiate and later terminate the project due to its completion or for some other reason.
+The team executes the project.
+Requirements is the input of a project.
+As outputs the project shall produce a system.
+Requirements and systems are work products.
+Work product has a description, information of the percentage of work completed, and may be validated.
+The validation is depending on the type of work product.
+The requirements are validated with users in workshops.
+System are validated by being tested against the requirements.
+The requirements may be published using various types of media, including on an intranet or paper form.
+Systems may be deployed onto specific plataforms.

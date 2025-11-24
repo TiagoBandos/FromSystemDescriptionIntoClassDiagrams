@@ -1,0 +1,29 @@
+@startuml
+' --- Diagram 5: Parking Access Control ---
+class CarPark
+class CardReader {
+  +insertStaffCard()
+  +showSuccessMessage()
+  +showFailMessage()
+  +ejectCard()
+}
+class GuestCard
+class Card
+class StaffCard {
+  +setLastAccess()
+}
+class Access
+class Signal
+class Barrier {
+  +rise()
+}
+
+CarPark  --o  "2..*" CardReader
+CarReader  o--  "2..*" Barrier
+CardReader "1" -- "*" GuestCard
+GuestCard "*" -- "1" Card
+Card <|-- StaffCard
+Card <|-- Access
+CardReader o-- Signal
+Signal <.. Barrier
+@enduml

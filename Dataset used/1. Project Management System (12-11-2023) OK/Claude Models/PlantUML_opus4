@@ -1,0 +1,75 @@
+@startuml
+
+abstract class WorkProduct {
+    - description: String
+    - percentComplete: Integer
+    --
+    + {abstract} validate(): void
+}
+
+class Requirements {
+    --
+    + validateWithUsers(): void
+    + publish(media: Media): void
+}
+
+class System {
+    --
+    + testAgainstRequirements(): void
+    + deploy(platform: Platform): void
+}
+
+class Project {
+    - startDate: Date
+    - endDate: Date
+    --
+    + create(): void
+}
+
+class ProjectManager {
+    --
+    + initiateProject(project: Project): void
+    + terminateProject(project: Project): void
+}
+
+class ProjectManagementSystem {
+    --
+    + createProject(): Project
+}
+
+class Team {
+    --
+    + executeProject(project: Project): void
+}
+
+class Media {
+    - type: String
+}
+
+class Platform {
+    - name: String
+}
+
+' Inheritance relationships
+Requirements --|> WorkProduct
+System --|> WorkProduct
+
+' Association relationships
+ProjectManager --> ProjectManagementSystem : uses
+ProjectManager --> Team : leads
+ProjectManager --> Project : manages
+Team --> Project : executes
+Project --> Requirements : uses as input
+Project --> System : produces as output
+Requirements --> Media : published using
+System --> Platform : deployed onto
+
+' Multiplicities
+ProjectManager "1" --> "*" Project
+Project "1" --> "1" Team
+Project "1" --> "1..*" Requirements
+Project "1" --> "1..*" System
+Requirements "1" --> "*" Media
+System "1" --> "*" Platform
+
+@enduml

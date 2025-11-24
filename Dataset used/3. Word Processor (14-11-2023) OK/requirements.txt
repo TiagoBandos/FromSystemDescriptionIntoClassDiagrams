@@ -1,0 +1,24 @@
+A user can open a new or existing document.
+Text is entered through a keyboard.
+A document is made up of several pages.
+Each page is made up of a header, body and footer.
+Date, time and page number may be added to header or footer.
+Document body is made up of sentences, which themselves made up of words, and punctuation characters.
+Words are made up of letters, digits and/or special characters.
+Pictures and tables may be inserted into the document body.
+Tables are made up of rows and columns and every cell in a table can contain both text and pictures.
+Users can save or print documents.
+
+REVERSE ENGINEERING  
+A document has at least one page.
+We can create new documents, print documents, save and open existing documents.
+Each page has a page number.
+We can create new pages, hide the header and footer and insert pictures.
+A page can have characters that create a words.
+Characters can be in italic, bold, underline.
+A page can have tables.
+A table has rows and columns and shall be possible to insert new rows and columns.
+A table has cells.
+Each cell has a format and shall be possible to edit each cell.
+A cell can have characters or pictures.
+A picture has a image type and size and shall be possible to insert or delete,

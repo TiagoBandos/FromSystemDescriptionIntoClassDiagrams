@@ -1,0 +1,45 @@
+@startuml
+class ProjectManager {
+    + manageProject(): void
+}
+
+class Team {
+    - members: List<Person>
+    + executeProject(): void
+}
+
+class Project {
+    + requirements: List<Requirement>
+    + startDate: Date
+    + endDate: Date
+    + status: string
+}
+
+class Requirement {
+    + description: string
+    + percentageComplete: int
+    + validated: boolean
+}
+
+class System {
+    + components: List<Component>
+    + validation: Validation
+}
+
+class Component {
+    + name: string
+    + type: string
+}
+
+class Validation {
+    + type: string
+    + description: string
+}
+
+ProjectManager "1" --* Team : manages
+Team "1" --* Project : executes
+Project "1" -- "many" Requirement : uses
+Requirement "1" -- "many" System : produces
+System "1" -- "many" Component : has
+Component "1" -- Validation : is validated by
+@enduml

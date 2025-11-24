@@ -1,0 +1,67 @@
+@startuml
+' Skinparam definitions to ensure consistent styling without explicit notes in the code
+skinparam ClassAttributeFontColor black
+skinparam ClassOperationFontColor black
+skinparam ClassArrowColor black
+skinparam ClassBorderColor black
+skinparam shadowing false
+
+abstract class WorkProduct {
+    - description: String
+    - percentComplete: int
+    + validate()
+}
+
+class Requirement {
+    + publish()
+}
+
+class System {
+    + deploy()
+}
+
+class Project {
+    - startDate: Date
+    - endDate: Date
+    + initiate()
+    + terminate()
+}
+
+class ProjectManager {
+    - name: String
+}
+
+class Team {
+    - name: String
+}
+
+class User {
+    - name: String
+}
+
+class MediaType {
+    - type: String
+}
+
+class Platform {
+    - name: String
+}
+
+' Generalization Relationships
+Requirement --|> WorkProduct
+System --|> WorkProduct
+
+' Association Relationships
+ProjectManager "1" -- "*" Project : manages >
+Team "1" -- "*" Project : executes >
+
+Project "1" -- "1..*" Requirement : uses input >
+Project "1" -- "1..*" System : produces output >
+
+Requirement "*" -- "*" User : validated with >
+System "*" -- "*" Requirement : tested against >
+
+Requirement "*" -- "*" MediaType : published on >
+System "*" -- "*" Platform : deployed on >
+
+@enduml

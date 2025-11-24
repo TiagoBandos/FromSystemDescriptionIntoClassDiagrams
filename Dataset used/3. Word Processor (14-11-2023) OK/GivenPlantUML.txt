@@ -1,0 +1,61 @@
+@startuml
+class Document{
+    - numberOfPages
+    + open()
+    + save()
+    + print()
+    + new()
+}
+class Page{
+    - pageNumber
+    + newPage()
+    + hideHeader()
+    + hideFooter()
+    + insertPicture()
+    + insertTable()
+}
+class Trimming{
+    - date
+    - time
+    - pageNumber
+    + display()
+    + change()
+    + hide()
+}
+class Character{
+    - ASCIICode
+    - type
+    + normal()
+    + italic()
+    + bold()
+    + underline()
+}
+class Table{
+    - rows
+    - columns
+    + insertRow()
+    + insertColumn()
+    + newTable()
+    + insertPicture()
+}
+class Picture{
+    - imageType
+    - imageSize
+    + insert()
+    + delete()
+}
+class Cell{
+    - cellFormat
+    + edit()
+}
+Document "1" *-- "1..*" Page
+Page "1" o--  "0..1" Trimming
+Page "1" o--  "0..*" Character
+Page "1" o--  "0..*" Table
+Page "1" o--  "0..*" Picture
+Character "0..*" --o "1" Cell
+Table "1" *-- "1..*" Cell  
+Picture "0..*" --o "1" Cell
+
+
+@enduml

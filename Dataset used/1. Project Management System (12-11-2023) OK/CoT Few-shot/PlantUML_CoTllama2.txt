@@ -1,0 +1,55 @@
+@startuml
+class ProjectManagementSystem {
+  - name: string
+  - description: string
+  - startDate: date
+  - endDate: date
+  + createProject(): void
+  + terminateProject(): void
+}
+
+class Project {
+  - id: integer
+  - name: string
+  - description: string
+  - startDate: date
+  - endDate: date
+  - status: string
+  + initiate(): void
+  + update(): void
+  + validate(): void
+}
+
+class Requirements {
+  - id: integer
+  - name: string
+  - description: string
+  - percentageComplete: real
+  - validationMethod: string
+  + create(): void
+  + update(): void
+  + validate(): void
+}
+
+class System {
+  - id: integer
+  - name: string
+  - description: string
+  - percentageComplete: real
+  - validationMethod: string
+  + create(): void
+  + update(): void
+  + validate(): void
+}
+
+ProjectManagementSystem "1" *-- "1..*" Project
+Project "1" *-- "1..*" Requirements
+Project "1" *-- "1..*" System
+
+Requirements "1" *-- "0..*" Workshop
+Requirements "1" o-- "0..*" ValidationMethod
+
+System "1" *-- "1..*" Platform
+System "1" o-- "0..*" DeploymentMethod
+@enduml
+```

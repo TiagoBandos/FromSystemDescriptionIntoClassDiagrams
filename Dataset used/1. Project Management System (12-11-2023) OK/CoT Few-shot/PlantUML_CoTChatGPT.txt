@@ -1,0 +1,84 @@
+@startuml
+
+'==================== Project Management Domain ====================
+
+class ProjectManagementSystem {
+    + createProject(): Project
+    + listProjects(): List<Project>
+}
+
+class ProjectManager {
+    + initiateProject(project: Project): void
+    + terminateProject(project: Project): void
+}
+
+class Team {
+    - teamName: string
+    + getTeamName(): string
+}
+
+class Project {
+    - startDate: Date
+    - endDate: Date
+    + start(): void
+    + terminate(): void
+}
+
+'-------------------- Work Product Domain --------------------
+
+abstract class WorkProduct {
+    - description: string
+    - percentComplete: integer
+    {abstract} validate(): boolean
+}
+
+class Requirement {
+    + validate(): boolean
+}
+
+class System {
+    + validate(): boolean
+    + testAgainst(requirement: Requirement): boolean
+}
+
+WorkProduct <|-- Requirement
+WorkProduct <|-- System
+
+'------------------- Validation & Publication ------------------
+
+class Workshop {
+    - workshopDate: Date
+    + conductSession(): void
+}
+
+class Media {
+    - mediaType: string
+    + getMediaType(): string
+}
+
+class Platform {
+    - platformName: string
+    + getPlatformName(): string
+}
+
+'==================== Relationships ====================
+
+' Project management associations
+ProjectManager --> ProjectManagementSystem : "uses"
+ProjectManagementSystem "1" *-- "0..*" Project : "manages"
+ProjectManager "1" *-- "1" Team : "leads"
+Project "1" --> "1" Team : "executed_by"
+
+' Project work product associations
+Project "1" o-- "1..*" Requirement : "input"
+Project "1" *-- "1" System : "output"
+
+' Requirement validations and publication
+Requirement --> Workshop : "validated_in"
+Requirement o-- "0..*" Media : "published_on"
+
+' System validation and deployment
+System ..> Requirement : "tested against"
+System o-- "0..*" Platform : "deployed_on"
+
+@enduml

@@ -1,0 +1,28 @@
+# Flask API Dependencies
+Flask==3.0.0
+Flask-CORS==4.0.0
+
+# Your existing dependencies from FinalImplementation.py
+anthropic
+chromadb==0.4.24
+python-dotenv==1.0.0
+langchain>=0.2.17,<0.3
+langchain-core>=0.2.17,<0.3
+langchain-community>=0.2.17,<0.3
+langchain-text-splitters>=0.2.0,<0.3
+langchain-huggingface>=0.1.0,<0.2
+langchain-anthropic==0.1.20
+
+
+# Document processing
+PyPDF2==3.0.1
+beautifulsoup4==4.12.2
+requests==2.31.0
+
+# Vector stores and embeddings
+faiss-cpu==1.7.4
+sentence-transformers==2.2.2
+
+# Utilities
+
+pandas==2.0.3

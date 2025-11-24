@@ -1,0 +1,80 @@
+@startuml
+' --- Diagram 10: Online Shopping ---
+class WebUser {
+  login_id: String
+  password: String
+  state: UserState
+}
+
+enum UserState {
+  New
+  Active
+  Blocked
+  Banned
+}
+
+class Customer {
+  id: String
+  address: Address
+  phone: Phone
+  email: String
+}
+
+class Account {
+  id: String
+  billing_address: Address
+  is_closed: Boolean
+  open: Date
+  closed: Date
+}
+
+class ShoppingCart {
+  created: Date
+}
+
+class Order {
+  number: String
+  ordered: Date
+  shipped: Date
+  ship_to: Address
+  status: OrderStatus
+  total: Real
+}
+
+enum OrderStatus {
+  New
+  Hold
+  Shipped
+  Delivered
+  Closed
+}
+
+class Payment {
+  id: String
+  paid: Date
+  total: Real
+  details: String
+}
+
+class LineItem {
+  quantity: Integer
+  price: Price
+}
+
+class Product {
+  id: String
+  name: String
+}
+
+WebUser "0..1" -- "1" Customer
+Customer "1" *-- "1" Account
+Account "1" *-- "0..1" ShoppingCart
+ShoppingCart "1" -- "*" LineItem
+Order "1" -- "*" LineItem
+LineItem "*" -- "1" Product
+Account "1" *-- "*" Order
+Order "1" -- "*" Payment
+Account "1" -- "0..*" Payment
+WebUser "1" -- "0..1" ShoppingCart
+
+@enduml

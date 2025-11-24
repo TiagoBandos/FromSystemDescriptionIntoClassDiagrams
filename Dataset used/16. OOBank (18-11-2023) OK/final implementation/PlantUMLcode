@@ -1,0 +1,168 @@
+@startuml
+
+package OOBank {
+
+    package Divisions {
+        class Division {
+            - name: String
+            - manager: Employee
+            + getName(): String
+            + getManager(): Employee
+            + setManager(manager: Employee): void
+            + addEmployee(employee: Employee): void
+            + removeEmployee(employee: Employee): void
+        }
+
+        class SubDivision extends Division {
+            - parentDivision: Division
+            + getParentDivision(): Division
+            + setParentDivision(division: Division): void
+        }
+
+        class PlanningDivision extends Division {
+        }
+
+        class InvestmentDivision extends Division {
+        }
+
+        class ConsumerDivision extends Division {
+        }
+    }
+
+    package Branches {
+        class Branch extends SubDivision {
+            - branchNumber: int
+            - address: Address
+            + getBranchNumber(): int
+            + getAddress(): Address
+            + setAddress(address: Address): void
+        }
+
+        class Address {
+            - street: String
+            - city: String
+            - state: String
+            - zipCode: String
+            + getStreet(): String
+            + getCity(): String
+            + getState(): String
+            + getZipCode(): String
+        }
+    }
+
+    package Accounts {
+        abstract class Account {
+            - accountNumber: String
+            - balance: double
+            - creditLimit: double
+            - interestRate: double
+            - monthlyFee: double
+            - branch: Branch
+            + getAccountNumber(): String
+            + getBalance(): double
+            + deposit(amount: double): void
+            + withdraw(amount: double): boolean
+            + getCreditLimit(): double
+            + getInterestRate(): double
+            + getMonthlyFee(): double
+            + getBranch(): Branch
+            + addOwner(client: Client): void
+            + removeOwner(client: Client): void
+            + getOwners(): List<Client>
+        }
+
+        class MortgageAccount extends Account {
+            - property: Property
+            + getProperty(): Property
+            + setProperty(property: Property): void
+        }
+
+        class CheckingAccount extends Account {
+            + writeCheck(amount: double, recipient: String): boolean
+        }
+
+        class CreditCardAccount extends Account {
+            - expiryDate: Date
+            + getExpiryDate(): Date
+            + setExpiryDate(date: Date): void
+            + addSecondaryCard(card: CreditCardAccount): void
+            + removeSecondaryCard(card: CreditCardAccount): void
+        }
+
+        class Property {
+            - address: Address
+            - value: double
+            - description: String
+            + getAddress(): Address
+            + getValue(): double
+            + getDescription(): String
+        }
+
+        enum Privilege {
+            CHECK_WRITING
+            PURCHASE_INSURANCE
+            ONLINE_BANKING
+            MOBILE_BANKING
+            OVERDRAFT_PROTECTION
+        }
+        
+        class AccountClientAssociation {
+            - account: Account
+            - client: Client
+            - isMainOwner: boolean
+            - dateAdded: Date
+            + getAccount(): Account
+            + getClient(): Client
+            + isMainOwner(): boolean
+            + getDateAdded(): Date
+        }
+    }
+
+    package People {
+        class Client {
+            - name: String
+            - personalBanker: Employee
+            + getName(): String
+            + getPersonalBanker(): Employee
+            + setPersonalBanker(banker: Employee): void
+            + getAccounts(): List<Account>
+            + addAccount(account: Account): void
+            + removeAccount(account: Account): void
+        }
+
+        class Employee {
+            - name: String
+            - division: Division
+            + getName(): String
+            + getDivision(): Division
+            + setDivision(division: Division): void
+        }
+    }
+
+    ' Relationships with proper multiplicities
+    Division "1" o-- "1" Employee : has manager >
+    Division "1" o-- "*" Employee : employs >
+    Division "1" <--o "*" SubDivision : belongs to
+    ConsumerDivision "1" o-- "*" Branch : contains >
+    
+    Branch "1" -- "*" Account : hosts >
+    
+    ' Joint account implementation through many-to-many relationship
+    Account "1" -- "*" AccountClientAssociation
+    AccountClientAssociation "*" -- "1" Client
+    note right of AccountClientAssociation
+      This association class enables joint accounts
+      by allowing multiple clients to own a single account.
+      The isMainOwner flag distinguishes primary from
+      secondary owners in a joint account arrangement.
+    end note
+    
+    Account "*" -- "*" Privilege : has >
+    
+    Client "1" -- "1" Employee : has personal banker >
+    
+    MortgageAccount "*" -- "1" Property : has collateral >
+    CreditCardAccount "1" -- "*" CreditCardAccount : has secondary cards >
+}
+
+@enduml

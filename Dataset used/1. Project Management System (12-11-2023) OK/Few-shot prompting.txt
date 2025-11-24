@@ -1,0 +1,185 @@
+You are a software engineer who is creating a < project management system > who has several years of experience in created class diagram models from requirements specification.
+Based on UML rules and principles, create a class diagram model for this requirements: 
+    The project manager leads a team to execute the project within the project's start and end dates.
+    Once the project is created in the project management system, a manager may initiate and later terminate the project due to its completion or for some other reason.
+    The team executes the project.
+    Requirements is the input of a project.
+    As outputs the project shall produce a system.
+    Requirements and systems are work products.
+    Work product has a description, information of the percentage of work completed, and may be validated.
+    The validation is depending on the type of work product.
+    The requirements are validated with users in workshops.
+    System are validated by being tested against the requirements.
+    The requirements may be published using various types of media, including on an intranet or paper form.
+    Systems may be deployed onto specific plataforms. 
+
+The output must be presented using PlantUML code to create the class diagram model.
+
+Here are some examples of how you should create the class diagram class:
+
+Input Requirements: 
+    Build a software application to manage filmed scenes for realizing a movie, by following the "Hollywood Approach".
+    Every scene shall be identified by a code and it is described by a text in natural language.
+    Every scene is filmed at least from one different position.
+    Each position is a setup.
+    Setup is characterized by a code (a string) and a text in natural language where the photographic parameters are noted (e.g., aperture, exposure, focal length, filters, etc.)
+    Each setup is related to a single scene 
+    Every setup has at least one take filmed in.
+    A take has a positive natural number, a real number representing the number of meters of film that have been used for shooting the take, and the code (string) of the reel where the film is stored.
+    A take is associated to a single setup.
+    Scenes can be internals, filmed in a theater, or a externals, filmed in a location and can either be "day scene" or "night scene".
+    Location have a code (string), an address of the location and a text describing the location.
+Output Class diagram PlantUML code:
+        @startuml
+            class Take{
+                nbr: integer
+                filmed_meters : Real
+                reel : string
+            }
+            class Setup{
+                code: string
+                photographic_pars: Text
+            }
+            class Scene{
+                code: string
+                description: Text
+            }
+            class Internal{
+                theater: string
+            }
+            class External{
+                night_scene : boolean
+            }
+            class Location{
+                name: string
+                address: string
+                description: text
+            }
+            Take "1..*" -- "1" Setup: tk_of_stp
+            Setup "1..*" -- "1" Scene: stp_for_scn
+            Scene <|-- Internal
+            Scene <|-- External
+            External "0..*" -- "1" Location : located
+        @enduml
+
+Input Requirements:
+    A user can open a new or existing document.
+    Text is entered through a keyboard.
+    A document is made up of several pages.
+    Each page is made up of a header, body and footer.
+    Date, time and page number may be added to header or footer.
+    Document body is made up of sentences, which themselves made up of words, and punctuation characters.
+    Words are made up of letters, digits and/or special characters.
+    Pictures and tables may be inserted into the document body.
+    Tables are made up of rows and columns and every cell in a table can contain both text and pictures.
+    Users can save or print documents.
+Output Class diagram PlantUML code:
+    @startuml
+        class Document{
+            - numberOfPages
+            + open()
+            + save()
+            + print()
+            + new()
+        }
+        class Page{
+            - pageNumber
+            + newPage()
+            + hideHeader()
+            + hideFooter()
+            + insertPicture()
+            + insertTable()
+        }
+        class Trimming{
+            - date
+            - time
+            - pageNumber
+            + display()
+            + change()
+            + hide()
+        }
+        class Character{
+            - ASCIICode
+            - type
+            + normal()
+            + italic()
+            + bold()
+            + underline()
+        }
+        class Table{
+            - rows
+            - columns
+            + insertRow()
+            + insertColumn()
+            + newTable()
+            + insertPicture()
+        }
+        class Picture{
+            - imageType
+            - imageSize
+            + insert()
+            + delete()
+        }
+        class Cell{
+            - cellFormat
+            + edit()
+        }
+        Document "1" *-- "1..*" Page
+        Page "1" o--  "0..1" Trimming
+        Page "1" o--  "0..*" Character
+        Page "1" o--  "0..*" Table
+        Page "1" o--  "0..*" Picture
+        Character "0..*" --o "1" Cell
+        Table "1" *-- "1..*" Cell  
+        Picture "0..*" --o "1" Cell
+    @enduml
+
+Relations between classes:
+Type	Symbol	Purpose
+Extension	<|--	Specialization of a class in a hierarchy
+Implementation	<|..	Realization of an interface by a class
+Composition	*--	The part cannot exist without the whole
+Aggregation	o--	The part can exist independently of the whole
+Dependency	-->	The object uses another object
+Dependency	..>	A weaker form of dependency
+
+Declaring element:
+    @startuml
+    abstract        abstract
+    abstract class  "abstract class"
+    annotation      annotation
+    circle          circle
+    ()              circle_short_form
+    class           class
+    class           class_stereo  <<stereotype>>
+    diamond         diamond
+    <>              diamond_short_form
+    entity          entity
+    enum            enum
+    exception       exception
+    interface       interface
+    metaclass       metaclass
+    protocol        protocol
+    stereotype      stereotype
+    struct          struct
+    @enduml
+
+Label on relations:
+    @startuml
+
+    Class01 "1" *-- "many" Class02 : contains
+
+    Class03 o-- Class04 : aggregation
+
+    Class05 --> "1" Class06
+
+    @enduml
+
+    @startuml
+    class Car
+
+    Driver - Car : drives >
+    Car *- Wheel : have 4 >
+    Car -- Person : < owns
+
+    @enduml

@@ -1,0 +1,97 @@
+@startuml
+
+package "Furniture Factory" {
+
+    class FurnitureLine {
+        - name: String
+        + getName(): String
+        + setName(name: String): void
+        + addFurnitureType(furniture: FurnitureType): void
+        + removeFurnitureType(furniture: FurnitureType): void
+        + getFurnitureTypes(): List<FurnitureType>
+    }
+
+    class FurnitureType {
+        - type: String
+        - referenceNumber: String
+        - sellingPrice: Double
+        + getType(): String
+        + setType(type: String): void
+        + getReferenceNumber(): String
+        + setReferenceNumber(ref: String): void
+        + getSellingPrice(): Double
+        + setSellingPrice(price: Double): void
+        + calculateTotalCost(): Double
+        + addComponent(component: FurnitureComponent, quantity: int): void
+        + removeComponent(component: FurnitureComponent): void
+    }
+
+    class FurnitureComponent {
+        - code: int
+        - type: String
+        - manufacturingPrice: Double
+        + getCode(): int
+        + setCode(code: int): void
+        + getType(): String
+        + setType(type: String): void
+        + getManufacturingPrice(): Double
+        + setManufacturingPrice(price: Double): void
+    }
+
+    class FurnitureComposition {
+        - quantity: int
+        + getQuantity(): int
+        + setQuantity(quantity: int): void
+        + getFurnitureComponent(): FurnitureComponent
+        + getFurnitureType(): FurnitureType
+    }
+
+    class Store {
+        - address: String
+        - faxNumber: String
+        + getAddress(): String
+        + setAddress(address: String): void
+        + getFaxNumber(): String
+        + setFaxNumber(fax: String): void
+        + placeOrder(items: List<OrderedFurniture>, date: Date): Order
+        + getOrders(): List<Order>
+    }
+
+    class Order {
+        - orderNumber: int
+        - orderDate: Date
+        - store: Store
+        + getOrderNumber(): int
+        + setOrderNumber(num: int): void
+        + getOrderDate(): Date
+        + setOrderDate(date: Date): void
+        + getStore(): Store
+        + setStore(store: Store): void
+        + addOrderedFurniture(furniture: FurnitureType, quantity: int): void
+        + removeOrderedFurniture(furniture: FurnitureType): void
+        + calculateTotalPrice(): Double
+    }
+
+    class OrderedFurniture {
+        - quantity: int
+        + getQuantity(): int
+        + setQuantity(quantity: int): void
+        + getFurnitureType(): FurnitureType
+        + calculateSubtotal(): Double
+    }
+
+    FurnitureLine "1" o-- "1..*" FurnitureType : contains >
+    
+    FurnitureType "1" -- "0..*" FurnitureComposition : has >
+    FurnitureComponent "1" -- "0..*" FurnitureComposition : used in >
+    
+    Store "1" <--> "0..*" Order : places >
+    
+    Order "1" *-- "1..*" OrderedFurniture : contains >
+    OrderedFurniture "0..*" -- "1" FurnitureType : references >
+}
+
+note "FurnitureComposition represents the many-to-many relationship\nbetween furniture types and components, allowing the same\ncomponent to be used multiple times in a single furniture piece\nwith different quantities" as N1
+N1 .. FurnitureComposition
+
+@enduml

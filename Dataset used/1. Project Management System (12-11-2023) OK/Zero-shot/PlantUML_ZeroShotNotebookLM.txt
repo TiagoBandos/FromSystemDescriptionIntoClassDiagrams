@@ -1,0 +1,89 @@
+@startuml
+' UML Class Diagram for Project Management System
+
+' Define Classes
+class WorkProduct {
+    - description: String
+    - percentageCompleted: Integer
+    {abstract} + validate(): void
+}
+
+class Requirement extends WorkProduct {
+    + validate(): void
+    + publish(medium: Medium): void
+}
+
+class System extends WorkProduct {
+    + validate(): void
+    + deploy(platform: Platform): void
+}
+
+class Project {
+    - name: String
+    - startDate: Date
+    - endDate: Date
+    - status: String
+    + initiate(): void
+    + terminate(): void
+}
+
+class ProjectManager {
+    - name: String
+}
+
+class Team {
+    - name: String
+}
+
+class User {
+    - name: String
+}
+
+class Workshop {
+    - name: String
+    - date: Date
+}
+
+class Medium {
+    - type: String
+}
+
+class Platform {
+    - name: String
+}
+
+' Define Relationships
+
+' Generalization is represented by 'extends' in PlantUML
+
+' Aggregation (Project has Requirements as input)
+Project "1" o-- "1..*" Requirement : input
+
+' Aggregation (Project produces System as output)
+Project "1" o-- "1" System : output
+
+' Association (Project is managed by ProjectManager)
+Project "1" -- "0..*" ProjectManager : managed by
+
+' Association (Project is worked on by Team)
+Project "1" -- "1" Team : works on
+
+' Association (ProjectManager leads Team)
+ProjectManager "1" --> "0..*" Team : leads
+
+' Association (Requirement validated with Users)
+Requirement "1" -- "1..*" User : validated with
+
+' Association (Requirement validated in Workshop)
+Requirement "1" -- "1" Workshop : validated in
+
+' Association (System tested against Requirements - Dependency/Association)
+System "1" --> "1..*" Requirement : tested against
+
+' Association (Requirement published on Medium)
+Requirement "1" -- "0..*" Medium : published on
+
+' Association (System deployed on Platform)
+System "1" -- "0..*" Platform : deployed on
+
+@enduml

@@ -1,0 +1,114 @@
+@startuml
+package Airline {
+    class Airline {
+        - id: String
+        + getFlights(): List<Flight>
+        + getAircrafts(): List<Aircraft>
+        + getPilots(): List<Pilot>
+        + addPilot(pilot: Pilot): void
+        + removePilot(pilot: Pilot): void
+    }
+
+    class Flight {
+        - id: String
+        - departureAirport: Airport
+        - arrivalAirport: Airport
+        - departureTime: DateTime
+        - arrivalTime: DateTime
+        - pilot: Pilot
+        - copilot: Pilot
+        - aircraft: Aircraft
+        + getAirline(): Airline
+        + getPilot(): Pilot
+        + getCopilot(): Pilot
+        + getAircraft(): Aircraft
+        + getDepartureAirport(): Airport
+        + getArrivalAirport(): Airport
+    }
+
+    class Airport {
+        - id: String
+        - name: String
+        - location: String
+        + getId(): String
+    }
+
+    class Aircraft {
+        - id: String
+        - type: AircraftType
+        - state: AircraftState
+        - status: AircraftStatus
+        + getType(): AircraftType
+        + setState(state: AircraftState): void
+        + setStatus(status: AircraftStatus): void
+    }
+
+    class AircraftType {
+        - typeName: String
+        - requiredPilotCount: int
+        + getRequiredPilotRoles(): List<PilotRole>
+        + addRequiredRole(role: PilotRole, count: int): void
+    }
+
+    enum AircraftState {
+        WORKING
+        UNDER_REPAIR
+    }
+
+    enum AircraftStatus {
+        LANDED
+        AIRBORNE
+    }
+}
+
+package Pilot {
+    class Pilot {
+        - id: String
+        - name: String
+        - experienceLevel: int
+        + getExperienceLevel(): int
+        + canServeAsRole(role: PilotRoleType): boolean
+        + validateCaptainRole(): boolean
+    }
+
+    class PilotRole {
+        - requiredExperienceLevel: int
+        - count: int
+        + getRole(): PilotRoleType
+        + getRequiredExperienceLevel(): int
+        + validatePilotForRole(pilot: Pilot): boolean
+    }
+
+    enum PilotRoleType {
+        CAPTAIN
+        COPILOT
+        NAVIGATOR
+    }
+}
+
+' Associations with proper multiplicities
+Airline "1" -- "0..*" Flight
+Airline "1" -- "1..*" Aircraft
+Airline "1" -- "1..*" Pilot : employs >
+
+Flight "0..*" -- "1" Pilot : pilot >
+Flight "0..*" -- "1" Pilot : copilot >
+Flight "0..*" -- "1" Aircraft : uses >
+Flight "0..*" -- "1" Airport : departure >
+Flight "0..*" -- "1" Airport : arrival >
+
+Aircraft "0..*" -- "1" AircraftType : is of type >
+
+' Association between AircraftType and PilotRole
+AircraftType "1" -- "1..*" PilotRole : requires >
+
+' Pilot to PilotRole relationship
+Pilot "1" -- "0..*" PilotRole : can perform >
+PilotRole "0..*" -- "1" PilotRoleType : is of type >
+
+note "A captain must have experience level 3" as N1
+N1 .. Pilot
+
+note "Each aircraft type requires at least one captain and one copilot" as N2
+N2 .. AircraftType
+@enduml

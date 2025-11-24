@@ -1,0 +1,40 @@
+@startuml
+class WorkProduct{
+    PercentComplete
+    Description
+    Validate()
+}
+class System{
+    Plataform
+    Validate()
+    Deploy()
+}
+class Requirement{
+    Media
+    Validate()
+    Publish()
+}
+class Project{
+    Name
+    StartDate
+    EndDate
+}
+class Manager{
+    Name
+    PhoneNumber
+    InitiateProject()
+    TerminateProject()
+}
+class Team{
+    Description
+}
+WorkProduct <|--- System
+WorkProduct <|--- Requirement
+Requirement -- Project: Input <
+System -- Project: Output <
+Manager -- Project: Manage >
+Team -- Project: Execute >
+Manager -- Team : Lead
+
+
+@enduml

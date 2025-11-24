@@ -1,0 +1,41 @@
+@startuml
+class Project {
+    +startDate: Date
+    +endDate: Date
+    +initiate()
+    +terminate()
+}
+
+class ProjectManager {
+}
+
+class Team {
+}
+
+abstract class WorkProduct {
+    +description: String
+    +percentageCompleted: Real
+    +validate()
+}
+
+class Requirement {
+    +publish(mediaType: String)
+}
+
+class System {
+    +deploy(platform: String)
+}
+
+ProjectManager "1" -- "1" Project : leads
+Project "1" *-- "1..*" Team : executes
+Project "1" -- "1..*" Requirement : input
+Project "1" -- "1" System : output
+
+WorkProduct <|-- Requirement
+WorkProduct <|-- System
+
+Requirement -- "1..*" User : validatedWith
+Requirement -- "1..*" Workshop : validatedIn
+System -- "1" Requirement : testedAgainst
+
+@enduml

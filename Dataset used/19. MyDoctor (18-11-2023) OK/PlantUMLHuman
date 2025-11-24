@@ -1,0 +1,60 @@
+@startuml
+
+class User {
+    -id:int
+    -FirstName:String
+    -LastName:String
+    +login()
+    +logout()
+}
+
+class Doctor {
+    -Field:String
+    +Apply()
+    +CreateSchedule()
+    +CheckOfficeAvailability(startDate:Date, endDate:date)
+}
+
+class Patient {
+    -Age:int
+    -Address:String
+    +SeeExistingDoctors()
+    +SeeSchedules()
+    +CreateAppointment()
+}
+
+class Office {
+    -id:int
+    -Name:String
+}
+
+class Schedule {
+    -id:int
+    -StartDate:Date
+    -EndDate:Date
+}
+
+class Appointment {
+    -id:int
+    -Duration:int
+    -StartDate:Date
+    -EndDate:Date
+    +SendEmail()
+}
+
+class BloodTest
+class Consultation
+class Surgery
+
+Doctor "1" -- "0..*" Schedule
+Doctor "0..*" -- "0..*" Patient
+Office "1" -- "0..*" Schedule
+Patient "1" -- "0..*" Appointment
+Schedule "1" -- "0..*" Appointment
+Appointment <|-- BloodTest
+Appointment <|-- Consultation
+Appointment <|-- Surgery
+User <|-- Doctor
+User <|-- Patient
+
+@enduml

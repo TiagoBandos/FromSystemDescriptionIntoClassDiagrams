@@ -1,0 +1,54 @@
+@startuml
+
+class Project {
+  +startDate: Date
+  +endDate: Date
+  +initiateProject()
+  +terminateProject(reason: String)
+}
+
+class Manager {
+  +name: String
+}
+
+class Team {
+  +executeProject()
+}
+
+class WorkProduct {
+  +description: String
+  +percentageCompleted: int
+  +validated: boolean
+  +validate()
+}
+
+class Requirement {
+  +publish(media: Media)
+  +validateWithUsers(workshopDetails: String)
+}
+
+class System {
+  +deploy(platform: Platform)
+  +validateAgainstRequirements()
+}
+
+class Media {
+  +type: String
+}
+
+class Platform {
+  +name: String
+}
+
+' Relationships
+Manager "1" --> "1" Project : leads
+Project "1" o-- "1" Team : executes
+Project "1" *-- "many" WorkProduct : produces
+Requirement --|> WorkProduct
+System --|> WorkProduct
+Project "1" *-- "many" Requirement : input
+Project "1" *-- "1" System : output
+Requirement --> Media : published using
+System --> Platform : deployed onto
+
+@enduml

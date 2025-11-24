@@ -1,0 +1,46 @@
+
+@startuml
+
+abstract class WorkProduct {
+  - description: String
+  - percentComplete: int
+  - validationStatus: boolean
+  --
+  + validate(): boolean
+}
+
+class Requirement extends WorkProduct {
+  - publishedMedia: String
+  --
+  + publish(): void
+}
+
+class System extends WorkProduct {
+  - deploymentPlatform: String
+}
+
+class Project {
+  - name: String
+  - startDate: Date
+  - endDate: Date
+  - status: String
+  --
+  + createRequirement(): Requirement
+  + createSystem(): System
+  + validateRequirement(r: Requirement): boolean
+  + validateSystem(s: System): boolean
+}
+
+class ProjectManager {
+  - name: String
+  - contactInfo: String
+  --
+  + initiateProject(p: Project): void
+  + terminateProject(p: Project): void
+}
+
+Project "1" *-- "1..*" Requirement
+Project "1" *-- "1" System
+ProjectManager "1" -- "1" Project
+
+@enduml

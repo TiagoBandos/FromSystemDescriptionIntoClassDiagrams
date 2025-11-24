@@ -1,0 +1,80 @@
+@startuml
+package "Project Management System" {
+
+    class ProjectManager {
+        - name: String
+        + initiateProject(project: Project): void
+        + terminateProject(project: Project): void
+        + leadTeam(team: Team): void
+    }
+
+    class Project {
+        - startDate: Date
+        - endDate: Date
+        - status: ProjectStatus
+        + initiate(): void
+        + terminate(reason: String): void
+        + calculatePercentComplete(): int
+    }
+
+    abstract class WorkProduct {
+        - description: String
+        - percentComplete: int
+        + getPercentComplete(): int
+        + setPercentComplete(percent: int): void
+        + {abstract} validate(): boolean
+    }
+
+    class Requirement extends WorkProduct {
+        + validate(users: User[1..*]): boolean
+        + publish(media: PublicationMedia): void
+    }
+
+    class System extends WorkProduct {
+        + validate(requirements: Requirement[1..*]): boolean
+        + deploy(platform: Platform): void
+    }
+
+    class Team {
+        - members: Employee[1..*]
+        + executeProject(project: Project): void
+    }
+
+    class Employee {
+        - name: String
+        - role: String
+    }
+
+    enum PublicationMedia {
+        INTRANET
+        PAPER
+    }
+
+    enum ProjectStatus {
+        CREATED
+        INITIATED
+        IN_PROGRESS
+        TERMINATED
+        COMPLETED
+    }
+
+    class Platform {
+        - name: String
+        - version: String
+    }
+
+    class User {
+        - name: String
+    }
+
+    ProjectManager "1" -- "1..*" Project : manages >
+    ProjectManager "1" -- "1..*" Team : leads >
+    
+    Project "1" *-- "1..*" Requirement : uses >
+    Project "1" *-- "1" System : produces >
+    Project "1" <--> "1..*" Team : < executed by | executes >
+    
+    Requirement "1..*" -- "1..*" User : validated by >
+    System "1" -- "1..*" Platform : deployed on >
+}
+@enduml

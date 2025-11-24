@@ -1,0 +1,102 @@
+#3.1 Ver Inventário (View Inventory)
+@startuml
+participant User
+participant "Main Inventory Screen" as InventoryScreen
+participant "Inventory Management System" as IMS
+
+User -> InventoryScreen: Acede ao ecrã principal de inventário [4]
+activate InventoryScreen
+InventoryScreen --> User: Exibe todos os departamentos de inventário [4]
+User -> InventoryScreen: Clica num departamento [4]
+InventoryScreen --> User: Exibe todas as categorias para o departamento selecionado [4]
+User -> InventoryScreen: Clica numa categoria com subcategorias [4]
+InventoryScreen --> User: Exibe todas as subcategorias para a categoria selecionada [4]
+User -> InventoryScreen: Clica numa subcategoria (categoria folha) [4]
+deactivate InventoryScreen
+@enduml
+
+#3.5  Adicionar Item ao Inventário (Add Item to Inventory)
+@startuml
+participant User
+participant "Main Inventory Screen" as InventoryScreen
+participant "Inventory Management System" as IMS
+participant "Item Entry Screen" as ItemEntryScreen
+participant Printer
+
+User -> InventoryScreen: Acede ao ecrã principal de inventário [5]
+activate InventoryScreen
+User -> InventoryScreen: Navega até à categoria apropriada para o item [5]
+alt Modo de Processamento de Doações
+    InventoryScreen --> ItemEntryScreen: Apresenta o ecrã de entrada de item (automático) [5]
+else Modo de Gestão de Inventário
+    InventoryScreen --> User: Exibe lista de itens existentes [5]
+    User -> InventoryScreen: Clica no botão "Adicionar Item" [9]
+    InventoryScreen --> ItemEntryScreen: Apresenta o ecrã de entrada de item [9]
+end
+deactivate InventoryScreen
+activate ItemEntryScreen
+User -> ItemEntryScreen: Preenche as informações do item [9]
+ItemEntryScreen -> IMS: Confirma adição do novo item [9]
+activate IMS
+IMS --> ItemEntryScreen: Inventário atualizado [9]
+deactivate IMS
+ItemEntryScreen --> User: Oferece opção de imprimir etiqueta [9]
+User -> Printer: Imprime etiqueta(s) do item [9]
+User -> ItemEntryScreen: Anexa etiqueta(s) ao(s) item(s) [9]
+deactivate ItemEntryScreen
+@enduml
+
+#3.9. Receber Aquisição (Receive Acquisition)
+@startuml
+participant Donor
+participant "Receiving Associate" as ReceivingAssociate
+participant "Inventory Management System" as IMS
+participant Printer
+participant "QuickBooks POS" as QuickBooksPOS
+
+alt Doador com Número de Aquisição Válido
+    Donor -> ReceivingAssociate: Procede à doca de receção com número de aquisição [6]
+else Doador sem Número de Aquisição
+    Donor -> ReceivingAssociate: Procede à doca de receção [6]
+    ReceivingAssociate -> IMS: Cria nova aquisição [6]
+    activate IMS
+end
+ReceivingAssociate -> IMS: Inicia processo de receção/entrada de itens [6]
+activate IMS
+IMS --> ReceivingAssociate: Simplifica a entrada de dados para recibo [6]
+ReceivingAssociate -> Printer: Gera e imprime recibo de doação [6]
+deactivate IMS
+ReceivingAssociate -> IMS: (Opcional) Adiciona atributos adicionais do item [6]
+activate IMS
+IMS --> ReceivingAssociate: Pode imprimir etiquetas de aquisição temporárias [6]
+ReceivingAssociate -> Printer: Imprime etiquetas temporárias (se necessário) [6]
+ReceivingAssociate -> IMS: Revisa informação da aquisição (para adicionar ao inventário) [6]
+IMS -> QuickBooksPOS: Adiciona itens únicos e atualiza quantidades de stock [10]
+activate QuickBooksPOS
+QuickBooksPOS --> IMS: Confirma atualização no POS
+deactivate QuickBooksPOS
+IMS --> ReceivingAssociate: Itens doados presentes no inventário e tags criadas [10]
+deactivate IMS
+ReceivingAssociate --> Donor: Entrega recibo de doação [10]
+@enduml
+
+#3.10. Vender Item (Sell Item)
+@startuml
+participant Buyer
+participant "Sales Associate" as SalesAssociate
+participant "QuickBooks POS" as QuickBooksPOS
+participant "Inventory Management System" as IMS
+
+Buyer -> SalesAssociate: Apresenta itens para compra [7]
+activate SalesAssociate
+SalesAssociate -> QuickBooksPOS: Scaneia as etiquetas dos itens [7]
+activate QuickBooksPOS
+QuickBooksPOS -> IMS: Processa a venda dos itens [7]
+activate IMS
+IMS --> QuickBooksPOS: Atualiza inventário para refletir a venda [7]
+deactivate IMS
+QuickBooksPOS --> SalesAssociate: Confirma venda [7]
+deactivate QuickBooksPOS
+SalesAssociate --> Buyer: Completa transação [7]
+deactivate SalesAssociate
+@enduml

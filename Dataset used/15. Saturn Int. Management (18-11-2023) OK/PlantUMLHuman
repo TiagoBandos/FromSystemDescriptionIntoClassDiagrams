@@ -1,0 +1,58 @@
+@startuml
+
+class Barrier {
+    +rise()
+}
+
+class CarPark {
+    -numberofspaces:int
+    -numberfreespaces:int()
+    +carisleaving()
+}
+
+class CardReader {
+    +insertcard()
+    +verifycardnumber()
+    +showsuccessmessage()
+    +showfailmessage()
+    +sendsignal()
+    +ejectcard()
+}
+
+class Card {
+    -number:int
+}
+
+class IdentityCard {
+    -name:String
+    -department:String
+    +issue()
+}
+
+class GuestCard {
+    -currentdate:Date
+    +sent()
+    +collected()
+    +return()
+}
+
+class Reception {
+    +givecard()
+    +takecard()
+}
+
+class Sign {
+    -isfull:Boolean
+    +switch()
+}
+
+Barrier "2" --* "1" CarPark
+Barrier -- CardReader
+CardReader --* CarPark
+CardReader -- Card
+Card <|-- IdentityCard
+Card <|-- GuestCard
+Reception "1" -- "0..*" GuestCard
+CarPark  *-- Sign
+
+@enduml

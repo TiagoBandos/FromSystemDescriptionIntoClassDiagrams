@@ -1,0 +1,46 @@
+@startuml
+skinparam componentStyle rectangle
+
+component "Inventory Management System" as IMS
+
+component "QuickBooks Point of Sale" as QuickBooksPOS
+component "Construction Junction Website" as CJWebsite
+component "Email Notification Service" as EmailService
+printer "Label Printer" as LabelPrinter
+printer "Document Printer" as DocumentPrinter
+component "CRM System" as CRM
+
+interface "Inventory Update API" as InvUpdateAPI
+interface "Sales Data API" as SalesAPI
+interface "Inventory Display API" as InvDisplayAPI
+interface "Notification Service API" as NotifyAPI
+interface "Printing Service API" as PrintAPI
+interface "Donor Management API" as DonorAPI
+
+' Relações / Integrações entre componentes e interfaces
+
+' IMS e QuickBooks POS
+IMS -r- InvUpdateAPI
+QuickBooksPOS .l.> InvUpdateAPI : requires
+
+QuickBooksPOS -l- SalesAPI
+IMS .r.> SalesAPI : requires
+
+' IMS e Construction Junction Website
+IMS -d- InvDisplayAPI
+CJWebsite .u.> InvDisplayAPI : requires
+
+' Email Notification Service e IMS
+EmailService -r- NotifyAPI
+IMS .l.> NotifyAPI : requires
+
+' Impressoras e IMS
+LabelPrinter -u- PrintAPI
+DocumentPrinter -u- PrintAPI
+IMS .d.> PrintAPI : requires
+
+' CRM System e IMS
+CRM -l- DonorAPI
+IMS .r.> DonorAPI : requires
+
+@enduml

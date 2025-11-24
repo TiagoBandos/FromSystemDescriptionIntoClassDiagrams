@@ -1,0 +1,60 @@
+@startuml
+
+class Project {
+    startDate: Date
+    endDate: Date
+    +initiate()
+    +terminate(reason: String)
+}
+
+class Manager {
+    name: String
+    +leadProject(project: Project)
+}
+
+class Team {
+    teamName: String
+    +executeProject()
+}
+
+abstract class WorkProduct {
+    description: String
+    percentageCompleted: float
+    isValidated: boolean
+    +validate()
+}
+
+class Requirement {
+    validationMethod: String = "Workshop with Users"
+    mediaType: String
+    +publish()
+}
+
+class System {
+    validationMethod: String = "Testing against Requirements"
+    platform: String
+    +deploy()
+}
+
+class User {
+    userName: String
+}
+
+class Platform {
+    platformName: String
+    platformType: String
+}
+
+Manager "1" --> "1..*" Project : leads
+Project "1" o-- "1" Team : executed_by
+Project "1..*" o-- "1..*" Requirement : has_input
+Project "1..*" o-- "1..*" System : produces_output
+
+WorkProduct <|-- Requirement
+WorkProduct <|-- System
+
+Requirement "1..*" --> "1..*" User : validated_with
+System "1..*" --> "1..*" Requirement : validated_against
+System "0..*" --> "1..*" Platform : deployed_on
+
+@enduml

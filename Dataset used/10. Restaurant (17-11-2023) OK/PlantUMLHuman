@@ -1,0 +1,44 @@
+@startuml
+
+class Ingredient {
+    -name:String
+    -measuringunits:String
+    -quantity:float
+}
+
+class Dish {
+    -name:String
+    -id:int
+}
+
+class Meal {
+    -date:Date
+    -starttime:Time
+    -endtime:Time
+}
+
+class Table {
+    -id:int
+    -nofpeople:int
+}
+
+class Client {
+    -taxid:int
+    -name:String
+    -address:String
+}
+
+class Waiter {
+    -id:int
+    -name:String
+    -address:String
+    -phonenumber:String
+}
+
+Ingredient "1..*" -- "0..*" Dish
+Dish "1" -- "0..*" Meal
+Table "1" -- "0..*" Meal
+Client "0..1" -- "0..*" Meal
+Waiter "1" -- "0..*" Meal
+
+@enduml

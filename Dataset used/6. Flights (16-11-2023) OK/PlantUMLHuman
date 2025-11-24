@@ -1,0 +1,47 @@
+@startuml
+
+class Airline {
+    -id:String
+}
+
+class Airport {
+    -identifier:String
+}
+
+class Aircraft {
+    -id:String
+    -workingstate:Boolean
+    -landed:Boolean
+    -type:TypeofAircraft
+}
+
+class TypeofAircraft {
+    -name:String
+    -captain:Pilot
+    -co-pilot:Pilot
+}
+
+class Flight {
+    -id:String
+    -departureairport:Airport
+    -arrivalairport:Airport
+    -departuretime:Time
+    -arrivaltime:Time
+    -pilot:Pilot
+    -copilot:Pilot
+}
+
+class Pilot {
+    -name:int
+    -experiencelevel:int
+    -role:String
+}
+
+Airline "1" -- "1..*" Aircraft : owns
+Airline "1" -- "1..*" Flight : offers
+Aircraft "1" -- "1..*" TypeofAircraft
+Aircraft "1" -- "1..*" Flight : uses
+Flight "1..*" -- "2..*" Pilot
+Flight "1..*" -- "2" Airport
+
+@enduml

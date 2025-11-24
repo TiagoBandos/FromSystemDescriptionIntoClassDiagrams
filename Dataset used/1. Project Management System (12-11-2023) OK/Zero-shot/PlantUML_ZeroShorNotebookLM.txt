@@ -1,0 +1,52 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+abstract class WorkProduct {
+    description: String
+    percentageCompleted: Integer
+    {abstract} + validate(): void
+}
+
+class Requirement {
+    + validateWithUsers(): void
+    + publish(media: Media): void
+}
+WorkProduct <|-- Requirement : "é um"
+
+class System {
+    + validateAgainstRequirements(requirements: Requirement[]): void
+    + deploy(platform: Platform): void
+}
+WorkProduct <|-- System : "é um"
+
+class Project {
+    startDate: Date
+    endDate: Date
+    + initiate(): void
+    + terminate(): void
+}
+
+class ProjectManager {
+}
+
+class Team {
+}
+
+class Media {
+    name: String
+}
+
+class Platform {
+    name: String
+}
+
+ProjectManager "*" -- "1" Project : lidera
+Team "*" -- "1" Project : executa
+
+Project "1" --> "*" Requirement : entrada
+Project "1" --> "*" System : saída
+
+Requirement "*" -- "*" Media : "publicado em"
+System "*" -- "*" Platform : "implementado em"
+
+System ..> Requirement : "valida contra"

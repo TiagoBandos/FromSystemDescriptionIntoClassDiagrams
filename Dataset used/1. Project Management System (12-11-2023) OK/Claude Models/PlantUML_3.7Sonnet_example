@@ -1,0 +1,59 @@
+@startuml
+
+class ProjectManagementSystem {
+  + createProject(): Project
+}
+
+class ProjectManager {
+  + initiateProject(project: Project): void
+  + terminateProject(project: Project): void
+}
+
+class Team {
+  + executeProject(project: Project): void
+}
+
+class Project {
+  - startDate: Date
+  - endDate: Date
+  - status: String
+  + useRequirements(): void
+  + produceSystem(): void
+}
+
+abstract class WorkProduct {
+  - description: String
+  - percentComplete: float
+  + validate(): void
+  + updatePercentComplete(percent: float): void
+}
+
+class Requirements extends WorkProduct {
+  - validationType: String = "workshops"
+  + publishViaMedia(media: Media): void
+}
+
+class System extends WorkProduct {
+  - validationType: String = "testing"
+  + deployToPlatform(platform: Platform): void
+}
+
+class Media {
+  - type: String
+}
+
+class Platform {
+  - specification: String
+}
+
+ProjectManager --> ProjectManagementSystem : uses
+ProjectManager "1" --> "1" Team : leads
+ProjectManager "1" --> "1..*" Project : manages
+Team "1" --> "1..*" Project : executes
+Project "1" --o "1..*" Requirements : uses
+Project "1" --o "1" System : produces
+ProjectManagementSystem "1" --o "0..*" Project : contains
+Requirements "0..*" --> "1..*" Media : published via
+System "1" --> "1..*" Platform : deployed on
+
+@enduml

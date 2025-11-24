@@ -1,0 +1,41 @@
+@startuml
+
+class "Project Manager" {
+    -name:String
+    +initiateProject()
+    +terminateProject()
+}
+
+class Team {
+    -description:String
+}
+
+class Project {
+    -name:String
+    -startDate:Date
+    -endDate:Date
+}
+
+class Requirement {
+    +publish(media:String)
+}
+
+class "Work Product" {
+    -percentComplete:int
+    -description:String
+    +validate()
+}
+
+class System {
+    +deploy(platform:String)
+}
+
+"Project Manager" "1" -- "1" Team : Lead
+"Project Manager" "1" -- "1" Project : Manage
+Team "1" -- "1" Project : Execute
+Requirement "1..*" -- "1" Project : Input
+Project "1" -- "1" System : Output
+Requirement --|> "Work Product"
+System --|> "Work Product"
+
+@enduml

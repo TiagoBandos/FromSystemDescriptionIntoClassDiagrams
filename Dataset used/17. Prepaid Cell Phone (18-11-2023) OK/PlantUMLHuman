@@ -1,0 +1,45 @@
+@startuml
+
+class Basic_Contract {
+    -number:int
+    -balance:float
+}
+
+class Contract {
+    +getCharges():float
+    +getBalance():float
+    +setBalance(float)
+}
+
+class Client {
+    -name:String
+    -phone:String
+}
+
+class Option {
+    -monthly_charge:float
+}
+
+class Data {
+    -MB:int
+}
+
+class SMS {
+    -quantity:int
+}
+
+class Minute {
+    -quantity:int
+}
+
+class Double_Transfer
+
+Basic_Contract "1" -- "0..*" Contract
+Contract "1" -- "1" Client
+Contract "0..*" -- "0..*" Option
+Option <|-- Data
+Option <|-- SMS
+Option <|-- Minute
+Option <|-- Double_Transfer
+
+@enduml

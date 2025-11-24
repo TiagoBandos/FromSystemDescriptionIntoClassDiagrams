@@ -1,0 +1,92 @@
+' Abstract classes and interfaces
+abstract class WorkProduct {
+    - description: String
+    - percentComplete: float
+    --
+    + getDescription(): String
+    + setDescription(description: String): void
+    + getPercentComplete(): float
+    + setPercentComplete(percent: float): void
+    + {abstract} validate(): boolean
+}
+
+' Concrete classes
+class ProjectManager {
+    - name: String
+    - employeeId: String
+    --
+    + initiateProject(project: Project): void
+    + terminateProject(project: Project): void
+    + manageProject(project: Project): void
+}
+
+class Project {
+    - projectId: String
+    - name: String
+    - startDate: Date
+    - endDate: Date
+    - status: ProjectStatus
+    --
+    + initiate(): void
+    + terminate(): void
+    + getStatus(): ProjectStatus
+}
+
+class Team {
+    - teamId: String
+    - members: List<String>
+    --
+    + addMember(member: String): void
+    + removeMember(member: String): void
+}
+
+class Requirement {
+    - requirementId: String
+    --
+    + validate(): boolean
+    + conductWorkshop(): void
+    + publish(media: Media): void
+}
+
+class System {
+    - systemId: String
+    - version: String
+    --
+    + validate(): boolean
+    + deploy(platform: Platform): void
+    + test(): TestResult
+}
+
+class Platform {
+    - name: String
+    - version: String
+    - specifications: String
+}
+
+class Media {
+    - type: String
+    - format: String
+}
+
+enum ProjectStatus {
+    INITIATED
+    IN_PROGRESS
+    TERMINATED
+    COMPLETED
+}
+
+' Relationships
+ProjectManager "1" --> "1..*" Project : manages >
+ProjectManager "1" --> "1" Team : leads >
+Team "1" --> "1..*" Project : executes >
+
+Project "1" o--> "1..*" Requirement : uses >
+Project "1" *--> "1" System : produces >
+
+Requirement --|> WorkProduct
+System --|> WorkProduct
+
+System "1..*" --> "1..*" Platform : deployed on >
+Requirement "1..*" --> "1..*" Media : published on >
+
+Project ..> ProjectStatus : uses >

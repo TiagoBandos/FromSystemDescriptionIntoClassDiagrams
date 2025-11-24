@@ -1,0 +1,97 @@
+@startuml
+enum Rule{
+Admistrator
+Director 
+Manager 
+Receiving Associate 
+Pickup Associate 
+Decon Associate 
+Customer Service Representative 
+}
+class User{
+String name
+String email
+String password
+Rule rule
+}
+
+class Inventory{
+    List<InventoryDepartments> departments
+    List<Item> items
+    findItemByDonor(String Donor)
+    findItemByDescription(String Description)
+    displayDepartments(String UniqueTag)
+    addDepartment(String Name, String POSDepartmentCode, String UniqueTag)
+    editDepartment(String Name, String UniqueTag)
+    deleteDepartment()
+}
+class InventoryDepartments{
+    String Name
+    String POSDepartmentCode
+    String UniqueTag
+    List<InventoryCategories> Categories
+    displayCategory(String Category)
+    updateDepartment()
+    createDepartment(String Name, String POSDepartmentCode, String UniqueTag)
+    hasCategories()
+    hasItems()
+    addCategory()
+    editCategory()
+    deleteCategory()
+    moveCategory(String Name, String UniqueTag, InventoryCategory parent)
+}
+class InventoryCategory{
+        List <InventorySubCategory> subCategories
+        displaySubCategory(String SubCategory)
+        addCategory()
+        editCategory()
+        deleteCategory()
+        mergeCategory(InventoryCategory category)~
+        addItem()
+}
+
+class InventorySubCategory{
+        List <Item> Items
+        Item seeDetailsItem (itemId)
+}
+abstract Item{
+    Int Stock
+    Category Category
+    List<String> Attributes
+    Int Number
+    String Text
+    String Selection
+    String Tag
+    Int itemNumber
+    
+    displayDetails()
+    viewItemAttributes()
+    viewItemDetails()
+    editItemDetails(String Name, String Type)
+    editItemAttributes(Name)
+    createItem(String Type)
+    RFID generateItemTag()
+    
+}
+
+class UniqueItem{
+    Int quantity
+    String Condition
+    Int Price
+    String Description
+}
+class StockItem{
+   
+}
+class under5Item{
+    String Description
+}
+Inventory "1" *-- "*" InventoryDepartments : "has" 
+InventoryDepartments "1" *-- "*" InventoryCategory : "has" 
+InventoryCategory "1" *-- "*" InventorySubCategory : "has" 
+Inventory "1" *-- "*" Item : "has" 
+InventorySubCategory "1" *-- "*" Item  
+User "1" --> "1" Inventory: "interact" 
+Item <|-- UniqueItem
+Item <|-- StockItem
+Item <|-- under5Item

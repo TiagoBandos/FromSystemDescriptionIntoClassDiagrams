@@ -1,0 +1,123 @@
+@startuml
+    class ProjectManager {
+        - managerId: string
+        - name: string
+        - email: string
+        + createProject(): Project
+        + initiateProject(project: Project): void
+        + terminateProject(project: Project): void
+        + manageProject(project: Project): void
+    }
+    
+    class ProjectManagementSystem {
+        - systemId: string
+        - version: string
+        + registerProject(project: Project): void
+        + trackProgress(): void
+        + generateReports(): void
+    }
+    
+    class Project {
+        - projectId: string
+        - name: string
+        - startDate: date
+        - endDate: date
+        - status: string
+        + initiate(): void
+        + terminate(): void
+        + addRequirement(req: Requirements): void
+        + produceSystem(): System
+    }
+    
+    class Team {
+        - teamId: string
+        - teamName: string
+        - size: integer
+        + assignToProject(project: Project): void
+        + executeProject(): void
+    }
+    
+    abstract class WorkProduct {
+        - workProductId: string
+        - description: string
+        - percentComplete: real
+        - creationDate: date
+        - lastUpdated: date
+        + create(): void
+        + update(): void
+        + elaborate(): void
+        {abstract} validate(): boolean
+        + getPercentComplete(): real
+    }
+    
+    class Requirements {
+        - requirementType: string
+        - priority: string
+        + validateWithUsers(): boolean
+        + publish(media: Media): void
+        + conductWorkshop(workshop: Workshop): void
+    }
+    
+    class System {
+        - systemName: string
+        - version: string
+        - architecture: string
+        + validateAgainstRequirements(reqs: Requirements): boolean
+        + deploy(platform: Platform): void
+        + test(): boolean
+    }
+    
+    class User {
+        - userId: string
+        - name: string
+        - role: string
+        + participateInWorkshop(workshop: Workshop): void
+        + validateRequirements(req: Requirements): boolean
+    }
+    
+    class Workshop {
+        - workshopId: string
+        - date: date
+        - duration: integer
+        - location: string
+        + conductSession(): void
+        + gatherFeedback(): void
+    }
+    
+    class Media {
+        - mediaType: string
+        - format: string
+        + publishContent(content: string): void
+    }
+    
+    class Platform {
+        - platformId: string
+        - platformName: string
+        - environment: string
+        - specifications: string
+        + deploySystem(system: System): void
+        + supportDeployment(): boolean
+    }
+    
+    ' Inheritance relationships
+    WorkProduct <|-- Requirements
+    WorkProduct <|-- System
+    
+    ' Composition and Aggregation relationships
+    ProjectManager "1" *-- "0..*" Project : manages
+    ProjectManager "1" --> "1" Team : leads
+    Project "1" --> "1" ProjectManagementSystem : created_in
+    Project "1" *-- "1..*" Requirements : uses_as_input
+    Project "1" *-- "1" System : produces_as_output
+    
+    ' Association relationships
+    Requirements "0..*" --> "0..*" User : validated_by
+    Requirements "0..*" --> "0..*" Workshop : validated_in
+    User "1..*" --> "0..*" Workshop : participates_in
+    System "1" --> "1..*" Requirements : tested_against
+    Requirements "0..*" --> "0..*" Media : published_using
+    System "0..*" --> "0..*" Platform : deployed_on
+    
+    ' Team execution relationship
+    Team "1" --> "1" Project : executes
+@enduml

@@ -1,0 +1,35 @@
+@startuml
+' --- Diagram 4: Bicycle Rental System ---
+class Client {
+  Nin
+  Tin
+  Name
+  Address
+}
+
+class Reservation {
+  Pickup_Day
+  Return_Day
+}
+
+class Store {
+  Name
+  Address
+}
+
+class Bicycle {
+  Number
+}
+
+class BicycleModel {
+  Name
+  Type
+  No_Gears
+}
+
+Client "1" -- "*" Reservation
+Reservation "*" -- "1" Store
+Reservation "*" -- "1" Bicycle : Actual Rented bike
+Reservation "*" -- "1" BicycleModel : Desired Model
+Bicycle "*" -- "1" BicycleModel
+@enduml

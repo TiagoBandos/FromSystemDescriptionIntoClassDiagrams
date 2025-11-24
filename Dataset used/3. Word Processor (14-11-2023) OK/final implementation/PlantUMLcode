@@ -1,0 +1,175 @@
+@startuml
+
+package Document {
+  class Document {
+    - title: String
+    + createNewDocument(): Boolean
+    + openDocument(path: String): Boolean
+    + saveDocument(path: String): Boolean
+    + printDocument(): Boolean
+  }
+
+  class Page {
+    - pageNumber: Integer
+  }
+
+  class Header {
+    + addDate(date: Date): void
+    + addTime(time: Time): void
+    + addPageNumber(): void
+  }
+
+  class Body {
+    + addSentence(sentence: Sentence): void
+    + insertPicture(picture: Picture): void
+    + insertTable(table: Table): void
+  }
+
+  class Footer {
+    + addDate(date: Date): void
+    + addTime(time: Time): void
+    + addPageNumber(): void
+  }
+
+  class Sentence {
+    + addWord(word: Word): void
+    + addPunctuation(punctuation: Punctuation): void
+  }
+
+  class Word {
+    + addCharacter(character: Character): void
+  }
+
+  class Punctuation {
+    - value: char
+  }
+
+  class Picture {
+    - width: Integer
+    - height: Integer
+  }
+
+  class Table {
+    - rowCount: Integer
+    - columnCount: Integer
+    + addRow(): TableRow
+    + addColumn(): TableColumn
+    + getCell(row: Integer, column: Integer): TableCell
+  }
+
+  class TableRow {
+    - rowIndex: Integer
+  }
+
+  class TableColumn {
+    - columnIndex: Integer
+  }
+
+  class TableCell {
+    - rowIndex: Integer
+    - columnIndex: Integer
+    + addText(text: Text): void
+    + addPicture(picture: Picture): void
+  }
+
+  abstract class Character {
+    - value: char
+    + getValue(): char
+  }
+
+  class Letter extends Character {
+    + isUpperCase(): Boolean
+    + isLowerCase(): Boolean
+  }
+
+  class Digit extends Character {
+    + getNumericValue(): Integer
+  }
+
+  class SpecialCharacter extends Character {
+    + getCategory(): String
+  }
+
+  class Text {
+    - content: String
+    + getText(): String
+    + setText(content: String): void
+  }
+
+  class Image {
+    - path: String
+    - format: String
+    + load(): Boolean
+    + getSize(): Integer
+  }
+
+  class Date {
+    - day: Integer
+    - month: Integer
+    - year: Integer
+    + toString(): String
+  }
+
+  class Time {
+    - hour: Integer
+    - minute: Integer
+    - second: Integer
+    + toString(): String
+  }
+}
+
+class User {
+  - name: String
+  + createNewDocument(): Document
+  + openDocument(path: String): Document
+  + enterText(text: String): void
+  + saveDocument(document: Document, path: String): Boolean
+  + printDocument(document: Document): Boolean
+}
+
+class Keyboard {
+  + captureInput(): String
+}
+
+' Relationships with proper multiplicity and types
+Document "1" o-- "1..*" Page : contains >
+Page "1" *-- "1" Header : has >
+Page "1" *-- "1" Body : has >
+Page "1" *-- "1" Footer : has >
+
+Body "1" o-- "0..*" Sentence : contains >
+Body "1" o-- "0..*" Picture : may contain >
+Body "1" o-- "0..*" Table : may contain >
+
+Sentence "1" o-- "1..*" Word : contains >
+Sentence "1" o-- "0..*" Punctuation : contains >
+
+Word "1" o-- "1..*" Character : composed of >
+
+Table "1" *-- "1..*" TableRow : has >
+Table "1" *-- "1..*" TableColumn : has >
+Table "1" *-- "1..*" TableCell : contains >
+
+' Grid structure of table
+TableRow "1" -- "1..*" TableCell : contains >
+TableColumn "1" -- "1..*" TableCell : contains >
+TableCell "1" -- "1" TableRow : belongs to >
+TableCell "1" -- "1" TableColumn : belongs to >
+
+TableCell "1" o-- "0..1" Text : may contain >
+TableCell "1" o-- "0..1" Picture : may contain >
+
+Picture "1" -- "1" Image : displays >
+
+Header "1" o-- "0..1" Date : may display >
+Header "1" o-- "0..1" Time : may display >
+Footer "1" o-- "0..1" Date : may display >
+Footer "1" o-- "0..1" Time : may display >
+
+User "1" -- "0..*" Document : opens/saves/prints >
+User "1" -- "1" Keyboard : uses >
+Keyboard "1" -- "1" Document : inputs text to >
+
+Punctuation "1" -- "1" Character : is a >
+
+@enduml

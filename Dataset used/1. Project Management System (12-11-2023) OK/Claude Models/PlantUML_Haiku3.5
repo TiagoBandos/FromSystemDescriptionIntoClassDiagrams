@@ -1,0 +1,46 @@
+@startuml
+
+abstract class WorkProduct {
+  + description: String
+  + percentComplete: Float
+  + validate()
+}
+
+class Requirements {
+  + validateWithUsers()
+  + publish(media: Media)
+}
+
+class System {
+  + testAgainstRequirements()
+  + deploy(platform: Platform)
+}
+
+class Project {
+  + startDate: Date
+  + endDate: Date
+  + initiate()
+  + terminate()
+}
+
+class ProjectManager {
+  + leadTeam()
+  + manageProject()
+}
+
+class Team
+
+class Media
+
+class Platform
+
+Requirements --|> WorkProduct
+System --|> WorkProduct
+
+Project "1" *-- "1..*" Requirements : uses
+Project "1" *-- "1" System : produces
+ProjectManager "1" --> "1" Team : leads
+Requirements --> Media : published via
+System --> Platform : deployed on
+
+@enduml

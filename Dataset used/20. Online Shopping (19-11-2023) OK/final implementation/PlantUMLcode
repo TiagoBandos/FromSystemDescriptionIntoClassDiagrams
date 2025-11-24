@@ -1,0 +1,126 @@
+@startuml
+
+package "Customer Management" {
+  class Customer {
+    - id: String
+    + getId(): String
+    + setId(id: String): void
+  }
+
+  class WebUser {
+    - loginName: String
+    - status: WebUserStatus
+    + getLoginName(): String
+    + setLoginName(loginName: String): void
+    + getStatus(): WebUserStatus
+    + setStatus(status: WebUserStatus): void
+    + login(): boolean
+    + logout(): void
+  }
+
+  enum WebUserStatus {
+    NEW
+    ACTIVE
+    TEMP_BLOCKED
+    BANNED
+  }
+
+  class Account {
+    - id: String
+    + getId(): String
+    + setId(id: String): void
+    + addOrder(order: Order): void
+    + getOrders(): SortedSet<Order>
+  }
+
+  class ShoppingCart {
+    - id: String
+    + getId(): String
+    + setId(id: String): void
+    + addLineItem(item: LineItem): void
+    + removeLineItem(item: LineItem): void
+    + getTotal(): double
+    + checkout(): Order
+  }
+
+  class LineItem {
+    - id: String
+    - quantity: int
+    + getId(): String
+    + setId(id: String): void
+    + getQuantity(): int
+    + setQuantity(quantity: int): void
+    + getSubtotal(): double
+  }
+}
+
+package "Order Management" {
+  class Order {
+    - id: String
+    - status: OrderStatus
+    + getId(): String
+    + setId(id: String): void
+    + getStatus(): OrderStatus
+    + setStatus(status: OrderStatus): void
+    + addLineItem(item: LineItem): void
+    + removeLineItem(item: LineItem): void
+    + addPayment(payment: Payment): void
+    + getPayments(): List<Payment>
+    + getTotal(): double
+  }
+
+  enum OrderStatus {
+    PENDING
+    PROCESSING
+    SHIPPED
+    DELIVERED
+    CANCELLED
+  }
+
+  class Payment {
+    - id: String
+    - amount: double
+    - date: Date
+    + getId(): String
+    + setId(id: String): void
+    + getAmount(): double
+    + setAmount(amount: double): void
+    + processPayment(): boolean
+  }
+}
+
+package "Product Catalog" {
+  class Product {
+    - id: String
+    - name: String
+    - description: String
+    - price: double
+    + getId(): String
+    + setId(id: String): void
+    + getName(): String
+    + setName(name: String): void
+    + getDescription(): String
+    + setDescription(description: String): void
+    + getPrice(): double
+    + setPrice(price: double): void
+  }
+}
+
+note "Customer orders are sorted and unique" as OrderNote
+OrderNote .. Account
+
+note "WebUser is associated with the same ShoppingCart as their Account" as ShoppingCartNote
+ShoppingCartNote .. WebUser
+
+Customer "1" -- "1" Account
+Customer "1" -- "0..1" WebUser
+Account "1" o-- "1" ShoppingCart
+Account "1" o-- "*" Order
+Account "1" -- "*" Payment
+Order "1" -- "0..*" Payment
+WebUser "1" -- "1" ShoppingCart
+Order "1" o-- "*" LineItem
+ShoppingCart "1" o-- "*" LineItem
+LineItem "*" -- "1" Product
+
+@enduml

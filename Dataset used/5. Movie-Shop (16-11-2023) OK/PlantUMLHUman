@@ -1,0 +1,56 @@
+@startuml
+
+class User {
+    -firstname:String
+    -lastname:String
+}
+
+class Subscriber {
+    -telephone:String
+    -address:String
+}
+
+class Card {
+    -credit:float
+    -code:int
+}
+
+class MovieShop {
+    +listMovies()
+    +order()
+    +subscribe()
+}
+
+class Order {
+    -date:date
+    -user:User
+}
+
+class Movie {
+    -name:String
+}
+
+class MovieRent {
+    -state{in,out}:boolean
+    -date:date
+    -rentingprice:float
+}
+
+class MovieBuy {
+    -state{present, to order}:boolean
+    -sellingprice:float
+}
+
+User <|-- Subscriber
+User "1" -- "1..*" MovieBuy
+User "0..*" -- "1*" MovieShop 
+Subscriber "1" -- "1" Card : has
+Subscriber "0..*" -- "1..*" MovieRent : hire
+MovieShop "1" -- "0..*" Order : make
+MovieShop "1" o-- "0..*" Movie 
+MoviShop "1" o-- "0..*" Card : make
+Movie  <|-- MovieRent
+Movie  <|-- MovieBuy
+Order "0..*" -- "1..*" MovieBuy : related to
+
+@enduml

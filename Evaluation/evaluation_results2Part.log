@@ -1,0 +1,2298 @@
+2025-08-23 22:45:41 INFO: Starting evaluation of test cases...
+2025-08-23 22:45:41 INFO: Evaluating test case #1
+2025-08-23 22:45:41 INFO: Syntactic evaluation data: {
+  "overall_score": 0.58,
+  "errors": [
+    {
+      "type": "syntax_error",
+      "line": 11,
+      "message": "Invalid relationship syntax: '--'",
+      "severity": "critical"
+    },
+    {
+      "type": "syntax_error",
+      "line": 21,
+      "message": "Invalid relationship syntax: '--'",
+      "severity": "critical"
+    },
+    {
+      "type": "syntax_error",
+      "line": 32,
+      "message": "Invalid relationship syntax: '--'",
+      "severity": "critical"
+    },
+    {
+      "type": "syntax_error",
+      "line": 45,
+      "message": "Invalid relationship syntax: '--'",
+      "severity": "critical"
+    },
+    {
+      "type": "syntax_error",
+      "line": 61,
+      "message": "Invalid relationship syntax: '--'",
+      "severity": "critical"
+    }
+  ],
+  "warnings": [
+    {
+      "type": "naming_convention",
+      "line": 67,
+      "message": "Association label 'is assigned to >' should be a verb phrase starting lowercase",
+      "severity": "minor"
+    },
+    {
+      "type": "naming_convention",
+      "line": 68,
+      "message": "Association label 'sends >' should be a verb phrase starting lowercase",
+      "severity": "minor"
+    },
+    {
+      "type": "naming_convention",
+      "line": 69,
+      "message": "Association label 'receives <' should be a verb phrase starting lowercase",
+      "severity": "minor"
+    },
+    {
+      "type": "naming_convention",
+      "line": 70,
+      "message": "Association label 'can choose >' should be a verb phrase starting lowercase",
+      "severity": "minor"
+    },
+    {
+      "type": "naming_convention",
+      "line": 73,
+      "message": "Association label 'employs >' should be a verb phrase starting lowercase",
+      "severity": "minor"
+    },
+    {
+      "type": "naming_convention",
+      "line": 74,
+      "message": "Association label 'processes >' should be a verb phrase starting lowercase",
+      "severity": "minor"
+    },
+    {
+      "type": "naming_convention",
+      "line": 75,
+      "message": "Association label 'uses >' should be a verb phrase starting lowercase",
+      "severity": "minor"
+    },
+    {
+      "type": "naming_convention",
+      "line": 78,
+      "message": "Association label 'is assigned to >' should be a verb phrase starting lowercase",
+      "severity": "minor"
+    },
+    {
+      "type": "naming_convention",
+      "line": 79,
+      "message": "Association label 'originates from >' should be a verb phrase starting lowercase",
+      "severity": "minor"
+    },
+    {
+      "type": "naming_convention",
+      "line": 80,
+      "message": "Association label 'is delivered to >' should be a verb phrase starting lowercase",
+      "severity": "minor"
+    },
+    {
+      "type": "invalid_reference",
+      "line": 81,
+      "message": "Relationship refers to undeclared class(es): Package, PackageStatus",
+      "severity": "minor"
+    },
+    {
+      "type": "naming_convention",
+      "line": 81,
+      "message": "Association label 'has >' should be a verb phrase starting lowercase",
+      "severity": "minor"
+    }
+  ],
+  "suggestions": [
+    "Use PascalCase for class names and lowercase verb phrases for relationship labels.",
+    "Ensure all relationship operators and endpoints follow UML syntax.",
+    "Add multiplicity to associations and verify class references are valid."
+  ],
+  "compliance_metrics": {
+    "structure_compliance": 1.0,
+    "relationship_syntax": 0.0,
+    "naming_conventions": 0.45,
+    "uml_standards": 0.9
+  }
+}
+2025-08-23 22:47:28 INFO: HTTP Request: POST http://127.0.0.1:11434/api/generate "HTTP/1.1 200 OK"
+2025-08-23 22:48:07 INFO: Semantic Raw response:
+```json
+{
+  "validity_score": 0.8,
+  "completeness_score": 0.7,
+  "issues": [
+    "The Customer class has a 'username' and 'password' attribute, which is unusual for a domain like delivery management. This may indicate an incorrect representation of the domain concepts.",
+    "The DeliveryCenter class has a relationship with InternalRoutingSystem but there's no explanation on how this system interacts with other classes.",
+    "There are multiple relationships between Customer and Package (sends, receives), which could be represented as separate associations or aggregation",
+    "Operation 'trackPackageLocation' in InternalRoutingSystem can't be implemented using the current attributes/relationships"
+  ],
+  "recommendations": [
+    "Consider refactoring the Customer class to exclude 'username' and 'password' attributes.",
+    "Add more details about how InternalRoutingSystem interacts with other classes to provide a clearer picture of the domain.",
+    "Simplify relationships between Customer and Package by introducing separate associations or aggregation.",
+    "Revisit operation 'trackPackageLocation' in InternalRoutingSystem to ensure it aligns with the provided attributes and relationships."
+  ]
+}
+```
+
+2025-08-23 22:49:30 INFO: HTTP Request: POST http://127.0.0.1:11434/api/generate "HTTP/1.1 200 OK"
+2025-08-23 22:50:12 INFO: Pragmatic Raw response:
+```json
+{
+  "score": 0.7,
+  "issues": [
+    "The class 'Customer' has too many attributes (6), which can make the class harder to understand and maintain.",
+    "The classes 'DeliveryCenter', 'Courier', and 'Package' have similar attribute names, such as 'name' and 'address'. Consider using more descriptive names or using a consistent naming convention.",
+    "The relationships between classes are not always clear. For example, the relationship between 'Customer' and 'DeliveryCenter' is shown as 'is assigned to', but it's not entirely clear what this means.",
+    "There are multiple inheritance chains (e.g., from 'Person' to 'Customer'), which can make the class hierarchy complex."
+  ],
+  "recommendations": [
+    "Consider splitting large classes like 'Customer' into smaller ones, each responsible for a specific aspect of customer data.",
+    "Use more descriptive attribute names to improve clarity and avoid confusion between similar attributes in different classes.",
+    "Add more context or descriptions to the relationships between classes to make their meanings clearer.",
+    "Use UML's inheritance mechanism more judiciously. In this case, consider using composition instead of inheritance for some of these relationships."
+  ]
+}
+```
+
+2025-08-23 22:51:59 INFO: HTTP Request: POST http://127.0.0.1:11434/api/generate "HTTP/1.1 200 OK"
+2025-08-23 22:52:33 INFO: LLM judge Raw response:
+```json
+{
+  "uml_completeness_score": 0.8,
+  "uml_quality_score": 0.9,
+  "requirement_coverage_score": 0.7,
+  "pragmatic_clarity_score": 0.6,
+  "overall_score": 0.8,
+  "issues": [
+    "Missing association between Customer and InternalRoutingSystem",
+    "Naming inconsistency (e.g., 'vatNumber' vs 'VAT')",
+    "Redundant attributes in classes (e.g., multiple instances of phone number)",
+    "Inconsistent use of plurals/singulars for relationships (e.g., '1..*' vs '*')"
+  ],
+  "recommendations": [
+    "Introduce a new class 'Person' to encapsulate common attributes",
+    "Remove redundant attributes and ensure consistent naming conventions",
+    "Re-evaluate the relationship between Customer and InternalRoutingSystem",
+    "Use a more consistent notation for relationships (e.g., avoid '*')"
+  ]
+}
+```
+
+2025-08-23 22:52:33 INFO: Using default tokenizer.
+2025-08-23 22:52:33 INFO: Scores for test case #1
+2025-08-23 22:52:33 INFO: Score for Class Diagram Metric: 0.748
+2025-08-23 22:52:33 INFO: Score for Rouge Metric: 0.310
+2025-08-23 22:52:33 INFO: Evaluating test case #2
+2025-08-23 22:52:33 INFO: Syntactic evaluation data: {
+  "overall_score": 1.0,
+  "errors": [],
+  "warnings": [],
+  "suggestions": [],
+  "compliance_metrics": {
+    "structure_compliance": 1.0,
+    "relationship_syntax": 1.0,
+    "naming_conventions": 1.0,
+    "uml_standards": 1.0
+  }
+}
+2025-08-23 22:53:39 INFO: HTTP Request: POST http://127.0.0.1:11434/api/generate "HTTP/1.1 200 OK"
+2025-08-23 22:54:08 INFO: Semantic Raw response:
+```json
+{
+  "validity_score": 0.8,
+  "completeness_score": 0.6,
+  "issues": [
+    "Incorrect cardinality or multiplicity specifications in the relationships between Customer and DeliveryCenter, as well as between Package and Courier.",
+    "Attributes 'phone' and 'name' placed in the wrong classes; they should be in Person instead of Customer and Courier respectively.",
+    "Operations 'enterweight()' and 'selectdelivery()' cannot be implemented using the current attributes/relationships."
+  ],
+  "recommendations": [
+    "Review and adjust cardinality or multiplicity specifications in relationships to ensure accuracy.",
+    "Move 'phone' and 'name' attributes to Person class.",
+    "Refactor operations to align with available data and attributes.",
+    "Consider adding attributes for tracking delivery status and package weight."
+  ]
+}
+```
+
+2025-08-23 22:54:54 INFO: HTTP Request: POST http://127.0.0.1:11434/api/generate "HTTP/1.1 200 OK"
+2025-08-23 22:55:29 INFO: Pragmatic Raw response:
+```json
+{
+  "score": 0.7,
+  "issues": [
+    "The 'Customer' class has a strong coupling with the 'DeliveryCenter', as it has multiple relationships with it.",
+    "The 'Package' class also has a tight relationship with both 'DeliveryCenter' and 'Courier'.",
+    "The attributes in each class are not grouped into logical sections, making it harder to understand their purpose.",
+    "There's no clear distinction between the classes that should have unique identifiers (e.g., 'id') and those that shouldn't."
+  ],
+  "recommendations": [
+    "Consider creating a separate 'Address' class for reusability and to avoid redundant attributes across multiple classes.",
+    "Introduce more general terms or interfaces, e.g., 'Vehicle', to encapsulate the common characteristics of both Courier and DeliveryCenter.",
+    "Group related attributes together using comments or notes in PlantUML to enhance readability.",
+    "Use a mix of single and double arrows for relationships to improve visual distinction between different types of associations."
+  ]
+}
+```
+
+2025-08-23 22:56:38 INFO: HTTP Request: POST http://127.0.0.1:11434/api/generate "HTTP/1.1 200 OK"
+2025-08-23 22:58:03 INFO: LLM judge Raw response:
+```json
+{
+  "uml_completeness_score": 0.75,
+  "uml_quality_score": 0.8,
+  "requirement_coverage_score": 0.9,
+  "pragmatic_clarity_score": 0.6,
+  "overall_score": 0.78,
+  "issues": [
+    "Missing DateTimeRecord association with DeliveryCenter",
+    "Inconsistent naming conventions (e.g., 'Vat' vs 'VAT', 'urgent:Boolean' vs 'Urgency')",
+    "No associations between Customer and Package"
+  ],
+  "recommendations": [
+    "Add a relationship between DateTimeRecord and DeliveryCenter to capture delivery times",
+    "Use consistent naming conventions throughout the diagram (e.g., capitalize class names, use camelCase for attribute names)",
+    "Establish a clear association between Customer and Package to reflect the sender-recipient relationship"
+  ]
+}
+```
+
+Here's an explanation of each score:
+
+1. **UML Completeness Score**: 0.75
+   The generated class diagram has all relevant elements (classes, attributes, methods, relationships) but is missing some crucial associations (e.g., between Customer and Package, DateTimeRecord and DeliveryCenter).
+
+2. **UML Quality Score**: 0.8
+   The design principles are mostly respected; however, there are inconsistencies in naming conventions.
+
+3. **Requirement Coverage Score**: 0.9
+   While the generated class diagram covers most system requirements, it misses some details regarding associations between entities (e.g., Customer-Package relationship).
+
+4. **Pragmatic Clarity Score**: 0.6
+   The diagram is somewhat understandable but could be improved by using consistent naming conventions and adding more descriptive labels to relationships.
+
+5. **Overall Score**: 0.78
+   This score reflects a balanced evaluation of the generated class diagram's strengths and weaknesses across the assessed dimensions.
+
+**Issues:**
+
+1.  Missing associations between entities (e.g., Customer-Package, DateTimeRecord-DeliveryCenter).
+2.  Inconsistent naming conventions (e.g., 'Vat' vs 'VAT', 'urgent:Boolean' vs 'Urgency').
+3.  Weak abstraction due to the presence of simple classes (e.g., Courier) with few attributes.
+
+**Recommendations:**
+
+1.  Add relationships between missing entities (Customer-Package, DateTimeRecord-DeliveryCenter).
+2.  Standardize naming conventions throughout the diagram.
+3.  Introduce clear associations between Customer and Package to reflect their roles in the delivery system.
+
+2025-08-23 22:58:03 INFO: Using default tokenizer.
+2025-08-23 22:58:03 INFO: Scores for test case #2
+2025-08-23 22:58:03 INFO: Score for Class Diagram Metric: 0.826
+2025-08-23 22:58:03 INFO: Score for Rouge Metric: 0.562
+2025-08-23 22:58:03 INFO: Evaluating test case #3
+2025-08-23 22:58:03 INFO: Syntactic evaluation data: {
+  "overall_score": 0.94,
+  "errors": [],
+  "warnings": [
+    {
+      "type": "naming_convention",
+      "line": 83,
+      "message": "Association label 'contains >' should be a verb phrase starting lowercase",
+      "severity": "minor"
+    },
+    {
+      "type": "naming_convention",
+      "line": 85,
+      "message": "Association label 'has >' should be a verb phrase starting lowercase",
+      "severity": "minor"
+    },
+    {
+      "type": "naming_convention",
+      "line": 86,
+      "message": "Association label 'used in >' should be a verb phrase starting lowercase",
+      "severity": "minor"
+    },
+    {
+      "type": "naming_convention",
+      "line": 88,
+      "message": "Association label 'places >' should be a verb phrase starting lowercase",
+      "severity": "minor"
+    },
+    {
+      "type": "naming_convention",
+      "line": 90,
+      "message": "Association label 'contains >' should be a verb phrase starting lowercase",
+      "severity": "minor"
+    },
+    {
+      "type": "naming_convention",
+      "line": 91,
+      "message": "Association label 'references >' should be a verb phrase starting lowercase",
+      "severity": "minor"
+    }
+  ],
+  "suggestions": [
+    "Use PascalCase for class names and lowercase verb phrases for relationship labels."
+  ],
+  "compliance_metrics": {
+    "structure_compliance": 1.0,
+    "relationship_syntax": 1.0,
+    "naming_conventions": 0.7,
+    "uml_standards": 1.0
+  }
+}
+2025-08-23 22:59:58 INFO: HTTP Request: POST http://127.0.0.1:11434/api/generate "HTTP/1.1 200 OK"
+2025-08-23 23:01:13 INFO: Semantic Raw response:
+```json
+{
+  "validity_score": 0.8,
+  "completeness_score": 0.9,
+  "issues": [
+    "Incorrect cardinality on the relationship between FurnitureType and FurnitureComposition",
+    "Attributes 'code' in FurnitureComponent should be a String, not an int"
+  ],
+  "recommendations": [
+    "Review aggregation relationships to ensure they accurately represent the domain concepts.",
+    "Consider using a more detailed attribute data type for code in FurnitureComponent."
+  ]
+}
+```
+
+This evaluation assesses the provided PlantUML class diagram against common semantic errors and provides feedback on its accuracy and completeness within the intended domain.
+
+1. **Validity**: The diagram generally represents the domain concepts accurately, with clear associations between classes and operations that reflect real-world behaviors of furniture manufacturing, sales, and inventory management. However, there are a couple of specific issues:
+
+    - The relationship between `FurnitureType` and `FurnitureComposition` has an aggregation where a simple association might be more accurate or appropriate depending on the exact domain model.  
+    - Attributes placed in classes should reflect the most granular level of detail necessary for the operation of the system; using `int` for what could be a string identifier ('code' in `FurnitureComponent`) suggests this might not be ideal.
+    
+2. **Completeness**: The diagram covers many aspects of furniture manufacturing, sales, and inventory management comprehensively but may miss some nuances depending on the specific requirements of the domain:
+
+    - The completeness score is high because it captures key entities like `FurnitureLine`, `Store`, `Order`, and relationships between them accurately.
+    - However, a more detailed model might include additional operations or attributes for items not explicitly mentioned in this review, such as warranties or maintenance schedules.
+    
+3. **Recommendations**:  
+    - Review the aggregation relationships to ensure they reflect the true nature of the associations in the domain. In some cases, using simple association or dependency arrows might be more appropriate than aggregation.
+    - Consider refining attribute data types to better align with their purpose and usage within the system. For example, a 'code' field might typically hold string identifiers rather than integers.
+
+2025-08-23 23:02:50 INFO: HTTP Request: POST http://127.0.0.1:11434/api/generate "HTTP/1.1 200 OK"
+2025-08-23 23:03:23 INFO: Pragmatic Raw response:
+```json
+{
+  "score": 0.8,
+  "issues": [
+    "The class 'FurnitureType' has too many attributes (3) which may make it hard to understand and maintain.",
+    "The association between 'Store' and 'Order' could be clarified by specifying the multiplicity on both ends, e.g., '1..*' instead of just '*'.",
+    "Some attribute names in 'FurnitureType', 'FurnitureComponent', and 'OrderedFurniture' could be more descriptive, e.g., 'itemDescription' instead of 'type'."
+  ],
+  "recommendations": [
+    "Consider using a separate class for the manufacturing price to avoid coupling it with the component's code.",
+    "The 'calculateTotalCost' method in 'FurnitureType' seems redundant and could be removed if not used elsewhere.",
+    "Use consistent naming conventions throughout the diagram, e.g., camelCase instead of underscore notation."
+  ]
+}
+```
+
+2025-08-23 23:05:26 INFO: HTTP Request: POST http://127.0.0.1:11434/api/generate "HTTP/1.1 200 OK"
+2025-08-23 23:06:04 INFO: LLM judge Raw response:
+```json
+{
+  "uml_completeness_score": 0.9,
+  "uml_quality_score": 0.8,
+  "requirement_coverage_score": 0.7,
+  "pragmatic_clarity_score": 0.6,
+  "overall_score": 0.75,
+  "issues": [
+    "FurnitureComposition class seems too specialized and might be better handled as an association between FurnitureType and Component",
+    "No clear distinction between 'code' and 'referenceNumber' in FurnitureComponent",
+    "Methods like calculateTotalCost() and calculateSubtotal() seem more relevant to a Store or Order object rather than a single FurnitureType"
+  ],
+  "recommendations": [
+    "Consider merging the functionality of FurnitureComposition into an association class between FurnitureType and Component, if possible",
+    "Review naming conventions for attributes in classes like FurnitureComponent and OrderedFurniture to ensure consistency",
+    "Extract methods that perform calculations on totals or subtotals from individual objects (e.g., FurnitureType) to higher-level objects (e.g., Store, Order)"
+  ]
+}
+```
+
+2025-08-23 23:06:04 INFO: Using default tokenizer.
+2025-08-23 23:06:04 INFO: Scores for test case #3
+2025-08-23 23:06:04 INFO: Score for Class Diagram Metric: 0.888
+2025-08-23 23:06:04 INFO: Score for Rouge Metric: 0.257
+2025-08-23 23:06:04 INFO: Evaluating test case #4
+2025-08-23 23:06:04 INFO: Syntactic evaluation data: {
+  "overall_score": 1.0,
+  "errors": [],
+  "warnings": [],
+  "suggestions": [],
+  "compliance_metrics": {
+    "structure_compliance": 1.0,
+    "relationship_syntax": 1.0,
+    "naming_conventions": 1.0,
+    "uml_standards": 1.0
+  }
+}
+2025-08-23 23:07:05 INFO: HTTP Request: POST http://127.0.0.1:11434/api/generate "HTTP/1.1 200 OK"
+2025-08-23 23:07:38 INFO: Semantic Raw response:
+```json
+{
+  "validity_score": 0.8,
+  "completeness_score": 0.7,
+  "issues": [
+    "The 'FurnitureLine' class has a relationship with 'PieceOfFurniture', but it's unclear what this relationship represents in the domain.",
+    "The 'Order' class has a relationship with 'Quantity', which is not defined anywhere in the diagram.",
+    "The cardinality of the relationship between 'Store' and 'Order' seems incorrect; typically, a store can have multiple orders, so '0..*' on both sides might be more accurate."
+  ],
+  "recommendations": [
+    "Consider adding a description to the relationship between 'FurnitureLine' and 'PieceOfFurniture'.",
+    "Define or add a class for 'Quantity' if it's a relevant concept in your domain.",
+    "Review the cardinalities of relationships; they should accurately reflect the constraints on associations within the domain."
+  ]
+}
+```
+
+2025-08-23 23:08:22 INFO: HTTP Request: POST http://127.0.0.1:11434/api/generate "HTTP/1.1 200 OK"
+2025-08-23 23:08:46 INFO: Pragmatic Raw response:
+```json
+{
+  "score": 0.75,
+  "issues": [
+    "The class 'Store' has redundant attributes: address and Fax are not used anywhere in the diagram.",
+    "The classes 'FurnitureLine', 'ComponentType', and 'Quantity' have unclear responsibilities.",
+    "The relationships between classes are not consistently labeled with both '1' and '..*' cardinality."
+  ],
+  "recommendations": [
+    "Consider removing redundant attributes from class 'Store'.",
+    "Clarify the responsibilities of classes 'FurnitureLine', 'ComponentType', and 'Quantity'.",
+    "Use consistent labeling for relationships between classes.",
+    "Consider reordering or grouping classes to improve diagram flow."
+  ]
+}
+```
+
+2025-08-23 23:09:54 INFO: HTTP Request: POST http://127.0.0.1:11434/api/generate "HTTP/1.1 200 OK"
+2025-08-23 23:10:26 INFO: LLM judge Raw response:
+```json
+{
+  "uml_completeness_score": 0.8,
+  "uml_quality_score": 0.9,
+  "requirement_coverage_score": 0.7,
+  "pragmatic_clarity_score": 0.6,
+  "overall_score": 0.76,
+  "issues": [
+    "Missing association between FurnitureLine and Component",
+    "Naming inconsistency: 'FurnitureLine' vs 'PieceOfFurniture'",
+    "Weak abstraction: too many attributes in the 'Store' class"
+  ],
+  "recommendations": [
+    "Add an association between FurnitureLine and Component to reflect their relationship.",
+    "Consolidate or refactor classes and associations for better cohesion and clarity",
+    "Use more specific and consistent naming conventions, e.g., use 'item_type' instead of 'numericalcode'",
+    "Reduce attribute count in the 'Store' class by introducing separate entities or using composition"
+  ]
+}
+```
+
+2025-08-23 23:10:26 INFO: Using default tokenizer.
+2025-08-23 23:10:26 INFO: Scores for test case #4
+2025-08-23 23:10:26 INFO: Score for Class Diagram Metric: 0.852
+2025-08-23 23:10:26 INFO: Score for Rouge Metric: 0.566
+2025-08-23 23:10:26 INFO: Evaluating test case #5
+2025-08-23 23:10:26 INFO: Syntactic evaluation data: {
+  "overall_score": 0.91,
+  "errors": [],
+  "warnings": [
+    {
+      "type": "naming_convention",
+      "line": 91,
+      "message": "Association label 'has >' should be a verb phrase starting lowercase",
+      "severity": "minor"
+    },
+    {
+      "type": "naming_convention",
+      "line": 92,
+      "message": "Association label 'operates >' should be a verb phrase starting lowercase",
+      "severity": "minor"
+    },
+    {
+      "type": "naming_convention",
+      "line": 93,
+      "message": "Association label 'has >' should be a verb phrase starting lowercase",
+      "severity": "minor"
+    },
+    {
+      "type": "naming_convention",
+      "line": 94,
+      "message": "Association label 'produced by >' should be a verb phrase starting lowercase",
+      "severity": "minor"
+    },
+    {
+      "type": "naming_convention",
+      "line": 95,
+      "message": "Association label 'is of type >' should be a verb phrase starting lowercase",
+      "severity": "minor"
+    },
+    {
+      "type": "naming_convention",
+      "line": 96,
+      "message": "Association label 'contains >' should be a verb phrase starting lowercase",
+      "severity": "minor"
+    },
+    {
+      "type": "naming_convention",
+      "line": 97,
+      "message": "Association label 'placed by <' should be a verb phrase starting lowercase",
+      "severity": "minor"
+    },
+    {
+      "type": "naming_convention",
+      "line": 98,
+      "message": "Association label 'refers to >' should be a verb phrase starting lowercase",
+      "severity": "minor"
+    },
+    {
+      "type": "naming_convention",
+      "line": 99,
+      "message": "Association label 'places >' should be a verb phrase starting lowercase",
+      "severity": "minor"
+    }
+  ],
+  "suggestions": [
+    "Use PascalCase for class names and lowercase verb phrases for relationship labels."
+  ],
+  "compliance_metrics": {
+    "structure_compliance": 1.0,
+    "relationship_syntax": 1.0,
+    "naming_conventions": 0.55,
+    "uml_standards": 1.0
+  }
+}
+2025-08-23 23:12:17 INFO: HTTP Request: POST http://127.0.0.1:11434/api/generate "HTTP/1.1 200 OK"
+2025-08-23 23:13:29 INFO: Semantic Raw response:
+```json
+{
+  "validity_score": 0.9,
+  "completeness_score": 0.8,
+  "issues": [
+    "Incorrect cardinality specification in the relationship between Factory and Machine",
+    "Attributes 'skills' and 'machines' are placed in the wrong classes (Worker and Client respectively)",
+    "Operation 'calculateTotal()' cannot be implemented using the current attributes/relationships in class PurchaseOrder"
+  ],
+  "recommendations": [
+    "Review cardinality specifications for all relationships",
+    "Reassign attributes 'skills' and 'machines' to their respective classes",
+    "Modify operation 'calculateTotal()' to use available data or add necessary attributes/relationships"
+  ]
+}
+```
+
+The provided PlantUML diagram accurately represents the domain concepts with a high degree of validity (0.9). However, upon closer inspection, several issues are found:
+
+1.  Incorrect cardinality specification: The relationship between Factory and Machine has an incorrect multiplicity specification, where '1' should be replaced with '*'. This implies that one factory can have multiple machines.
+2.  Attributes placement: Attributes 'skills' and 'machines' are placed in the wrong classes (Worker and Client respectively). These attributes should be reassigned to their correct classes (Machine).
+3.  Operation implementation: The operation 'calculateTotal()' in class PurchaseOrder cannot be implemented using the current attributes/relationships. This suggests that either additional attributes or relationships need to be added, or the operation must be modified to use existing data.
+
+The completeness score is lower at 0.8 due to some necessary elements and relationships being missing:
+
+1.  Missing classes: No 'Person' class exists in the original diagram; however, it appears in the benchmark diagram as a parent class for Client and Worker.
+2.  Missing attributes: Attributes like 'PHONE', 'CONTACT_PERSON', and 'NUMBER' are not present in the original diagram but can be inferred from the benchmark diagram.
+
+Based on these findings, the recommendations suggest reviewing cardinality specifications, reassigning misplaced attributes, and modifying or adding necessary operations to ensure accurate representation of domain concepts.
+
+2025-08-23 23:15:03 INFO: HTTP Request: POST http://127.0.0.1:11434/api/generate "HTTP/1.1 200 OK"
+2025-08-23 23:15:30 INFO: Pragmatic Raw response:
+```json
+{
+  "score": 0.85,
+  "issues": [
+    "The class diagram is quite complex and might be overwhelming for stakeholders who are not familiar with the system.",
+    "Some of the attribute names could be more descriptive, such as 'purchaseDate' instead of just 'date'.",
+    "There is no clear distinction between the classes representing entities (e.g., Client) and those representing relationships or behaviors (e.g., PurchaseOrder)."
+  ],
+  "recommendations": [
+    "Consider using a more hierarchical organization for the class diagram, grouping related classes together.",
+    "Use more descriptive attribute names throughout the diagram.",
+    "Clearly distinguish between entity, relationship, and behavior classes by using consistent naming conventions and layout."
+  ]
+}
+```
+
+2025-08-23 23:17:35 INFO: HTTP Request: POST http://127.0.0.1:11434/api/generate "HTTP/1.1 200 OK"
+2025-08-23 23:18:21 INFO: LLM judge Raw response:
+```json
+{
+  "uml_completeness_score": 0.9,
+  "uml_quality_score": 0.8,
+  "requirement_coverage_score": 0.7,
+  "pragmatic_clarity_score": 0.85,
+  "overall_score": 0.82,
+  "issues": [
+    "Missing associations between Product and Machine in the original diagram",
+    "Naming inconsistency: 'addMachine' vs 'assignWorker' in Factory class",
+    "Weak abstraction: excessive use of concrete classes (e.g., Client, Worker) instead of more abstract ones (e.g., Person)",
+    "Missing method descriptions (e.g., 'getDescription()' in Skill class)"
+  ],
+  "recommendations": [
+    "Re-examine the system requirements and consider adding missing associations between Product and Machine",
+    "Refactor the Factory class to use more descriptive method names (e.g., 'assignMachine' instead of 'addMachine')",
+    "Consider introducing more abstract classes for entities like Client, Worker, etc. to improve modularity and reusability",
+    "Add descriptions or comments to methods in the Skill class to provide context about their purpose"
+  ]
+}
+```
+
+2025-08-23 23:18:21 INFO: Using default tokenizer.
+2025-08-23 23:18:21 INFO: Scores for test case #5
+2025-08-23 23:18:21 INFO: Score for Class Diagram Metric: 0.902
+2025-08-23 23:18:21 INFO: Score for Rouge Metric: 0.358
+2025-08-23 23:18:21 INFO: Evaluating test case #6
+2025-08-23 23:18:21 INFO: Syntactic evaluation data: {
+  "overall_score": 1.0,
+  "errors": [],
+  "warnings": [],
+  "suggestions": [],
+  "compliance_metrics": {
+    "structure_compliance": 1.0,
+    "relationship_syntax": 1.0,
+    "naming_conventions": 1.0,
+    "uml_standards": 1.0
+  }
+}
+2025-08-23 23:19:36 INFO: HTTP Request: POST http://127.0.0.1:11434/api/generate "HTTP/1.1 200 OK"
+2025-08-23 23:20:11 INFO: Semantic Raw response:
+```json
+{
+  "validity_score": 0.9,
+  "completeness_score": 0.8,
+  "issues": [
+    "The relationship between Machine and Worker has incorrect cardinality (both '0..*'), it should be '1' as per the benchmark diagram.",
+    "Client's contact_person attribute seems redundant with phone and address attributes, consider removing or redefining it."
+  ],
+  "recommendations": [
+    "Review data types for numeric fields to ensure consistency with the domain model (e.g., purchasedate in Machine should be a Date type).",
+    "Consider adding a relationship between Product and Order that reflects a more realistic one-to-many association (one order can have many products, but it's not explicitly stated here).",
+    "To improve validity, consider renaming attributes to follow standard naming conventions (e.g., birth_date instead of _birth_date) and ensure data types match the domain model."
+  ]
+}
+```
+
+2025-08-23 23:21:10 INFO: HTTP Request: POST http://127.0.0.1:11434/api/generate "HTTP/1.1 200 OK"
+2025-08-23 23:21:46 INFO: Pragmatic Raw response:
+```json
+{
+  "score": 0.7,
+  "issues": [
+    "Class names are not following the standard PascalCase convention (e.g., 'Machine' instead of 'Machine').",
+    "Attribute and class names should be more descriptive (e.g., 'serialnumber' could be 'uniqueIdentifier').",
+    "The relationship between Machine and Worker is unclear, as it's a many-to-many association with no clear semantics.",
+    "The 'Skill' class has only one attribute, which suggests it might not need to be a separate class."
+  ],
+  "recommendations": [
+    "Consider renaming classes and attributes to follow established naming conventions.",
+    "Add more attributes to the 'Skill' class or consider merging it with another class.",
+    "Reconsider the many-to-many association between Machine and Worker, as it may not accurately represent the domain model.",
+    "Use a more descriptive name for the relationship between Client and Order, such as 'placedOrder'."
+  ]
+}
+```
+
+2025-08-23 23:23:08 INFO: HTTP Request: POST http://127.0.0.1:11434/api/generate "HTTP/1.1 200 OK"
+2025-08-23 23:24:33 INFO: LLM judge Raw response:
+```json
+{
+  "uml_completeness_score": 0.8,
+  "uml_quality_score": 0.6,
+  "requirement_coverage_score": 0.7,
+  "pragmatic_clarity_score": 0.9,
+  "overall_score": 0.75,
+  "issues": [
+    "Missing association between Product and Client",
+    "Naming inconsistency (e.g., 'purchasedate' vs 'purchase_date')",
+    "Weak abstraction in the use of general terms like 'Skill' and 'ProductType'"
+  ],
+  "recommendations": [
+    "Add an association between Product and Client to show their relationship",
+    "Consolidate naming conventions throughout the diagram",
+    "Consider using more specific classes instead of general terms to improve clarity and understanding"
+  ]
+}
+```
+
+Let me explain the reasoning behind each score:
+
+1. **UML Completeness Score (0.8)**: The generated class diagram includes all relevant elements, such as classes, attributes, methods, and relationships. However, it is missing some associations that are present in the benchmark diagram.
+2. **UML Quality Score (0.6)**: The names of classes, attributes, and methods follow generally accepted naming conventions, but there are some inconsistencies throughout the diagram (e.g., 'purchasedate' vs 'purchase_date'). Additionally, the use of general terms like 'Skill' and 'ProductType' weakens abstraction.
+3. **Requirement Coverage Score (0.7)**: The generated class diagram covers most of the system requirements described in Use case 11.3 – Client/Product/Machine System (Human). However, it misses some associations between classes that are present in the benchmark diagram.
+4. **Pragmatic Clarity Score (0.9)**: The generated class diagram is generally easy to understand and navigate, but it could benefit from more specific class names instead of general terms like 'Skill' and 'ProductType'.
+5. **Overall Score (0.75)**: This score reflects a balanced view of the strengths and weaknesses identified in the evaluation.
+
+The issues listed are brief descriptions of problems found during the evaluation. The recommendations provide actionable suggestions for improving the diagram, including adding missing associations, consolidating naming conventions, and using more specific classes to improve clarity and understanding.
+
+2025-08-23 23:24:33 INFO: Using default tokenizer.
+2025-08-23 23:24:33 INFO: Scores for test case #6
+2025-08-23 23:24:33 INFO: Score for Class Diagram Metric: 0.888
+2025-08-23 23:24:33 INFO: Score for Rouge Metric: 0.543
+2025-08-23 23:24:33 INFO: Evaluating test case #7
+2025-08-23 23:24:33 INFO: Syntactic evaluation data: {
+  "overall_score": 0.9,
+  "errors": [],
+  "warnings": [
+    {
+      "type": "naming_convention",
+      "line": 81,
+      "message": "Association label 'makes >' should be a verb phrase starting lowercase",
+      "severity": "minor"
+    },
+    {
+      "type": "naming_convention",
+      "line": 82,
+      "message": "Association label 'defines >' should be a verb phrase starting lowercase",
+      "severity": "minor"
+    },
+    {
+      "type": "naming_convention",
+      "line": 83,
+      "message": "Association label 'requests >' should be a verb phrase starting lowercase",
+      "severity": "minor"
+    },
+    {
+      "type": "naming_convention",
+      "line": 84,
+      "message": "Association label 'pickup location >' should be a verb phrase starting lowercase",
+      "severity": "minor"
+    },
+    {
+      "type": "naming_convention",
+      "line": 85,
+      "message": "Association label 'becomes >' should be a verb phrase starting lowercase",
+      "severity": "minor"
+    },
+    {
+      "type": "naming_convention",
+      "line": 86,
+      "message": "Association label 'is assigned to >' should be a verb phrase starting lowercase",
+      "severity": "minor"
+    },
+    {
+      "type": "naming_convention",
+      "line": 87,
+      "message": "Association label 'pickup/return location >' should be a verb phrase starting lowercase",
+      "severity": "minor"
+    },
+    {
+      "type": "invalid_reference",
+      "line": 88,
+      "message": "Relationship refers to undeclared class(es): BikeModel, BikeType",
+      "severity": "minor"
+    },
+    {
+      "type": "missing_cardinality",
+      "line": 88,
+      "message": "Association between BikeModel and BikeType missing multiplicity",
+      "severity": "minor"
+    },
+    {
+      "type": "naming_convention",
+      "line": 88,
+      "message": "Association label 'has >' should be a verb phrase starting lowercase",
+      "severity": "minor"
+    }
+  ],
+  "suggestions": [
+    "Use PascalCase for class names and lowercase verb phrases for relationship labels.",
+    "Add multiplicity to associations and verify class references are valid."
+  ],
+  "compliance_metrics": {
+    "structure_compliance": 1.0,
+    "relationship_syntax": 1.0,
+    "naming_conventions": 0.6,
+    "uml_standards": 0.85
+  }
+}
+2025-08-23 23:26:22 INFO: HTTP Request: POST http://127.0.0.1:11434/api/generate "HTTP/1.1 200 OK"
+2025-08-23 23:26:52 INFO: Semantic Raw response:
+```json
+{
+  "validity_score": 0.8,
+  "completeness_score": 0.7,
+  "issues": [
+    "Incorrect cardinality in Client -- Reservation relationship: makes > should be makes *",
+    "Inconsistent attribute naming convention: NIN vs Nin",
+    "Missing attribute 'phone' in Client class",
+    "Operation 'pickupBike' in Rental class is not correctly implemented with existing data"
+  ],
+  "recommendations": [
+    "Use consistent cardinality and multiplicity specifications throughout the diagram",
+    "Consider renaming attributes to follow a single naming convention (e.g., camelCase)",
+    "Add missing attribute 'phone' to Client class for completeness",
+    "Implement operation 'pickupBike' correctly using existing data"
+  ]
+}
+```
+
+2025-08-23 23:28:22 INFO: HTTP Request: POST http://127.0.0.1:11434/api/generate "HTTP/1.1 200 OK"
+2025-08-23 23:29:01 INFO: Pragmatic Raw response:
+```json
+{
+  "score": 0.8,
+  "issues": [
+    "Some attributes (e.g., 'TIN', 'name') could be declared as immutable using the `{readonly}` keyword for better clarity.",
+    "The `getBikeInfo()` method in both `Bike` and `BikeModel` classes is redundant, consider removing it or renaming to something more descriptive.",
+    "Some class names (e.g., 'Rental', 'Reservation') could be more descriptive, making the diagram easier to understand for stakeholders.",
+    "The use of `{unique}` and `{mandatory}` annotations could be replaced with clear, human-readable comments for better readability."
+  ],
+  "recommendations": [
+    "Consider using a more consistent naming convention throughout the diagram (e.g., camelCase or PascalCase).",
+    "Add more relationships between classes to clarify the system's structure.",
+    "Use more descriptive class names and method names to improve understandability.",
+    "Consider adding more visual separation between classes and relationships for better readability."
+  ]
+}
+```
+
+2025-08-23 23:30:57 INFO: HTTP Request: POST http://127.0.0.1:11434/api/generate "HTTP/1.1 200 OK"
+2025-08-23 23:31:35 INFO: LLM judge Raw response:
+```json
+{
+  "uml_completeness_score": 0.9,
+  "uml_quality_score": 0.8,
+  "requirement_coverage_score": 0.7,
+  "pragmatic_clarity_score": 0.85,
+  "overall_score": 0.825,
+  "issues": [
+    "Missing association between Client and Rental",
+    "Naming inconsistency: 'TIN' vs 'Nin'",
+    "Redundant attributes in classes (e.g., BikeModel has both 'gears' and 'type')",
+    "Weak abstraction: classes have many methods with similar functionality"
+  ],
+  "recommendations": [
+    "Add association between Client and Rental to show the renting process",
+    "Standardize naming conventions throughout the diagram",
+    "Remove redundant attributes in classes and consider using inheritance or composition instead",
+    "Simplify method names and avoid duplication of functionality",
+    "Consider adding a class for 'RentalPeriod' to improve abstraction"
+  ]
+}
+```
+
+2025-08-23 23:31:35 INFO: Using default tokenizer.
+2025-08-23 23:31:35 INFO: Scores for test case #7
+2025-08-23 23:31:35 INFO: Score for Class Diagram Metric: 0.848
+2025-08-23 23:31:35 INFO: Score for Rouge Metric: 0.301
+2025-08-23 23:31:35 INFO: Evaluating test case #8
+2025-08-23 23:31:35 INFO: Syntactic evaluation data: {
+  "overall_score": 0.76,
+  "errors": [
+    {
+      "type": "syntax_error",
+      "line": 45,
+      "message": "Invalid relationship syntax: 'Type <|-- Road'",
+      "severity": "critical"
+    },
+    {
+      "type": "syntax_error",
+      "line": 46,
+      "message": "Invalid relationship syntax: 'Type <|-- Mountain'",
+      "severity": "critical"
+    },
+    {
+      "type": "syntax_error",
+      "line": 47,
+      "message": "Invalid relationship syntax: 'Type <|-- BMX'",
+      "severity": "critical"
+    },
+    {
+      "type": "syntax_error",
+      "line": 48,
+      "message": "Invalid relationship syntax: 'Type <|-- Hybrid'",
+      "severity": "critical"
+    }
+  ],
+  "warnings": [],
+  "suggestions": [
+    "Ensure all relationship operators and endpoints follow UML syntax."
+  ],
+  "compliance_metrics": {
+    "structure_compliance": 1.0,
+    "relationship_syntax": 0.2,
+    "naming_conventions": 1.0,
+    "uml_standards": 1.0
+  }
+}
+2025-08-23 23:32:44 INFO: HTTP Request: POST http://127.0.0.1:11434/api/generate "HTTP/1.1 200 OK"
+2025-08-23 23:33:19 INFO: Semantic Raw response:
+```json
+{
+  "validity_score": 0.8,
+  "completeness_score": 0.7,
+  "issues": [
+    "Incorrect cardinality specification for the relationship between Client and Reservation",
+    "Attributes placed in the wrong class: name, address should be in Store or Client",
+    "Operations defined where they cannot be realized with existing data: reserveabike() does not specify any parameters or return type",
+    "Operations that cannot be implemented using the current attributes/relationships: BycicleModel has a relationship with Type, but no operations are defined to interact with it"
+  ],
+  "recommendations": [
+    "Review and adjust cardinality specifications for relationships between classes",
+    "Move name and address to either Store or Client class",
+    "Specify parameters and return type for reserveabike() operation in Client class",
+    "Add operations to BycicleModel to interact with its attributes/relationships"
+  ]
+}
+```
+
+2025-08-23 23:34:10 INFO: HTTP Request: POST http://127.0.0.1:11434/api/generate "HTTP/1.1 200 OK"
+2025-08-23 23:34:49 INFO: Pragmatic Raw response:
+```json
+{
+  "score": 0.6,
+  "issues": [
+    "The PlantUML class diagram uses long attribute names, such as 'pickup_day' and 'return_date', which could be shortened for clarity.",
+    "Some classes have redundant attributes, like 'name' in both 'Client' and 'Store'.",
+    "The distinction between subclasses is not strong, as the relationship between 'Type' and its subclasses ('Road', 'Mountain', etc.) is not explicitly defined.",
+    "There are inconsistent styling choices throughout the diagram, such as using spaces instead of underscores for attribute names."
+  ],
+  "recommendations": [
+    "Consider following a consistent naming convention for attributes and methods.",
+    "Remove redundant attributes to improve understandability.",
+    "Use explicit relationships between subclasses and their parent class 'Type'.",
+    "Standardize styling choices throughout the diagram to enhance clarity.",
+    "Use more meaningful names for associations, such as 'rented_bike' instead of 'Bycicle 0..* -- 1 Store'."
+  ]
+}
+```
+
+2025-08-23 23:36:05 INFO: HTTP Request: POST http://127.0.0.1:11434/api/generate "HTTP/1.1 200 OK"
+2025-08-23 23:37:55 INFO: LLM judge Raw response:
+```json
+{
+  "uml_completeness_score": 0.9,
+  "uml_quality_score": 0.8,
+  "requirement_coverage_score": 0.7,
+  "pragmatic_clarity_score": 0.6,
+  "overall_score": 0.8,
+  "issues": [
+    "Missing association between Store and Bycicle in the original diagram",
+    "Naming inconsistency (e.g., 'NIN' vs 'Name', 'TIN' vs 'Type')",
+    "Weak abstraction (classes such as Road, Mountain, BMX, Hybrid are too generic)",
+    "Some relationships have incorrect multiplicities (e.g., 0..* instead of * in some cases)"
+  ],
+  "recommendations": [
+    "Add association between Store and Bycicle to the original diagram",
+    "Standardize naming conventions across classes (e.g., 'NIN' vs 'Name', 'TIN' vs 'Type')",
+    "Consider merging Road, Mountain, BMX, Hybrid into a single class or using more specific subclasses",
+    "Review and adjust relationships in the original diagram to match the benchmark/golden diagram"
+  ]
+}
+```
+
+### Evaluation Rationale:
+
+**UML Completeness Score (0.9):**
+
+* The original diagram includes all required classes (Client, Bycicle, Reservation, Store, Type) and attributes.
+* However, it lacks associations between some classes (e.g., missing association between Store and Bycicle).
+
+**UML Quality Score (0.8):**
+
+* Naming conventions are partially inconsistent across classes (e.g., 'NIN' vs 'Name', 'TIN' vs 'Type').
+* Classes such as Road, Mountain, BMX, Hybrid are too generic and could be more specific or merged into a single class.
+
+**Requirement Coverage Score (0.7):**
+
+* The original diagram partially covers the system requirements described in Use Case 11.4.
+* However, some relationships have incorrect multiplicities (e.g., 0..* instead of * in some cases).
+
+**Pragmatic Clarity Score (0.6):**
+
+* The original diagram is not very clear due to weak abstraction and naming inconsistencies.
+* It lacks a clear indication of associations between classes.
+
+**Overall Score (0.8):**
+
+The overall score reflects the sum of scores for each dimension, taking into account their relative importance.
+
+### Recommendations:
+
+1.  Add association between Store and Bycicle to the original diagram.
+2.  Standardize naming conventions across classes (e.g., 'NIN' vs 'Name', 'TIN' vs 'Type').
+3.  Consider merging Road, Mountain, BMX, Hybrid into a single class or using more specific subclasses.
+4.  Review and adjust relationships in the original diagram to match the benchmark/golden diagram.
+
+Note: The scores are subjective and may vary based on individual experience and interpretation of UML principles and best practices.
+
+2025-08-23 23:37:55 INFO: Using default tokenizer.
+2025-08-23 23:37:55 INFO: Scores for test case #8
+2025-08-23 23:37:55 INFO: Score for Class Diagram Metric: 0.778
+2025-08-23 23:37:55 INFO: Score for Rouge Metric: 0.466
+2025-08-23 23:37:55 INFO: Evaluating test case #9
+2025-08-23 23:37:55 INFO: Syntactic evaluation data: {
+  "overall_score": 0.86,
+  "errors": [],
+  "warnings": [
+    {
+      "type": "naming_convention",
+      "line": 85,
+      "message": "Association label 'has >' should be a verb phrase starting lowercase",
+      "severity": "minor"
+    },
+    {
+      "type": "naming_convention",
+      "line": 86,
+      "message": "Association label 'receives >' should be a verb phrase starting lowercase",
+      "severity": "minor"
+    },
+    {
+      "type": "naming_convention",
+      "line": 88,
+      "message": "Association label 'is read by >' should be a verb phrase starting lowercase",
+      "severity": "minor"
+    },
+    {
+      "type": "naming_convention",
+      "line": 90,
+      "message": "Association label 'controls >' should be a verb phrase starting lowercase",
+      "severity": "minor"
+    },
+    {
+      "type": "naming_convention",
+      "line": 91,
+      "message": "Association label 'has >' should be a verb phrase starting lowercase",
+      "severity": "minor"
+    },
+    {
+      "type": "naming_convention",
+      "line": 93,
+      "message": "Association label 'issues >' should be a verb phrase starting lowercase",
+      "severity": "minor"
+    },
+    {
+      "type": "naming_convention",
+      "line": 94,
+      "message": "Association label 'returns card to >' should be a verb phrase starting lowercase",
+      "severity": "minor"
+    },
+    {
+      "type": "naming_convention",
+      "line": 96,
+      "message": "Association label 'updates >' should be a verb phrase starting lowercase",
+      "severity": "minor"
+    },
+    {
+      "type": "naming_convention",
+      "line": 97,
+      "message": "Association label 'displays at >' should be a verb phrase starting lowercase",
+      "severity": "minor"
+    },
+    {
+      "type": "naming_convention",
+      "line": 99,
+      "message": "Association label 'provides availability info to >' should be a verb phrase starting lowercase",
+      "severity": "minor"
+    },
+    {
+      "type": "naming_convention",
+      "line": 101,
+      "message": "Association label 'may drive >' should be a verb phrase starting lowercase",
+      "severity": "minor"
+    },
+    {
+      "type": "naming_convention",
+      "line": 102,
+      "message": "Association label 'may drive >' should be a verb phrase starting lowercase",
+      "severity": "minor"
+    },
+    {
+      "type": "naming_convention",
+      "line": 104,
+      "message": "Association label 'triggers >' should be a verb phrase starting lowercase",
+      "severity": "minor"
+    },
+    {
+      "type": "naming_convention",
+      "line": 105,
+      "message": "Association label 'passes through >' should be a verb phrase starting lowercase",
+      "severity": "minor"
+    }
+  ],
+  "suggestions": [
+    "Use PascalCase for class names and lowercase verb phrases for relationship labels."
+  ],
+  "compliance_metrics": {
+    "structure_compliance": 1.0,
+    "relationship_syntax": 1.0,
+    "naming_conventions": 0.3,
+    "uml_standards": 1.0
+  }
+}
+2025-08-23 23:39:52 INFO: HTTP Request: POST http://127.0.0.1:11434/api/generate "HTTP/1.1 200 OK"
+2025-08-23 23:40:25 INFO: Semantic Raw response:
+```json
+{
+  "validity_score": 0.9,
+  "completeness_score": 0.8,
+  "issues": [
+    "In the Saturn Int. Security System diagram, the relationship between Employee and EmployeeCard is not correctly specified.",
+    "The attribute 'issueDate' in class GuestCard should be a Date type, but it's currently missing this information.",
+    "The operation 'verifyCard()' in class CardReader cannot be implemented using the current attributes/relationships."
+  ],
+  "recommendations": [
+    "In the Saturn Int. Security System diagram, change the relationship between Employee and EmployeeCard to an aggregation (e.g., EmployeeCard -- 'contains' Employee).",
+    "Add a type constraint to attribute 'issueDate' in class GuestCard.",
+    "Consider adding a method to CardReader that can verify cards using existing attributes/relationships."
+  ]
+}
+```
+
+2025-08-23 23:42:04 INFO: HTTP Request: POST http://127.0.0.1:11434/api/generate "HTTP/1.1 200 OK"
+2025-08-23 23:42:42 INFO: Pragmatic Raw response:
+```json
+{
+    "score": 0.8,
+    "issues": [
+        "The 'Employee' and 'Guest' classes seem to be overly simplified, as they don't have any methods or attributes that would make them necessary entities in the system.",
+        "The 'ParkingLotStatus' class is not entirely clear; it seems like its responsibilities are quite mixed up with those of the 'ParkingLot'.",
+        "There's a lot of repetition in the relationships between classes, which can be simplified by using generalization/specialization or composition instead."
+    ],
+    "recommendations": [
+        "Consider splitting the 'Employee' and 'Guest' classes into separate entities that have more meaningful attributes and methods.",
+        "Rethink the responsibilities of the 'ParkingLotStatus' class and perhaps merge it with the 'ParkingLot'.",
+        "Explore using generalization/specialization relationships to simplify some of the inheritance hierarchies, or use composition instead for better cohesion."
+    ]
+}
+```
+
+2025-08-23 23:44:46 INFO: HTTP Request: POST http://127.0.0.1:11434/api/generate "HTTP/1.1 200 OK"
+2025-08-23 23:45:19 INFO: LLM judge Raw response:
+```json
+{
+  "uml_completeness_score": 0.8,
+  "uml_quality_score": 0.9,
+  "requirement_coverage_score": 0.7,
+  "pragmatic_clarity_score": 0.6,
+  "overall_score": 0.75,
+  "issues": [
+    "Missing association between ParkingLot and Car",
+    "Inconsistent naming convention for 'issue' and 'collect' methods in Reception class",
+    "Weak abstraction in EmployeeCard and GuestCard classes, as they inherit from Card but have additional attributes"
+  ],
+  "recommendations": [
+    "Establish a consistent naming convention throughout the diagram",
+    "Consider introducing an abstract class or interface for Card to encapsulate common behavior",
+    "Add associations between ParkingLot and Car to model parking lot capacity and car movement"
+  ]
+}
+```
+
+2025-08-23 23:45:19 INFO: Using default tokenizer.
+2025-08-23 23:45:19 INFO: Scores for test case #9
+2025-08-23 23:45:19 INFO: Score for Class Diagram Metric: 0.868
+2025-08-23 23:45:19 INFO: Score for Rouge Metric: 0.187
+2025-08-23 23:45:19 INFO: Evaluating test case #10
+2025-08-23 23:45:19 INFO: Syntactic evaluation data: {
+  "overall_score": 0.87,
+  "errors": [
+    {
+      "type": "syntax_error",
+      "line": 53,
+      "message": "Invalid relationship syntax: 'Card <|-- IdentityCard'",
+      "severity": "critical"
+    },
+    {
+      "type": "syntax_error",
+      "line": 54,
+      "message": "Invalid relationship syntax: 'Card <|-- GuestCard'",
+      "severity": "critical"
+    }
+  ],
+  "warnings": [
+    {
+      "type": "missing_cardinality",
+      "line": 50,
+      "message": "Association between Barrier and CardReader missing multiplicity",
+      "severity": "minor"
+    },
+    {
+      "type": "missing_cardinality",
+      "line": 52,
+      "message": "Association between CardReader and Card missing multiplicity",
+      "severity": "minor"
+    }
+  ],
+  "suggestions": [
+    "Ensure all relationship operators and endpoints follow UML syntax.",
+    "Add multiplicity to associations and verify class references are valid."
+  ],
+  "compliance_metrics": {
+    "structure_compliance": 1.0,
+    "relationship_syntax": 0.6,
+    "naming_conventions": 1.0,
+    "uml_standards": 0.9
+  }
+}
+2025-08-23 23:46:30 INFO: HTTP Request: POST http://127.0.0.1:11434/api/generate "HTTP/1.1 200 OK"
+2025-08-23 23:47:08 INFO: Semantic Raw response:
+```json
+{
+    "validity_score": 0.8,
+    "completeness_score": 0.6,
+    "issues": [
+        "Incorrect cardinality specification: '2' on the relationship between Barrier and CarPark",
+        "Attributes placed in the wrong class: 'numberofspaces' and 'numberfreespaces' are attributes of CarPark, but their types should be reviewed (e.g., is it possible to have a negative number of spaces?)",
+        "Operations that cannot be implemented using the current attributes/relationships: 'carisleaving()' operation in CarPark class requires additional context or implementation details",
+        "Incorrect aggregation specification: relationship between CardReader and CarPark is an association, not an aggregation"
+    ],
+    "recommendations": [
+        "Review cardinality specifications for accuracy",
+        "Reconsider attribute types for CarPark class",
+        "Provide more context or implementation details for 'carisleaving()' operation in CarPark class",
+        "Correct aggregation specification to reflect actual relationship between CardReader and CarPark"
+    ]
+}
+```
+
+2025-08-23 23:48:02 INFO: HTTP Request: POST http://127.0.0.1:11434/api/generate "HTTP/1.1 200 OK"
+2025-08-23 23:48:57 INFO: Pragmatic Raw response:
+```json
+{
+    "score": 0.7,
+    "issues": [
+        "The class CarPark has a method carisleaving() which returns an integer but its name suggests it's related to the process of a car leaving, not the number of spaces.",
+        "There is no clear distinction between subclasses IdentityCard and GuestCard in terms of their attributes and methods. They both seem to have similar responsibilities.",
+        "The class CardReader has several methods that are not clearly related to card reading, such as showsuccessmessage() and showfailmessage(). These could be refactored into separate classes or methods.",
+        "The relationship between CarPark and Sign is unclear. Is a CarPark composed of multiple Signs? Or does a Sign belong to a CarPark?",
+        "There are some inconsistencies in the naming conventions used throughout the diagram. For example, 'numberofspaces' vs 'numberfreespaces', and 'name' vs 'department'."
+    ],
+    "recommendations": [
+        "Consider refactoring the class CarPark to have methods that clearly describe its responsibilities.",
+        "Introduce a clear distinction between subclasses IdentityCard and GuestCard. This could be achieved by adding specific attributes or methods for each subclass.",
+        "Extract separate classes or methods for the unrelated functionality in CardReader, such as showing success/fail messages and sending signals.",
+        "Review and refine the relationships between CarPark and Sign to ensure they accurately represent the domain model.",
+        "Standardize naming conventions throughout the diagram to improve readability."
+    ]
+}
+```
+
+2025-08-23 23:50:14 INFO: HTTP Request: POST http://127.0.0.1:11434/api/generate "HTTP/1.1 200 OK"
+2025-08-23 23:51:54 INFO: LLM judge Raw response:
+```json
+{
+  "uml_completeness_score": 0.8,
+  "uml_quality_score": 0.7,
+  "requirement_coverage_score": 0.9,
+  "pragmatic_clarity_score": 0.6,
+  "overall_score": 0.76,
+  "issues": [
+    "Missing association between Sign and CarPark",
+    "Nomenclature inconsistency (CarPark vs Parking)",
+    "Lack of clear abstraction for Car and Card classes"
+  ],
+  "recommendations": [
+    "Add a clear association between Sign and CarPark to indicate parking status",
+    "Use consistent naming conventions throughout the diagram (e.g., use 'Parking' instead of 'CarPark')",
+    "Introduce abstract classes for Car and Card to better encapsulate common attributes and behaviors"
+  ]
+}
+```
+
+Here's a brief explanation of each score:
+
+*   **UML Completeness Score (0.8)**: The class diagram appears to capture most entities mentioned in the system description, but lacks a few associations between them.
+*   **UML Quality Score (0.7)**: Some naming conventions and relationships seem inconsistent or unclear, which may indicate poor design principles.
+*   **Requirement Coverage Score (0.9)**: Most use cases are represented in the diagram, although there might be some minor omissions.
+*   **Pragmatic Clarity Score (0.6)**: The diagram could benefit from better organization and clearer labeling to enhance its understandability for technical stakeholders.
+*   **Overall Score (0.76)**: This score is a weighted average of the above four scores, indicating room for improvement in both completeness and clarity.
+
+As for issues:
+
+1.  "Missing association between Sign and CarPark" - An arrow should connect Sign with CarPark to show that they interact.
+2.  "Nomenclature inconsistency (CarPark vs Parking)" - This suggests a need for consistent naming conventions throughout the diagram, using 'Parking' instead of 'CarPark'.
+3.  "Lack of clear abstraction for Car and Card classes" - Introduce abstract classes for Car and Card to encapsulate common attributes and behaviors.
+
+For recommendations:
+
+1.  "Add a clear association between Sign and CarPark" - Introduce an arrow from Sign to CarPark to show that they interact.
+2.  "Use consistent naming conventions throughout the diagram" - Use 'Parking' instead of 'CarPark'.
+3.  "Introduce abstract classes for Car and Card" - Encapsulate common attributes and behaviors within abstract Car and Card classes.
+
+Note: These scores are subjective, based on a single evaluation, and may vary depending on individual perspectives or specific requirements.
+
+2025-08-23 23:51:54 INFO: Using default tokenizer.
+2025-08-23 23:51:54 INFO: Scores for test case #10
+2025-08-23 23:51:54 INFO: Score for Class Diagram Metric: 0.789
+2025-08-23 23:51:54 INFO: Score for Rouge Metric: 0.555
+2025-08-23 23:51:54 INFO: Evaluating test case #11
+2025-08-23 23:51:54 INFO: Syntactic evaluation data: {
+  "overall_score": 0.91,
+  "errors": [],
+  "warnings": [
+    {
+      "type": "naming_convention",
+      "line": 143,
+      "message": "Association label 'has manager >' should be a verb phrase starting lowercase",
+      "severity": "minor"
+    },
+    {
+      "type": "naming_convention",
+      "line": 144,
+      "message": "Association label 'employs >' should be a verb phrase starting lowercase",
+      "severity": "minor"
+    },
+    {
+      "type": "naming_convention",
+      "line": 146,
+      "message": "Association label 'contains >' should be a verb phrase starting lowercase",
+      "severity": "minor"
+    },
+    {
+      "type": "naming_convention",
+      "line": 148,
+      "message": "Association label 'hosts >' should be a verb phrase starting lowercase",
+      "severity": "minor"
+    },
+    {
+      "type": "invalid_reference",
+      "line": 160,
+      "message": "Relationship refers to undeclared class(es): Account, Privilege",
+      "severity": "minor"
+    },
+    {
+      "type": "naming_convention",
+      "line": 160,
+      "message": "Association label 'has >' should be a verb phrase starting lowercase",
+      "severity": "minor"
+    },
+    {
+      "type": "naming_convention",
+      "line": 162,
+      "message": "Association label 'has personal banker >' should be a verb phrase starting lowercase",
+      "severity": "minor"
+    },
+    {
+      "type": "naming_convention",
+      "line": 164,
+      "message": "Association label 'has collateral >' should be a verb phrase starting lowercase",
+      "severity": "minor"
+    },
+    {
+      "type": "naming_convention",
+      "line": 165,
+      "message": "Association label 'has secondary cards >' should be a verb phrase starting lowercase",
+      "severity": "minor"
+    }
+  ],
+  "suggestions": [
+    "Use PascalCase for class names and lowercase verb phrases for relationship labels.",
+    "Add multiplicity to associations and verify class references are valid."
+  ],
+  "compliance_metrics": {
+    "structure_compliance": 1.0,
+    "relationship_syntax": 1.0,
+    "naming_conventions": 0.6,
+    "uml_standards": 0.9
+  }
+}
+2025-08-23 23:54:39 INFO: HTTP Request: POST http://127.0.0.1:11434/api/generate "HTTP/1.1 200 OK"
+2025-08-23 23:55:47 INFO: Semantic Raw response:
+```json
+{
+  "validity_score": 0.8,
+  "completeness_score": 0.7,
+  "issues": [
+    "The `InvestmentDivision` and `PlanningDivision` classes in the `OOBank` package do not have any attributes or operations defined, which may indicate that they are not fully specified.",
+    "The `ConsumerDivision` class has a relationship with multiple branches, but it is unclear what type of relationship this is (e.g., aggregation, composition).",
+    "The `MortgageAccount` class extends the `Account` abstract class, but it does not override all of its operations. This may indicate that there are some operations that cannot be implemented using the current attributes/relationships.",
+    "The `CreditCardAccount` class has a many-to-many relationship with itself, which is unclear and may indicate an error in modeling.",
+    "There are no relationships defined between the `Client` and `Employee` classes, despite the fact that clients have personal bankers and employees can work for organizational units."
+  ],
+  "recommendations": [
+    "Consider adding more attributes or operations to the `InvestmentDivision` and `PlanningDivision` classes to make them more fully specified.",
+    "Clarify the relationship between `ConsumerDivision` and multiple branches by adding a note or comment to explain what type of relationship this is.",
+    "Add missing operations to the `MortgageAccount` class that override those from its superclass.",
+    "Reconsider the many-to-many relationship between `CreditCardAccount` instances, as it may not accurately represent the real-world relationships between credit card accounts.",
+    "Add a relationship between `Client` and `Employee` classes to reflect the fact that clients have personal bankers."
+  ]
+}
+```
+
+2025-08-23 23:58:13 INFO: HTTP Request: POST http://127.0.0.1:11434/api/generate "HTTP/1.1 200 OK"
+2025-08-23 23:58:56 INFO: Pragmatic Raw response:
+```json
+{
+  "score": 0.65,
+  "issues": [
+    "The class diagram is complex and has many classes, which may make it difficult to understand for stakeholders.",
+    "Some classes (e.g., PlanningDivision, InvestmentDivision) have no attributes or methods, making them unnecessary and potentially confusing.",
+    "The use of abstract classes and interfaces is not clear in this diagram; consider using more descriptive names or adding comments to explain their purpose.",
+    "There are many relationships between classes, but some of them (e.g., Division -- "*" Employee) could be simplified by introducing an association class.",
+    "Consider adding comments to explain the meaning of each relationship and the multiplicity of associations."
+  ],
+  "recommendations": [
+    "Simplify the class diagram by removing unnecessary classes and relationships.",
+    "Use more descriptive names for classes, attributes, and methods to improve understandability.",
+    "Introduce association classes where necessary to clarify relationships between classes.",
+    "Consider using a more consistent naming convention throughout the diagram.",
+    "Add comments to explain the purpose of each class, attribute, method, and relationship."
+  ]
+}
+```
+
+2025-08-23 23:58:56 ERROR: LLM judge error: Expecting ',' delimiter: line 7 column 89 (char 549)
+Traceback (most recent call last):
+  File "C:\Users\35196\Desktop\experiencias\TestsWithDifferentApproaches\Evaluation\Geval.py", line 276, in evaluate_diagram_pragmatic
+    data = json.loads(json_str)
+  File "C:\Users\35196\AppData\Local\Programs\Python\Python313\Lib\json\__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^
+  File "C:\Users\35196\AppData\Local\Programs\Python\Python313\Lib\json\decoder.py", line 344, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\35196\AppData\Local\Programs\Python\Python313\Lib\json\decoder.py", line 360, in raw_decode
+    obj, end = self.scan_once(s, idx)
+               ~~~~~~~~~~~~~~^^^^^^^^
+json.decoder.JSONDecodeError: Expecting ',' delimiter: line 7 column 89 (char 549)
+2025-08-24 00:01:48 INFO: HTTP Request: POST http://127.0.0.1:11434/api/generate "HTTP/1.1 200 OK"
+2025-08-24 00:02:29 INFO: LLM judge Raw response:
+```json
+{
+  "uml_completeness_score": 0.9,
+  "uml_quality_score": 0.8,
+  "requirement_coverage_score": 0.7,
+  "pragmatic_clarity_score": 0.6,
+  "overall_score": 0.75,
+  "issues": [
+    "The diagram does not include the relationship between OrganizationalUnit and AccountType, which is mentioned in the system description.",
+    "The classes 'PlanningDivision', 'InvestmentDivision' are not used anywhere in the diagram.",
+    "Some class names are not following the conventional naming conventions (e.g., 'ConsumerDivision' instead of 'ConsumerDivisionClass')."
+  ],
+  "recommendations": [
+    "Add relationships between OrganizationalUnit and AccountType to the diagram.",
+    "Use the classes 'PlanningDivision', 'InvestmentDivision' if they have any specific properties or methods that are used in the system.",
+    "Rename classes with non-conventional names (e.g., 'ConsumerDivisionClass')."
+  ]
+}
+```
+
+2025-08-24 00:02:29 INFO: Using default tokenizer.
+2025-08-24 00:02:29 INFO: Scores for test case #11
+2025-08-24 00:02:29 INFO: Score for Class Diagram Metric: 0.790
+2025-08-24 00:02:29 INFO: Score for Rouge Metric: 0.239
+2025-08-24 00:02:29 INFO: Evaluating test case #12
+2025-08-24 00:02:29 INFO: Syntactic evaluation data: {
+  "overall_score": 0.67,
+  "errors": [
+    {
+      "type": "syntax_error",
+      "line": 60,
+      "message": "Invalid relationship syntax: 'Subdivision <|-- Branch'",
+      "severity": "critical"
+    },
+    {
+      "type": "syntax_error",
+      "line": 64,
+      "message": "Invalid relationship syntax: 'Employee <|-- Manager'",
+      "severity": "critical"
+    },
+    {
+      "type": "syntax_error",
+      "line": 71,
+      "message": "Invalid relationship syntax: 'CreditCardAccount <|-- Account'",
+      "severity": "critical"
+    },
+    {
+      "type": "syntax_error",
+      "line": 72,
+      "message": "Invalid relationship syntax: 'CheckingAccount <|-- Account'",
+      "severity": "critical"
+    },
+    {
+      "type": "syntax_error",
+      "line": 73,
+      "message": "Invalid relationship syntax: 'MortgageAccount <|-- Account'",
+      "severity": "critical"
+    },
+    {
+      "type": "syntax_error",
+      "line": 74,
+      "message": "Invalid relationship syntax: 'JointAccount <|-- Account'",
+      "severity": "critical"
+    }
+  ],
+  "warnings": [
+    {
+      "type": "missing_cardinality",
+      "line": 62,
+      "message": "Association between Division and Manager missing multiplicity",
+      "severity": "minor"
+    },
+    {
+      "type": "naming_convention",
+      "line": 63,
+      "message": "Association label 'Works For' should be a verb phrase starting lowercase",
+      "severity": "minor"
+    },
+    {
+      "type": "naming_convention",
+      "line": 65,
+      "message": "Association label 'Personal Banker' should be a verb phrase starting lowercase",
+      "severity": "minor"
+    },
+    {
+      "type": "missing_cardinality",
+      "line": 68,
+      "message": "Association between Client and Branch missing multiplicity",
+      "severity": "minor"
+    }
+  ],
+  "suggestions": [
+    "Use PascalCase for class names and lowercase verb phrases for relationship labels.",
+    "Ensure all relationship operators and endpoints follow UML syntax.",
+    "Add multiplicity to associations and verify class references are valid."
+  ],
+  "compliance_metrics": {
+    "structure_compliance": 1.0,
+    "relationship_syntax": 0.0,
+    "naming_conventions": 0.9,
+    "uml_standards": 0.9
+  }
+}
+2025-08-24 00:04:03 INFO: HTTP Request: POST http://127.0.0.1:11434/api/generate "HTTP/1.1 200 OK"
+2025-08-24 00:04:34 INFO: Semantic Raw response:
+```json
+{
+  "validity_score": 0.8,
+  "completeness_score": 0.9,
+  "issues": [
+    "Inaccurate multiplicity specification between Division and Subdivision (0..* instead of 1)",
+    "Attribute 'role' in class Employee does not match the domain concept",
+    "Operation 'openaccount()' and 'closeaccount()' cannot be implemented using current data",
+    "Incorrect use of aggregation for relationship between Client and JointAccount"
+  ],
+  "recommendations": [
+    "Change multiplicity specification to accurately reflect the domain",
+    "Rename attribute in Employee class to match actual role",
+    "Define additional attributes or relationships to support 'openaccount()' and 'closeaccount()' operations",
+    "Use a simple association for relationship between Client and JointAccount"
+  ]
+}
+```
+
+2025-08-24 00:05:49 INFO: HTTP Request: POST http://127.0.0.1:11434/api/generate "HTTP/1.1 200 OK"
+2025-08-24 00:06:22 INFO: Pragmatic Raw response:
+```json
+{
+  "score": 0.7,
+  "issues": [
+    "The class Client has two methods openaccount() and closeaccount(), which are not clearly explained in the code. This might cause confusion for stakeholders.",
+    "The class AccountType has several attributes, but it's unclear how they relate to each other. A brief explanation of their relationships would improve understandability.",
+    "The classes CreditCardAccount and JointAccount seem to have overlapping responsibilities, making it difficult to distinguish between them."
+  ],
+  "recommendations": [
+    "Consider adding a brief description for each class to explain its purpose and responsibilities.",
+    "Break down the complex class AccountType into smaller classes that each handle a specific aspect of account types.",
+    "Re-evaluate the relationships between CreditCardAccount and JointAccount, and consider merging them or creating a new class that combines their responsibilities."
+  ]
+}
+```
+
+2025-08-24 00:08:11 INFO: HTTP Request: POST http://127.0.0.1:11434/api/generate "HTTP/1.1 200 OK"
+2025-08-24 00:09:45 INFO: LLM judge Raw response:
+```json
+{
+  "uml_completeness_score": 0.8,
+  "uml_quality_score": 0.7,
+  "requirement_coverage_score": 0.9,
+  "pragmatic_clarity_score": 0.6,
+  "overall_score": 0.78,
+  "issues": [
+    "Missing associations between OrganizationalUnit and AccountType, Employee and Person/Customer",
+    "Naming inconsistency: 'role' vs. 'personalBanker'",
+    "Weak abstraction: Client has multiple associations with different classes"
+  ],
+  "recommendations": [
+    "Add associations between OrganizationalUnit and AccountType, Employee and Person/Customer",
+    "Standardize naming conventions for roles/personal banker",
+    "Consider introducing a new class to represent a Client's account holder relationship"
+  ]
+}
+```
+
+Let me explain the evaluation process:
+
+1. **UML Completeness**:
+	* The generated diagram includes most of the required classes, attributes, and methods.
+	* However, some associations are missing (e.g., between OrganizationalUnit and AccountType).
+	* Score: 0.8/1.0
+2. **UML Quality**:
+	* Names and types are generally correct, but there are some inconsistencies (e.g., 'role' vs. 'personalBanker').
+	* Relationships are mostly correctly applied, but some could be improved for clarity.
+	* Score: 0.7/1.0
+3. **Requirement Coverage**:
+	* The diagram covers most of the system requirements, but there are some areas where it falls short (e.g., Client's account holder relationship).
+	* Score: 0.9/1.0
+4. **Clarity & Pragmatics**:
+	* The diagram is somewhat understandable, but could benefit from improved labeling and organization.
+	* Some classes have weakly defined relationships or attributes.
+	* Score: 0.6/1.0
+
+The overall score is a weighted average of the individual scores:
+
+0.78 = (0.8 × 20% + 0.7 × 30% + 0.9 × 20% + 0.6 × 30%)
+
+The recommendations aim to address the identified issues and improve the diagram's quality, completeness, and clarity.
+
+Please note that this evaluation is subjective and based on my interpretation of the provided information.
+
+2025-08-24 00:09:45 INFO: Using default tokenizer.
+2025-08-24 00:09:45 INFO: Scores for test case #12
+2025-08-24 00:09:45 INFO: Score for Class Diagram Metric: 0.811
+2025-08-24 00:09:45 INFO: Score for Rouge Metric: 0.628
+2025-08-24 00:09:45 INFO: Evaluating test case #13
+2025-08-24 00:09:45 INFO: Syntactic evaluation data: {
+  "overall_score": 0.99,
+  "errors": [],
+  "warnings": [
+    {
+      "type": "naming_convention",
+      "line": 64,
+      "message": "Association label 'decorates >' should be a verb phrase starting lowercase",
+      "severity": "minor"
+    }
+  ],
+  "suggestions": [
+    "Use PascalCase for class names and lowercase verb phrases for relationship labels."
+  ],
+  "compliance_metrics": {
+    "structure_compliance": 1.0,
+    "relationship_syntax": 1.0,
+    "naming_conventions": 0.95,
+    "uml_standards": 1.0
+  }
+}
+2025-08-24 00:11:39 INFO: HTTP Request: POST http://127.0.0.1:11434/api/generate "HTTP/1.1 200 OK"
+2025-08-24 00:12:40 INFO: Semantic Raw response:
+```json
+{
+  "validity_score": 0.8,
+  "completeness_score": 0.7,
+  "issues": [
+    "Incorrect cardinality/multiplicity specifications: The relationships between classes in the original diagram are not as explicit or precise as those in the benchmark diagram.",
+    "Use of aggregation where a simple association is required: ContractDecorator has an 'o--' relationship with ContractComponent, which suggests an aggregate composition instead of a regular association.",
+    "Attributes placed in the wrong class: The monthlyCharge attribute seems misplaced in Decorator classes, whereas it should be part of the Option class itself.",
+    "Operations defined where they cannot be realized with existing data: The getBalance() and setBalance() operations are being delegated from ContractDecorator to decorated contracts. However, this does not align with the concept that each decorator maintains its own state.",
+    "Operations that cannot be implemented using the current attributes/relationships: The original diagram introduces a new method, getCharges(), in every Decorator class without providing any additional data or relationship to justify it."
+  ],
+  "recommendations": [
+    "Revisit cardinality and multiplicity specifications for clarity and accuracy.",
+    "Replace aggregation with simple association between ContractDecorator and ContractComponent.",
+    "Move monthlyCharge attribute to the Option class, as it represents an option's specific charge.",
+    "Rethink the delegation of getBalance() and setBalance() operations from Decorators to decorated contracts. Ensure each decorator maintains its own state.",
+    "Consider adding data or relationships that justify the implementation of getCharges() in every Decorator class."
+  ]
+}
+```
+
+2025-08-24 00:14:14 INFO: HTTP Request: POST http://127.0.0.1:11434/api/generate "HTTP/1.1 200 OK"
+2025-08-24 00:14:52 INFO: Pragmatic Raw response:
+```json
+{
+  "score": 0.6,
+  "issues": [
+    "Redundant attributes in ContractDecorator: decoratedContract is not used",
+    "Weak subclass distinction between DataOption, SMSOption, MinutesOption and DoubleTransferRateOption: they only differ by a constant",
+    "Inconsistent styling of notes throughout the diagram",
+    "Method getBalance() has different behavior depending on the class it's called from (in ContractDecorator and its subclasses)",
+    "Lack of documentation for ContractComponent interface"
+  ],
+  "recommendations": [
+    "Consider using an abstract base class or interface with methods that are common to all decorators",
+    "Extract a separate class for Option, as it seems to be the common ancestor for DataOption, SMSOption, MinutesOption and DoubleTransferRateOption",
+    "Use consistent naming conventions (e.g., camelCase instead of underscore notation)",
+    "Consider removing redundant notes or consolidating them into one note that summarizes their purpose"
+  ]
+}
+```
+
+2025-08-24 00:16:50 INFO: HTTP Request: POST http://127.0.0.1:11434/api/generate "HTTP/1.1 200 OK"
+2025-08-24 00:18:11 INFO: LLM judge Raw response:
+```json
+{
+  "uml_completeness_score": 0.9,
+  "uml_quality_score": 0.8,
+  "requirement_coverage_score": 0.7,
+  "pragmatic_clarity_score": 0.9,
+  "overall_score": 0.85,
+  "issues": [
+    "Missing association between ContractDecorator and DataOption/SMSOption/MinutesOption/DoubleTransferRateOption",
+    "Naming inconsistency: 'getCharges' method in Contract class has different implementation in subclasses",
+    "Weak abstraction: Concrete decorator classes (DataOption, SMSOption, MinutesOption, DoubleTransferRateOption) have similar structure"
+  ],
+  "recommendations": [
+    "Add association between ContractDecorator and each concrete decorator class to show the relationship between them",
+    "Use a more consistent naming convention for 'getCharges' method across all classes",
+    "Consider extracting an abstract base class or interface for the ConcreteDecorator classes to improve abstraction"
+  ]
+}
+```
+
+Here's a brief explanation of the scores and issues:
+
+*   **uml_completeness_score**: 0.9 (missing associations between ContractDecorator and concrete decorator classes)
+*   **uml_quality_score**: 0.8 (naming inconsistency in 'getCharges' method, weak abstraction in ConcreteDecorator classes)
+*   **requirement_coverage_score**: 0.7 (some aspects of the Telecom Contracts system are not fully represented in the class diagram)
+*   **pragmatic_clarity_score**: 0.9 (class names and relationships are generally clear, but could benefit from additional comments and labels)
+*   **overall_score**: 0.85 (average score across all dimensions)
+
+The issues listed highlight areas for improvement, such as adding associations between classes, using consistent naming conventions, and improving abstraction in the ConcreteDecorator classes.
+
+As for the recommendations:
+
+1.  Add associations between ContractDecorator and each concrete decorator class to show their relationship.
+2.  Use a more consistent naming convention for 'getCharges' method across all classes.
+3.  Consider extracting an abstract base class or interface for the ConcreteDecorator classes to improve abstraction.
+
+2025-08-24 00:18:11 INFO: Using default tokenizer.
+2025-08-24 00:18:11 INFO: Scores for test case #13
+2025-08-24 00:18:11 INFO: Score for Class Diagram Metric: 0.845
+2025-08-24 00:18:11 INFO: Score for Rouge Metric: 0.160
+2025-08-24 00:18:11 INFO: Evaluating test case #14
+2025-08-24 00:18:11 INFO: Syntactic evaluation data: {
+  "overall_score": 0.72,
+  "errors": [
+    {
+      "type": "syntax_error",
+      "line": 40,
+      "message": "Invalid relationship syntax: 'Option <|-- Data'",
+      "severity": "critical"
+    },
+    {
+      "type": "syntax_error",
+      "line": 41,
+      "message": "Invalid relationship syntax: 'Option <|-- SMS'",
+      "severity": "critical"
+    },
+    {
+      "type": "syntax_error",
+      "line": 42,
+      "message": "Invalid relationship syntax: 'Option <|-- Minute'",
+      "severity": "critical"
+    },
+    {
+      "type": "syntax_error",
+      "line": 43,
+      "message": "Invalid relationship syntax: 'Option <|-- Double_Transfer'",
+      "severity": "critical"
+    }
+  ],
+  "warnings": [
+    {
+      "type": "naming_convention",
+      "line": 3,
+      "message": "Class name 'Basic_Contract' should follow PascalCase convention",
+      "severity": "minor"
+    },
+    {
+      "type": "naming_convention",
+      "line": 35,
+      "message": "Class name 'Double_Transfer' should follow PascalCase convention",
+      "severity": "minor"
+    }
+  ],
+  "suggestions": [
+    "Use PascalCase for class names and lowercase verb phrases for relationship labels.",
+    "Ensure all relationship operators and endpoints follow UML syntax."
+  ],
+  "compliance_metrics": {
+    "structure_compliance": 1.0,
+    "relationship_syntax": 0.2,
+    "naming_conventions": 0.8,
+    "uml_standards": 1.0
+  }
+}
+2025-08-24 00:19:13 INFO: HTTP Request: POST http://127.0.0.1:11434/api/generate "HTTP/1.1 200 OK"
+2025-08-24 00:19:43 INFO: Semantic Raw response:
+```json
+{
+  "validity_score": 0.8,
+  "completeness_score": 0.5,
+  "issues": [
+    "Incorrect cardinality specification in the relationship between Basic_Contract and Contract",
+    "Attributes placed in the wrong class: 'name' and 'phone' should be in Client, not Basic_Contract",
+    "Operations defined where they cannot be realized with existing data: 'getCharges()' and 'setBalance(float)' in Contract"
+  ],
+  "recommendations": [
+    "Review cardinality specifications to ensure accuracy",
+    "Move attributes 'name' and 'phone' to the Client class",
+    "Define operations that can be implemented using existing data and relationships",
+    "Add 'Phone' class as it is a missing entity in this domain"
+  ]
+}
+```
+
+2025-08-24 00:20:27 INFO: HTTP Request: POST http://127.0.0.1:11434/api/generate "HTTP/1.1 200 OK"
+2025-08-24 00:20:58 INFO: Pragmatic Raw response:
+```json
+{
+  "score": 0.7,
+  "issues": [
+    "The class Basic_Contract has a clear naming conflict with the expected best practice name BasicContract.",
+    "The association between Contract and Basic_Contract is unclear (1...*).",
+    "The attributes in Basic_Contract are not clearly defined as required/optional or immutable/mutable.",
+    "There is no clear distinction between the roles of Client and Double_Transfer."
+  ],
+  "recommendations": [
+    "Use a consistent naming convention throughout the classes (e.g., PascalCase for class names).",
+    "Clarify the association between Contract and Basic_Contract using more informative labels.",
+    "Define clear access modifiers (+, -, #) to distinguish between attributes and operations.",
+    "Consider renaming Double_Transfer to DoubleTransfer or another more descriptive name."
+  ]
+}
+```
+
+2025-08-24 00:22:07 INFO: HTTP Request: POST http://127.0.0.1:11434/api/generate "HTTP/1.1 200 OK"
+2025-08-24 00:22:37 INFO: LLM judge Raw response:
+```json
+{
+  "uml_completeness_score": 0.8,
+  "uml_quality_score": 0.7,
+  "requirement_coverage_score": 0.9,
+  "pragmatic_clarity_score": 0.6,
+  "overall_score": 0.76,
+  "issues": [
+    "Missing associations between Basic_Contract and Option, Data, SMS, Minute",
+    "Naming inconsistency (e.g., Contract has getBalance() but Basic_Contract has balance: float)",
+    "Weak abstraction (classes like Double_Transfer are not properly abstracted)"
+  ],
+  "recommendations": [
+    "Add associations between Basic_Contract and related classes",
+    "Enforce consistent naming conventions throughout the diagram",
+    "Refactor classes with weak abstraction to improve reusability and modularity"
+  ]
+}
+```
+
+2025-08-24 00:22:37 INFO: Using default tokenizer.
+2025-08-24 00:22:37 INFO: Scores for test case #14
+2025-08-24 00:22:37 INFO: Score for Class Diagram Metric: 0.730
+2025-08-24 00:22:37 INFO: Score for Rouge Metric: 0.637
+2025-08-24 00:22:37 INFO: Evaluating test case #15
+2025-08-24 00:22:37 INFO: Syntactic evaluation data: {
+  "overall_score": 0.95,
+  "errors": [],
+  "warnings": [
+    {
+      "type": "naming_convention",
+      "line": 71,
+      "message": "Association label 'contains >' should be a verb phrase starting lowercase",
+      "severity": "minor"
+    },
+    {
+      "type": "naming_convention",
+      "line": 72,
+      "message": "Association label 'manages >' should be a verb phrase starting lowercase",
+      "severity": "minor"
+    },
+    {
+      "type": "naming_convention",
+      "line": 74,
+      "message": "Association label 'borrows >' should be a verb phrase starting lowercase",
+      "severity": "minor"
+    },
+    {
+      "type": "naming_convention",
+      "line": 75,
+      "message": "Association label 'has >' should be a verb phrase starting lowercase",
+      "severity": "minor"
+    },
+    {
+      "type": "naming_convention",
+      "line": 76,
+      "message": "Association label 'references >' should be a verb phrase starting lowercase",
+      "severity": "minor"
+    }
+  ],
+  "suggestions": [
+    "Use PascalCase for class names and lowercase verb phrases for relationship labels."
+  ],
+  "compliance_metrics": {
+    "structure_compliance": 1.0,
+    "relationship_syntax": 1.0,
+    "naming_conventions": 0.75,
+    "uml_standards": 1.0
+  }
+}
+2025-08-24 00:24:32 INFO: HTTP Request: POST http://127.0.0.1:11434/api/generate "HTTP/1.1 200 OK"
+2025-08-24 00:25:05 INFO: Semantic Raw response:
+```json
+{
+  "validity_score": 0.8,
+  "completeness_score": 0.7,
+  "issues": [
+    "Incorrect cardinality specification on relationship between User and BorrowHistory (1..* instead of 1)",
+    "Missing attributes in Book class, e.g., publicationYear, publisher",
+    "Operation 'canBorrowMoreBooks' in User class is not accurate as it does not consider availability",
+    "Relationship between Library and Book is incorrectly specified as a composition instead of an association"
+  ],
+  "recommendations": [
+    "Review attribute names and data types for consistency across classes",
+    "Consider adding attributes to Book class, e.g., publicationYear, publisher",
+    "Revise operation 'canBorrowMoreBooks' in User class to reflect availability",
+    "Change relationship between Library and Book from composition to association"
+  ]
+}
+```
+
+2025-08-24 00:26:41 INFO: HTTP Request: POST http://127.0.0.1:11434/api/generate "HTTP/1.1 200 OK"
+2025-08-24 00:27:17 INFO: Pragmatic Raw response:
+```json
+{
+  "score": 0.8,
+  "issues": [
+    "The `Library` class has many responsibilities, which may lead to God object antipattern.",
+    "The `User` abstract class has several attributes and methods, making it hard to understand its true purpose.",
+    "The `Book` class has too many attributes, some of which could be moved to separate classes (e.g., `Publisher`).",
+    "The relationships between `Library`, `User`, and `Book` are not clearly defined in the notes."
+  ],
+  "recommendations": [
+    "Consider breaking down the `Library` class into smaller ones, each responsible for a specific aspect.",
+    "Extract a separate `Profile` class from the `User` abstract class to reduce coupling.",
+    "Introduce a `Publisher` class to encapsulate publisher-related data.",
+    "Use more precise notes to explain the relationships between classes."
+  ]
+}
+```
+
+2025-08-24 00:29:18 INFO: HTTP Request: POST http://127.0.0.1:11434/api/generate "HTTP/1.1 200 OK"
+2025-08-24 00:30:27 INFO: LLM judge Raw response:
+```json
+{
+  "uml_completeness_score": 0.8,
+  "uml_quality_score": 0.7,
+  "requirement_coverage_score": 0.9,
+  "pragmatic_clarity_score": 0.6,
+  "overall_score": 0.8,
+  "issues": [
+    "Missing association between Library and BorrowHistory",
+    "Naming inconsistency (e.g., User vs Adult, UnderAgedUser)",
+    "Weak abstraction (e.g., separate classes for Adult and UnderAged Users)",
+    "Some method names could be more descriptive"
+  ],
+  "recommendations": [
+    "Add a relationship between Library and BorrowHistory to represent borrowing history",
+    "Consider using a single User class with attributes that distinguish between adult and underage users",
+    "Use more descriptive method names (e.g., registerUser() instead of addBook())",
+    "Consider adding additional associations or relationships to improve model clarity"
+  ]
+}
+```
+
+**Explanation**
+
+The provided UML class diagram evaluates as follows:
+
+1. **UML Completeness**: The diagram is mostly complete, but it lacks an association between Library and BorrowHistory.
+2. **UML Quality**: The design principles are respected, but there are some naming inconsistencies (e.g., User vs Adult, UnderAgedUser) and weak abstractions (e.g., separate classes for Adult and UnderAged Users).
+3. **Requirement Coverage**: The diagram covers most of the system requirements, but some additional associations or relationships could be added to improve model clarity.
+4. **Clarity & Pragmatics**: The diagram is understandable, but some method names could be more descriptive.
+
+**Overall Score**: 0.8
+
+The overall score reflects a good effort in modeling the system, but there are opportunities for improvement regarding UML quality and completeness.
+
+2025-08-24 00:30:27 INFO: Using default tokenizer.
+2025-08-24 00:30:27 INFO: Scores for test case #15
+2025-08-24 00:30:27 INFO: Score for Class Diagram Metric: 0.855
+2025-08-24 00:30:27 INFO: Score for Rouge Metric: 0.334
+2025-08-24 00:30:27 INFO: Evaluating test case #16
+2025-08-24 00:30:27 INFO: Syntactic evaluation data: {
+  "overall_score": 0.88,
+  "errors": [
+    {
+      "type": "syntax_error",
+      "line": 32,
+      "message": "Invalid relationship syntax: 'Adult <|-- User'",
+      "severity": "critical"
+    },
+    {
+      "type": "syntax_error",
+      "line": 33,
+      "message": "Invalid relationship syntax: 'UnderAged <|-- User'",
+      "severity": "critical"
+    }
+  ],
+  "warnings": [],
+  "suggestions": [
+    "Ensure all relationship operators and endpoints follow UML syntax."
+  ],
+  "compliance_metrics": {
+    "structure_compliance": 1.0,
+    "relationship_syntax": 0.6,
+    "naming_conventions": 1.0,
+    "uml_standards": 1.0
+  }
+}
+2025-08-24 00:31:33 INFO: HTTP Request: POST http://127.0.0.1:11434/api/generate "HTTP/1.1 200 OK"
+2025-08-24 00:32:04 INFO: Semantic Raw response:
+```json
+{
+  "validity_score": 0.8,
+  "completeness_score": 0.9,
+  "issues": [
+    "Incorrect cardinality specification for 'User --* History' in the original diagram",
+    "Operation '+borrow()' and '+return()' cannot be implemented with existing attributes/relationships in the original diagram"
+  ],
+  "recommendations": [
+    "Use a more specific name for the attribute 'idcard' in the 'Adult' class to improve clarity",
+    "Consider adding a 'age' attribute to the 'User' class to better represent domain concepts",
+    "In the 'Library' class, consider using a more accurate cardinality specification for the association with 'Book'",
+    "To improve completeness, consider adding an operation to the 'History' class to retrieve books borrowed by a user"
+  ]
+}
+```
+
+2025-08-24 00:32:53 INFO: HTTP Request: POST http://127.0.0.1:11434/api/generate "HTTP/1.1 200 OK"
+2025-08-24 00:33:27 INFO: Pragmatic Raw response:
+```json
+{
+  "score": 0.8,
+  "issues": [
+    "The User class has attributes 'firstname' and 'lastname' which are not used in any relationships, making it unclear what their purpose is.",
+    "There is no clear distinction between the Adult and UnderAged classes, as they both seem to inherit from a hypothetical 'User' class that is not shown. This makes it difficult to understand their relationship with User.",
+    "The History class has attributes 'Books' and 'date' which are lists, but it's unclear why they need to be separate. A single list of Book objects might be more intuitive."
+  ],
+  "recommendations": [
+    "Consider adding a clear description for each class to explain their purpose and relationships.",
+    "Use interfaces instead of classes when possible, as seen in the expected best practices diagram.",
+    "Simplify the attributes and relationships by removing redundant or unclear elements."
+  ]
+}
+```
+
+2025-08-24 00:34:40 INFO: HTTP Request: POST http://127.0.0.1:11434/api/generate "HTTP/1.1 200 OK"
+2025-08-24 00:35:21 INFO: LLM judge Raw response:
+```json
+{
+  "uml_completeness_score": 0.8,
+  "uml_quality_score": 0.7,
+  "requirement_coverage_score": 0.9,
+  "pragmatic_clarity_score": 0.6,
+  "overall_score": 0.77,
+  "issues": [
+    "Missing attributes in 'Adult' and 'UnderAged' classes",
+    "Attribute 'idcard' has a wrong type (int instead of String)",
+    "Relationship between 'User' and 'History' is not correctly represented",
+    "No associations defined between 'Library' and 'Book'",
+    "Method 'return()' has no clear purpose"
+  ],
+  "recommendations": [
+    "Add attributes to represent name in 'Adult' and 'UnderAged' classes",
+    "Correct attribute type for 'idcard' in 'Adult' class",
+    "Review relationship between 'User' and 'History'",
+    "Define associations between 'Library' and 'Book'",
+    "Clarify purpose of method 'return()' in the 'User' class"
+  ]
+}
+```
+
+2025-08-24 00:35:21 INFO: Using default tokenizer.
+2025-08-24 00:35:21 INFO: Scores for test case #16
+2025-08-24 00:35:21 INFO: Score for Class Diagram Metric: 0.877
+2025-08-24 00:35:21 INFO: Score for Rouge Metric: 0.730
+2025-08-24 00:35:21 INFO: Evaluating test case #17
+2025-08-24 00:35:21 INFO: Syntactic evaluation data: {
+  "overall_score": 1.0,
+  "errors": [],
+  "warnings": [],
+  "suggestions": [],
+  "compliance_metrics": {
+    "structure_compliance": 1.0,
+    "relationship_syntax": 1.0,
+    "naming_conventions": 1.0,
+    "uml_standards": 1.0
+  }
+}
+2025-08-24 00:37:48 INFO: HTTP Request: POST http://127.0.0.1:11434/api/generate "HTTP/1.1 200 OK"
+2025-08-24 00:38:28 INFO: Semantic Raw response:
+```json
+{
+  "validity_score": 0.8,
+  "completeness_score": 0.7,
+  "issues": [
+    "The cardinality of the relationship between WebUser and Account is not clear; it seems to be a simple association rather than an aggregation.",
+    "The class Order has an operation 'processPayment()' which cannot be realized with existing data.",
+    "The class Payment has an operation 'processPayment()' which is likely a business logic operation and should not be part of the domain model.",
+    "The attribute 'created' in the class ShoppingCart seems to be a timestamp rather than an identifier and should be removed or renamed."
+  ],
+  "recommendations": [
+    "Consider using a more specific enum for OrderStatus instead of the generic one provided.",
+    "Use aggregation where necessary, e.g., between Account and Order.",
+    "Rename attributes to better reflect their purpose (e.g., 'login_id' to 'username').",
+    "Consider adding more operations to classes like Product, Customer, etc."
+  ]
+}
+```
+
+2025-08-24 00:40:37 INFO: HTTP Request: POST http://127.0.0.1:11434/api/generate "HTTP/1.1 200 OK"
+2025-08-24 00:41:19 INFO: Pragmatic Raw response:
+```json
+{
+  "score": 0.7,
+  "issues": [
+    "The class diagrams are too large and complex, making it hard to understand the relationships between classes.",
+    "Some class names are not descriptive (e.g., WebUserStatus, OrderStatus).",
+    "There is no clear distinction between entity classes (e.g., Customer) and value object classes (e.g., LineItem).",
+    "The associations between classes are not always clearly defined (e.g., WebUser has a 1:0..1 relationship with ShoppingCart, but the diagram does not make it obvious)."
+  ],
+  "recommendations": [
+    "Break down the class diagrams into smaller sub-diagrams to focus on specific areas of the system.",
+    "Use more descriptive names for classes and enums (e.g., instead of WebUserStatus, use UserAccountStatus).",
+    "Clearly define entity classes and value object classes using stereotypes or annotations.",
+    "Use a consistent notation for associations between classes (e.g., use 'o--' for one-to-many relationships instead of '0..1')."
+  ]
+}
+```
+
+2025-08-24 00:43:57 INFO: HTTP Request: POST http://127.0.0.1:11434/api/generate "HTTP/1.1 200 OK"
+2025-08-24 00:44:39 INFO: LLM judge Raw response:
+{
+    "uml_completeness_score": 0.9,
+    "uml_quality_score": 0.85,
+    "requirement_coverage_score": 0.95,
+    "pragmatic_clarity_score": 0.92,
+    "overall_score": 0.91,
+    "issues": [
+        "In the 'Product Catalog' package, 'Price' is used as a type for 'LineItem.price', but it's not defined in the class diagram.",
+        "In the 'Order Management' package, 'OrderStatus' enum is missing association with 'Payment' class.",
+        "Nouns like 'Address', 'Phone' are not represented as classes in the class diagram."
+    ],
+    "recommendations": [
+        "Consider adding relationships between 'WebUser' and 'Customer' to better represent their association.",
+        "In the 'Product Catalog' package, define a 'Price' class or enum to avoid ambiguity.",
+        "Introduce an 'OrderItem' class to hold information about each order item, rather than using a generic 'LineItem'."
+    ]
+}
+
+2025-08-24 00:44:39 INFO: Using default tokenizer.
+2025-08-24 00:44:39 INFO: Scores for test case #17
+2025-08-24 00:44:39 INFO: Score for Class Diagram Metric: 0.875
+2025-08-24 00:44:39 INFO: Score for Rouge Metric: 0.446
+2025-08-24 00:44:39 INFO: Evaluating test case #18
+2025-08-24 00:44:39 INFO: Syntactic evaluation data: {
+  "overall_score": 0.86,
+  "errors": [
+    {
+      "type": "syntax_error",
+      "line": 58,
+      "message": "Invalid relationship syntax: 'Web_User <|-- User_state'",
+      "severity": "critical"
+    }
+  ],
+  "warnings": [
+    {
+      "type": "naming_convention",
+      "line": 3,
+      "message": "Class name 'Order_Status' should follow PascalCase convention",
+      "severity": "minor"
+    },
+    {
+      "type": "naming_convention",
+      "line": 38,
+      "message": "Class name 'Shopping_Cart' should follow PascalCase convention",
+      "severity": "minor"
+    },
+    {
+      "type": "naming_convention",
+      "line": 40,
+      "message": "Class name 'Web_User' should follow PascalCase convention",
+      "severity": "minor"
+    },
+    {
+      "type": "naming_convention",
+      "line": 45,
+      "message": "Class name 'User_state' should follow PascalCase convention",
+      "severity": "minor"
+    }
+  ],
+  "suggestions": [
+    "Use PascalCase for class names and lowercase verb phrases for relationship labels.",
+    "Ensure all relationship operators and endpoints follow UML syntax."
+  ],
+  "compliance_metrics": {
+    "structure_compliance": 1.0,
+    "relationship_syntax": 0.8,
+    "naming_conventions": 0.6,
+    "uml_standards": 1.0
+  }
+}
+2025-08-24 00:46:19 INFO: HTTP Request: POST http://127.0.0.1:11434/api/generate "HTTP/1.1 200 OK"
+2025-08-24 00:46:53 INFO: Semantic Raw response:
+```json
+{
+  "validity_score": 0.8,
+  "completeness_score": 0.7,
+  "issues": [
+    "Incorrect cardinality or multiplicity specifications on 'Product' to 'LineItem' relationship",
+    "Use of aggregation where a simple association is required for 'Customer' to 'Account'",
+    "Attributes placed in the wrong class: 'phone', 'email', and 'address' could be in a separate 'ContactInformation' class",
+    "Operations that cannot be implemented using the current attributes/relationships"
+  ],
+  "recommendations": [
+    "Review cardinality specifications on all relationships for accuracy",
+    "Consider separating association into aggregation where relevant, e.g., 'Customer' to 'Account'",
+    "Create a separate 'ContactInformation' class for phone, email, and address attributes",
+    "Add operations that can be realized with existing data and relationships"
+  ]
+}
+```
+
+2025-08-24 00:48:15 INFO: HTTP Request: POST http://127.0.0.1:11434/api/generate "HTTP/1.1 200 OK"
+2025-08-24 00:48:47 INFO: Pragmatic Raw response:
+```json
+{
+  "score": 0.7,
+  "issues": [
+    "The `STATUS` and `STATE` class variables are not used consistently throughout the diagram.",
+    "The `Order_Status` and `User_state` classes seem to be redundant, as their purpose is only to define a set of constants.",
+    "The relationships between classes are not always clear, e.g., what is the meaning of the '<<class_variables>>' stereotype?"
+  ],
+  "recommendations": [
+    "Consider removing redundant attributes and classes to simplify the diagram and improve understandability.",
+    "Use more descriptive names for classes and relationships to make the purpose of each entity clearer.",
+    "Use consistent styling throughout the diagram, e.g., use a standard notation for multiplicities (e.g., '1..*' instead of '0..*')."
+  ]
+}
+```
+
+2025-08-24 00:50:33 INFO: HTTP Request: POST http://127.0.0.1:11434/api/generate "HTTP/1.1 200 OK"
+2025-08-24 00:51:08 INFO: LLM judge Raw response:
+```json
+{
+  "uml_completeness_score": 0.9,
+  "uml_quality_score": 0.8,
+  "requirement_coverage_score": 0.7,
+  "pragmatic_clarity_score": 0.6,
+  "overall_score": 0.75,
+  "issues": [
+    "Missing 'Address' and 'Phone' classes",
+    "Naming inconsistency between 'OrderStatus' and 'UserState'",
+    "Weak abstraction in 'Web_User' class with multiple associations"
+  ],
+  "recommendations": [
+    "Introduce 'Address' and 'Phone' classes to improve data modeling",
+    "Rename 'Order_Status' to 'OrderStatus' for consistency",
+    "Consider merging 'Customer' and 'Account' classes or use aggregation relationships",
+    "Simplify associations in 'Web_User' class using composition instead of inheritance"
+  ]
+}
+```
+
+2025-08-24 00:51:08 INFO: Using default tokenizer.
+2025-08-24 00:51:08 INFO: Scores for test case #18
+2025-08-24 00:51:08 INFO: Score for Class Diagram Metric: 0.807
+2025-08-24 00:51:08 INFO: Score for Rouge Metric: 0.646

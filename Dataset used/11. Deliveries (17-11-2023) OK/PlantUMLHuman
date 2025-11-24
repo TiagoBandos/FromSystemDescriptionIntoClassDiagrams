@@ -1,0 +1,39 @@
+@startuml
+
+class Customer {
+    -Vat:int
+    -name:String
+    -phone:String
+    -address:String
+    +login()
+    +selectrecipient()
+    +enterweight()
+    +selectdelivery()
+}
+
+class Package {
+    -id:int
+    -weight:float
+    -urgent:Boolean
+}
+
+class DeliveryCenter {
+    -name:String
+    -address:String
+}
+
+class Courier {
+    -Vat:int
+    -name:String
+    -phone:String
+}
+
+Customer "1" -- "0..*" DeliveryCenter
+Package "0..*" -- "2" DeliveryCenter
+Package "0..*" -- "1" Courier
+DeliveryCenter "1" -- "0..*" Courier
+Customer "1" -- "1" Customer
+Customer "2" -- "0..*" Package
+Customer "0..*" -- "0..*" Courier
+
+@enduml

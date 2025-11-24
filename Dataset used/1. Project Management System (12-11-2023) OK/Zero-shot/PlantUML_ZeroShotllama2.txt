@@ -1,0 +1,47 @@
+@startuml
+class Project {
+    - id
+    + leadTeam()
+    + executeProject()
+    + initiate()
+    + terminate()
+    + produceSystem()
+    + validateRequirements()
+    + publishRequirements()
+}
+
+class Manager {
+    - project
+    + leadTeam(): Project
+    + initiateProject()
+    + terminateProject()
+}
+
+class Team {
+    - project
+    + executeProject(): Project
+}
+
+class Requirement {
+    - project
+    + input(): Project
+}
+
+class System {
+    - project
+    + produce(): Project
+}
+
+class WorkProduct {
+    - project
+    + description(): Text
+    + percentageCompleted(): Real
+    + validate(): Boolean
+}
+
+Project "1" *-- "many" Manager: leadTeam
+Manager "1" o-- Project: initiate, terminate
+Team "1" *-- Manager: executeProject
+Requirement "1" - Project: input
+System "1" *-- Project: produce
+WorkProduct "1" -- Project: validate, percentageCompleted

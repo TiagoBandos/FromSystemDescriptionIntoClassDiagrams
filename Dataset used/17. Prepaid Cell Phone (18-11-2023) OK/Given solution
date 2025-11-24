@@ -1,0 +1,29 @@
+@startuml
+' --- Diagram 8: Telecom Contracts ---
+class Contract {
+  +getCharges(): double
+  +getBalance(): double
+  +setBalance(double)
+}
+
+class BasicContract {
+  -balance: double
+  -contractNumber: int
+}
+
+class Option
+class Data
+class SMS
+class Phone
+class DoubleTransfer
+class Client
+
+Contract <.. BasicContract
+Contract <.. Option
+Contract <-- Option
+Option <|-- Data
+Option <|-- SMS
+Option <|-- Phone
+Option <|-- DoubleTransfer
+Contract <-- Client
+@enduml

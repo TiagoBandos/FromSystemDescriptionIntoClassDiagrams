@@ -1,0 +1,42 @@
+@startuml
+
+class Employee {
+    -id:int
+    -name:String
+    -address:String
+}
+
+class AssemblyService {
+    -kmscar:int
+    -workhours:String
+    -admissiondate:Date
+    -finishdate:Date
+}
+
+class PartAccessory {
+    -category:String
+    -serialnumber:int
+    -price:float
+}
+
+class Car {
+    -plate:String
+    -make:String
+    -model:String
+    -color:String
+}
+
+class Owner {
+    -name:String
+    -id:int
+    -address:String
+    -phone:String
+}
+
+Employee "1" -- "0..*" AssemblyService
+AssemblyService "1..*" -- "1" PartAccessory
+AssemblyService "0..*" -- "1" Car
+Car "1..*" -- "1" Owner
+Car "0..*" -- "0..*" PartAccessory
+
+@enduml

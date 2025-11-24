@@ -1,0 +1,50 @@
+@startuml
+' --- Diagram 6: Bank Management System ---
+class OrganizationalUnit
+class AccountType {
+  interestRate
+  monthlyFee
+  checksAllowed
+  insuranceAvailable
+}
+class Branch {
+  address
+  number
+}
+class Account {
+  number
+  balance
+  creditOrOverdraftLimit
+}
+class ChequingAccount
+class MortgageAccount {
+  collateralProperty
+}
+class CreditCardAccount {
+  expiryDate
+}
+class Person {
+  name
+}
+class Employee {
+  personalBanker
+}
+class Customer
+class CreditCard {
+  name
+}
+OrganizationalUnit -- OrganizationalUnit : subdivision
+OrganizationalUnit "0..1" -- "0..1" Employee: manager
+OrganizationalUnit  --  Employee: works for
+OrganizationalUnit <|-- Branch
+Branch "1" -- "*" Account
+Account <|-- ChequingAccount
+Account <|-- MortgageAccount
+Account <|-- CreditCardAccount
+Person <|-- Employee
+Person <|-- Customer
+Employee "*" -- "1" OrganizationalUnit : worksFor
+Customer "1..2" -- "*" Account : accountHolder
+CreditCard "1..*" -- "1" CreditCardAccount
+AccountType "1" -- "*" Account
+@enduml

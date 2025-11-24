@@ -1,0 +1,55 @@
+@startuml
+' --- Diagram 3: Client/Product/Machine System ---
+class Person {
+  FIRSTNAME
+  SURNAME
+  ADDRESS
+}
+
+class Client {
+  PHONE
+  CONTACT_PERSON
+}
+
+class Worker {
+  BIRTH_DATE
+}
+
+class Skill {
+  NAME
+}
+
+class Machine {
+  SERIAL
+  MAKE
+  MODEL
+  PURCHASE_DATE
+}
+
+class Product_Type {
+  MATERIAL
+  WEIGHT
+}
+
+class Product {
+  ID
+  NAME
+}
+
+class PurchaseOrder {
+  NUMBER
+  DATE
+  EXPECTED_DEL
+  ACTUAL_DEL
+}
+
+Person <|-- Client
+Person <|-- Worker
+Worker "*" -- "*" Skill
+Client "1" -- "*" Machine : Issuer
+Machine "1" -- "*" Product_Type
+Product_Type "1" -- "*" Product
+PurchaseOrder "*" -- "1" Client
+PurchaseOrder "*" -- "*" Product
+Worker "*" -- "*" Machine
+@enduml

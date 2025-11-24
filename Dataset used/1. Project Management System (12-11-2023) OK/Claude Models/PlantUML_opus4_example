@@ -1,0 +1,72 @@
+@startuml
+    class ProjectManagementSystem {
+        + createProject(project: Project): void
+    }
+    
+    class ProjectManager {
+        + createProject(): Project
+        + initiateProject(project: Project): void
+        + terminateProject(project: Project, reason: string): void
+    }
+    
+    class Team {
+        + executeProject(project: Project): void
+    }
+    
+    class Project {
+        - startDate: Date
+        - endDate: Date
+        - status: string
+        + initiate(): void
+        + terminate(reason: string): void
+    }
+    
+    abstract class WorkProduct {
+        - description: string
+        - percentComplete: integer
+        + {abstract} validate(): boolean
+        + updateProgress(percent: integer): void
+    }
+    
+    class Requirements {
+        + validate(): boolean
+        + validateWithUsers(workshop: Workshop): boolean
+        + publish(media: Media): void
+    }
+    
+    class System {
+        + validate(): boolean
+        + testAgainstRequirements(requirements: Requirements): boolean
+        + deploy(platform: Platform): void
+    }
+    
+    class Workshop {
+        - participants: string
+        + conductValidation(): boolean
+    }
+    
+    class Media {
+        - type: string
+        + getType(): string
+    }
+    
+    class Platform {
+        - name: string
+        - specifications: string
+        + getName(): string
+    }
+    
+    WorkProduct <|-- Requirements
+    WorkProduct <|-- System
+    
+    ProjectManagementSystem "1" *-- "0..*" Project : contains
+    ProjectManager "1" --> "1" ProjectManagementSystem : uses
+    ProjectManager "1" --> "1" Team : leads
+    Team "1" --> "1" Project : executes
+    Project "1" --> "1..*" Requirements : uses as input
+    Project "1" --> "1..*" System : produces as output
+    Requirements "0..*" --> "0..*" Workshop : validated in
+    System "0..*" --> "1..*" Requirements : tested against
+    Requirements "0..*" --> "1..*" Media : published using
+    System "0..*" --> "1..*" Platform : deployed onto
+@enduml

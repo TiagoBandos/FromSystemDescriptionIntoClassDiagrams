@@ -1,0 +1,186 @@
+@startuml
+
+class User {
+  -username: String
+  -password: String
+  -role: UserRoleType
+  +login()
+  +logout()
+}
+
+class Department {
+  -name: String
+}
+
+class Category {
+  -name: String
+  -uniqueTag: String
+  -stockPrice: Decimal
+  -type: CategoryType
+}
+
+abstract class Item {
+  -itemNumber: String
+  -currentPrice: Decimal
+  -status: ItemStatus
+  +modify()
+  +delete()
+  +viewDetails()
+  +viewHistory()
+}
+
+class UniqueItem {
+  +split()
+}
+
+class StockItem {
+  -quantity: Integer
+  +adjustQuantity()
+}
+
+class ItemProperty {
+  -name: String
+  -value: String
+  -type: PropertyType
+}
+
+class Acquisition {
+  -acquisitionNumber: String
+  -type: AcquisitionType
+  -startDate: Date
+  -endDate: Date
+  -status: AcquisitionStatus
+  +receiveItems()
+  +generateDonationReceipt()
+}
+
+class Donor {
+  -name: String
+  -contactPhone: String
+  -location: String
+}
+
+class Sale {
+  -salePrice: Decimal
+  -saleDate: Date
+  +processSale()
+}
+
+class ItemHistory {
+  +recordAction(action: String, user: User, details: String)
+}
+
+class ItemHistoryEntry {
+  -actionType: String
+  -timestamp: DateTime
+  -userName: String
+  -details: String
+}
+
+class WishList {
+  +addItem(item: Item)
+  +removeItem(item: Item)
+}
+
+class ReportManager {
+  +generateInventoryReport()
+  +generateAcquisitionReport()
+  +generateDonorReport()
+}
+
+class PriceSuggestionService {
+  +suggestPrice(item: Item): Decimal
+}
+
+class DonationReceipt {
+  -receiptNumber: String
+  -date: Date
+}
+
+class QuickBooksPOS {
+  +processSale(item: Item, quantity: Integer)
+  +updateInventory(item: Item, quantity: Integer)
+}
+
+class WebsiteIntegration {
+  +updateItemListing(item: Item)
+  +updateGreatAndGone(item: Item)
+  +publishWishList(user: User)
+}
+
+enum UserRoleType {
+  Administrator
+  Director
+  Manager
+  CustomerServiceRepresentative
+  ReceivingAssociate
+  PickupAssociate
+  DeconAssociate
+  SalesAssociate
+}
+
+enum CategoryType {
+  Unique
+  Stock
+}
+
+enum ItemStatus {
+  Available
+  Sold
+  InProcess
+  Deleted
+}
+
+enum AcquisitionType {
+  DropOff
+  PickUp
+  Decon
+}
+
+enum AcquisitionStatus {
+  Expected
+  PartiallyReceived
+  Completed
+}
+
+enum PropertyType {
+  Number
+  Text
+}
+
+' Relações
+
+User "1" -- UserRoleType : tem_papel
+User "1" -- "1" WishList : gerencia
+
+Department "1" o-- "0..*" Category : contém
+Category "1" *-- "0..*" Item : categoriza
+
+Item <|-- UniqueItem
+Item <|-- StockItem
+
+Item "1" -- "1" ItemHistory : tem_histórico
+ItemHistory "1" *-- "0..*" ItemHistoryEntry : registra_entrada
+
+Item "1" o-- "0..*" ItemProperty : possui
+Category "1" o-- "0..*" ItemProperty : define
+
+Acquisition "1" -- "1" Donor : por
+Acquisition "1" *-- "0..*" Item : inclui
+Acquisition "1" -- "1" DonationReceipt : gera
+
+Sale "1" -- "1..*" Item : vende
+Sale "1" -- "1" QuickBooksPOS : processa_via
+
+ReportManager "1" -- "0..*" Department : utiliza_dados_de
+ReportManager "1" -- "0..*" Category
+ReportManager "1" -- "0..*" Item
+ReportManager "1" -- "0..*" Acquisition
+ReportManager "1" -- "0..*" Donor
+
+PriceSuggestionService "1" -- "0..*" Item : sugere_preço_para
+
+WebsiteIntegration "1" -- "0..*" Item : publica
+WebsiteIntegration "1" -- "0..*" WishList : gerencia
+
+@enduml

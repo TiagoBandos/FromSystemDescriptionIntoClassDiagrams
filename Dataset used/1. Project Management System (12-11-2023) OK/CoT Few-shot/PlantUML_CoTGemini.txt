@@ -1,0 +1,85 @@
+@startuml
+skinparam handwritten true #gemini tem o habito de por este estilo que dificulta a legibilidade 
+skinparam classAttributeIconSize 0
+
+package "Project Management Core" {
+    class ProjectManager {
+        + initiateProject(project: Project): void
+        + terminateProject(project: Project): void
+    }
+
+    class ProjectManagementSystem {
+        + createProject(project: Project): void
+        + manageProject(project: Project): void
+    }
+
+    class Project {
+        - startDate: Date
+        - endDate: Date
+        + initiate(): void
+        + terminate(): void
+    }
+
+    ProjectManager "1" -- "1" ProjectManagementSystem : uses
+    ProjectManagementSystem "1" -- "0..*" Project : manages
+    Project "1" -- "1" Team : leads
+}
+
+package "Work Products" {
+    abstract class WorkProduct {
+        - description: string
+        - percentComplete: double
+        --
+        + getDescription(): string
+        + updatePercentComplete(percent: double): void
+        {abstract} validate(): void
+    }
+
+    class Requirement {
+        + validate(users: User[], workshops: Workshop[]): void
+        + publish(media: Media): void
+    }
+
+    class System {
+        + validate(requirements: Requirement[]): void
+        + deploy(platform: Platform): void
+    }
+
+    WorkProduct <|-- Requirement
+    WorkProduct <|-- System
+
+    Project "1" *-- "1..*" Requirement : uses
+    Project "1" *-- "1" System : produces
+}
+
+package "External Entities" {
+    class Team {
+        - name: string
+    }
+
+    class User {
+        - name: string
+    }
+
+    class Workshop {
+        - location: string
+        - date: Date
+    }
+
+    class Media {
+        - type: string
+    }
+
+    class Platform {
+        - name: string
+    }
+
+    Requirement "0..*" -- "1..*" User : validated_with
+    Requirement "0..*" -- "0..*" Workshop : in
+    Requirement "0..*" --> "0..*" Media : published_using
+
+    System "0..*" -- "1..*" Platform : deployed_onto
+    System "0..*" -- "0..*" Requirement : validated_against
+}
+
+@enduml

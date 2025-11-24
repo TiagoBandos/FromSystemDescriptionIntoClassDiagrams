@@ -1,0 +1,57 @@
+@startuml
+
+class ProjectManager {
+    - name: String
+    --
+    + manageProject(project: Project): void
+    + leadTeam(team: Team): void
+}
+
+class Project {
+    - startDate: Date
+    - endDate: Date
+    --
+    + initiate(): void
+    + terminate(): void
+}
+
+class Team {
+    - teamName: String
+}
+
+abstract class WorkProduct {
+    - description: String
+    - percentComplete: float
+    --
+    + {abstract} validate(strategy: ValidationStrategy): void
+}
+
+class Requirements {
+    - publishedMedia: String
+    --
+    + publish(): void
+}
+
+class System {
+    - deploymentPlatform: String
+    --
+    + deploy(): void
+}
+
+interface ValidationStrategy {
+    + validate(workProduct: WorkProduct): void
+}
+
+' Relationships
+ProjectManager "1" --> "1..*" Project : manages
+ProjectManager "1" --> "1" Team : leads
+Project "1" *-- "1" Team : has
+Project "1" --> "1..*" Requirements : uses
+Project "1" --> "1" System : produces
+WorkProduct <|-- Requirements
+WorkProduct <|-- System
+WorkProduct ..> ValidationStrategy : depends on
+Requirements ..|> ValidationStrategy : <<implements>\nvalidate via workshops
+System ..|> ValidationStrategy : <<implements>\nvalidate via testing
+
+@enduml

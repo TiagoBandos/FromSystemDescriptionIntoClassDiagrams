@@ -1,0 +1,84 @@
+@startuml
+
+' ====== CORE PROJECT DOMAIN ======
+class Project {
+    - startDate : Date
+    - endDate   : Date
+    - status    : ProjectStatus
+    + initiate()
+    + terminate(reason : String)
+}
+
+class ProjectManager {
+    - name : String
+    + lead(team : Team, project : Project)
+}
+
+class Team {
+    - name : String
+    + execute(project : Project)
+}
+
+Project "1" *-- "1" Team     : composed of >
+ProjectManager "1" -- "0..*" Project : leads >
+Team "0..*" -- "1" ProjectManager : led by >
+
+
+' ====== WORK PRODUCT HIERARCHY ======
+abstract class WorkProduct {
+    - description : String
+    - percentageCompleted : Real
+    + validate() : ValidationResult
+}
+
+class Requirement {
+    - id : String
+    + publish(media : Media)
+    + validate() : ValidationResult
+}
+
+class System {
+    - name : String
+    + deploy(platform : Platform)
+    + validate() : ValidationResult
+}
+
+Project "1" *-- "1..*" WorkProduct : produces >
+Project "1" --> "1..*" Requirement : input >
+Project "1" --> "0..1" System  : output >
+
+WorkProduct <|-- Requirement
+WorkProduct <|-- System
+
+
+' ====== VALIDATION & PUBLISHING / DEPLOYMENT ======
+class ValidationResult {
+    - isValid : Boolean
+    - comments : String
+}
+
+class Workshop {
+    - date : Date
+    - participants : List<String>
+}
+
+class Test {
+    - testCases : List<String>
+}
+
+class Media {
+    - type : String
+    - location : String
+}
+
+class Platform {
+    - name : String
+    - version : String
+}
+
+Requirement "1" --> "0..*" Workshop : validated in >
+System "1" --> "0..*" Test : validated by >
+Requirement "1" --> "0..*" Media : published via >
+System "1" --> "0..*" Platform : deployed on >
+
+@enduml

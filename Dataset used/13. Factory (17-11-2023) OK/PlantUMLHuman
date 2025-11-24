@@ -1,0 +1,52 @@
+@startuml
+
+class Machine {
+    -serialnumber:int
+    -make:String
+    -model:String
+    -purchasedate:Date
+}
+
+class Worker {
+    -firstname:String
+    -lastname:String
+    -birth_date:Date
+    -address:String
+}
+
+class Skill {
+    -name:String
+}
+
+class ProductType {
+    -material:String
+    -weight:float
+}
+
+class Product {
+    -id:int
+    -name:String
+}
+
+class Client {
+    -name:String
+    -address:String
+    -phone:String
+    -contact_person:String
+}
+
+class Order {
+    -number:int
+    -date:Date
+    -expected_delivery_date:Date
+    -actual_delivery_date:Date
+}
+
+Machine "0..*" -- "0..*" Worker
+Worker "0..*" -- "0..*" Skill
+Machine "1" -- "0..*" ProductType
+ProductType "1" -- "0..*" Product
+Client "1" -- "0..*" Order
+Order "0..*" -- "0..*" Product
+
+@enduml

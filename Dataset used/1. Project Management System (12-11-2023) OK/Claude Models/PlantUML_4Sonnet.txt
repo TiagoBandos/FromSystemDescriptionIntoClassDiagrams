@@ -1,0 +1,50 @@
+@startuml
+
+class ProjectManager {
+    + manageProject(): void
+}
+
+class ProjectManagementSystem {
+}
+
+class Project {
+    - startDate: Date
+    - endDate: Date
+    + initiate(): void
+    + terminate(): void
+}
+
+class Team {
+}
+
+abstract class WorkProduct {
+    - description: String
+    - percentComplete: int
+    + {abstract} validate(): boolean
+}
+
+class Requirements {
+    - mediaType: String
+    + publish(): void
+    + validate(): boolean
+}
+
+class System {
+    - platform: String
+    + deploy(): void
+    + validate(): boolean
+}
+
+' Relationships
+ProjectManager --> ProjectManagementSystem : uses
+ProjectManager --> Project : "1" -- "1..*" : manages
+ProjectManager --> Team : "1" -- "1" : leads
+Team --> Project : "1" -- "1..*" : executes
+Project --> Requirements : "1" -- "1..*" : uses as input
+Project --> System : "1" -- "1" : produces as output
+
+' Inheritance
+Requirements --|> WorkProduct
+System --|> WorkProduct
+
+@enduml

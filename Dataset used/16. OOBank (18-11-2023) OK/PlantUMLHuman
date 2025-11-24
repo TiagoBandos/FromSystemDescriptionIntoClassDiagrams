@@ -1,0 +1,76 @@
+@startuml
+
+class Subdivision {
+    -name:String
+}
+
+class Branch {
+    -address:String
+    -number:int
+}
+
+class Division {
+    -name:String
+}
+
+class Manager
+
+class Employee {
+    -name:String
+    -role:String
+}
+
+class Client {
+    -name:String
+    +openaccount()
+    +closeaccount()
+}
+
+class Account {
+    -number:int
+    -balance:float
+    -creditlimit:float
+}
+
+class AccountType {
+    -interestrate:float
+    -monthlyfee:float
+    -checksallowed:Boolean
+    -insuranceAvailable:Boolean
+}
+
+class CreditCard {
+    -name:String
+    -number:int
+}
+
+class CreditCardAccount {
+    -expirydate:Date
+}
+
+class CheckingAccount
+class MortgageAccount {
+    -collateralProperty:String
+}
+
+class JointAccount {
+    -secondclient:Client
+}
+
+Subdivision <|-- Branch
+Division "1" *-- "0..*" Subdivision
+Division  o-- Manager : manage
+Division "1" o-- "1..*" Employee : Works For
+Employee <|-- Manager
+Employee "1" -- "0..*" Client : Personal Banker
+Client "1" *-- "0..*" Account
+Client "2" *-- "0..*" JointAccount
+Client -- Branch
+Account "0..*" -- "1" AccountType
+CreditCardAccount "1" *-- "1..*" CreditCard
+CreditCardAccount <|-- Account
+CheckingAccount <|-- Account
+MortgageAccount <|-- Account
+JointAccount <|-- Account
+
+@enduml

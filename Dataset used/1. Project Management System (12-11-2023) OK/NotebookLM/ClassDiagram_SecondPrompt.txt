@@ -1,0 +1,45 @@
+@startuml
+
+abstract class WorkProduct {
+  -description: String
+  -completionPercentage: Float
+  +validate(): void
+}
+
+class Requirement {
+  +publish(media: String): void
+  +validate(): void
+}
+
+class System {
+  +deploy(platform: String): void
+  +validate(): void
+}
+
+class ProjectManager {
+  -name: String
+  +initiateProject(project: Project): void
+  +terminateProject(project: Project): void
+}
+
+class Team {
+  -name: String
+}
+
+class Project {
+  -startDate: Date
+  -endDate: Date
+}
+
+WorkProduct <|-- Requirement
+WorkProduct <|-- System
+
+ProjectManager "1" -- "1" Team : leads
+ProjectManager "1" -- "0..*" Project : manages
+
+Team "1" -- "0..*" Project : executes
+
+Project "1" -- "1..*" Requirement : uses as input
+Project "1" -- "1" System : produces as output
+
+@enduml

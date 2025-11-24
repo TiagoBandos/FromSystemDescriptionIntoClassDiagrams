@@ -1,0 +1,162 @@
+[
+  {
+    "input": "The project manager leads a team to execute the project within the project's start and end dates. Once the project is created in the project management system, a manager may initiate and later terminate the project due to its completion or for some other reason. The team executes the project. Requirements is the input of a project. As outputs the project shall produce a system. Requirements and systems are work products. Work product has a description, information of the percentage of work completed, and may be validated. The validation is depending on the type of work product. The requirements are validated with users in workshops. System are validated by being tested against the requirements. The requirements may be published using various types of media, including on an intranet or paper form. Systems may be deployed onto specific plataforms.",
+    "actual_output": "@startuml\npackage \"Project Management System\" {\n\n    class ProjectManager {\n        - name: String\n        + initiateProject(project: Project): void\n        + terminateProject(project: Project): void\n        + leadTeam(team: Team): void\n    }\n\n    class Project {\n        - startDate: Date\n        - endDate: Date\n        - status: ProjectStatus\n        + initiate(): void\n        + terminate(reason: String): void\n        + calculatePercentComplete(): int\n    }\n\n    abstract class WorkProduct {\n        - description: String\n        - percentComplete: int\n        + getPercentComplete(): int\n        + setPercentComplete(percent: int): void\n        + {abstract} validate(): boolean\n    }\n\n    class Requirement extends WorkProduct {\n        + validate(users: User[1..*]): boolean\n        + publish(media: PublicationMedia): void\n    }\n\n    class System extends WorkProduct {\n        + validate(requirements: Requirement[1..*]): boolean\n        + deploy(platform: Platform): void\n    }\n\n    class Team {\n        - members: Employee[1..*]\n        + executeProject(project: Project): void\n    }\n\n    class Employee {\n        - name: String\n        - role: String\n    }\n\n    enum PublicationMedia {\n        INTRANET\n        PAPER\n    }\n\n    enum ProjectStatus {\n        CREATED\n        INITIATED\n        IN_PROGRESS\n        TERMINATED\n        COMPLETED\n    }\n\n    class Platform {\n        - name: String\n        - version: String\n    }\n\n    class User {\n        - name: String\n    }\n\n    ProjectManager \"1\" -- \"1..*\" Project : manages >\n    ProjectManager \"1\" -- \"1..*\" Team : leads >\n    \n    Project \"1\" *-- \"1..*\" Requirement : uses >\n    Project \"1\" *-- \"1\" System : produces >\n    Project \"1\" <--> \"1..*\" Team : < executed by | executes >\n    \n    Requirement \"1..*\" -- \"1..*\" User : validated by >\n    System \"1\" -- \"1..*\" Platform : deployed on >\n}\n@enduml",
+    "expected_output": "@startuml\nclass ProjectManager {\n  +name: String\n  +startDate: Date\n  +endDate: Date\n  +leadTeam()\n  +initiateProject()\n  +terminateProject()\n}\n\nclass Project {\n  +projectID: int\n  +status: String\n  +createProject()\n  +executeProject()\n  +completeProject()\n}\n\nclass System {\n  +systemID: int\n  +validationStatus: String\n  +publishRequirements(mediaType: String)\n  +deploy(platform: String)\n}\n\nclass Requirement {\n  +requirementID: int\n  +description: String\n  +percentComplete: float\n  +validateWorkProduct()\n}\n\nclass WorkProduct {\n  +updateDescription()\n  +elaborate()\n}\n\nclass Validation {\n  +validateWithUsers()\n  +testSystem()\n}\n\nProjectManager \"1\" -- \"1\" Project : leads >\nProject \"1\" -- \"*\" System : produces >\nProject \"1\" -- \"*\" Requirement : produces >\nRequirement <|-- WorkProduct\nSystem <|-- WorkProduct\nWorkProduct \"1\" -- \"1..*\" Validation : validated by >\n@enduml",
+    "metadata": {
+      "run_id": "case1-ai"
+    }
+  },
+  {
+    "input": "The project manager leads a team to execute the project within the project's start and end dates. Once the project is created in the project management system, a manager may initiate and later terminate the project due to its completion or for some other reason. The team executes the project. Requirements is the input of a project. As outputs the project shall produce a system. Requirements and systems are work products. Work product has a description, information of the percentage of work completed, and may be validated. The validation is depending on the type of work product. The requirements are validated with users in workshops. System are validated by being tested against the requirements. The requirements may be published using various types of media, including on an intranet or paper form. Systems may be deployed onto specific plataforms.",
+    "actual_output": "@startuml\n\nclass \"Project Manager\" {\n    -name:String\n    +initiateProject()\n    +terminateProject()\n}\n\nclass Team {\n    -description:String\n}\n\nclass Project {\n    -name:String\n    -startDate:Date\n    -endDate:Date\n}\n\nclass Requirement {\n    +publish(media:String)\n}\n\nclass \"Work Product\" {\n    -percentComplete:int\n    -description:String\n    +validate()\n}\n\nclass System {\n    +deploy(platform:String)\n}\n\n\"Project Manager\" \"1\" -- \"1\" Team : Lead\n\"Project Manager\" \"1\" -- \"1\" Project : Manage\nTeam \"1\" -- \"1\" Project : Execute\nRequirement \"1..*\" -- \"1\" Project : Input\nProject \"1\" -- \"1\" System : Output\nRequirement --|> \"Work Product\"\nSystem --|> \"Work Product\"\n\n@enduml",
+    "expected_output": "@startuml\nclass ProjectManager {\n  +name: String\n  +startDate: Date\n  +endDate: Date\n  +leadTeam()\n  +initiateProject()\n  +terminateProject()\n}\n\nclass Project {\n  +projectID: int\n  +status: String\n  +createProject()\n  +executeProject()\n  +completeProject()\n}\n\nclass System {\n  +systemID: int\n  +validationStatus: String\n  +publishRequirements(mediaType: String)\n  +deploy(platform: String)\n}\n\nclass Requirement {\n  +requirementID: int\n  +description: String\n  +percentComplete: float\n  +validateWorkProduct()\n}\n\nclass WorkProduct {\n  +updateDescription()\n  +elaborate()\n}\n\nclass Validation {\n  +validateWithUsers()\n  +testSystem()\n}\n\nProjectManager \"1\" -- \"1\" Project : leads >\nProject \"1\" -- \"*\" System : produces >\nProject \"1\" -- \"*\" Requirement : produces >\nRequirement <|-- WorkProduct\nSystem <|-- WorkProduct\nWorkProduct \"1\" -- \"1..*\" Validation : validated by >\n@enduml",
+    "metadata": {
+      "run_id": "case1-human"
+    }
+  },
+  {
+    "input": "Model a movie shooting domain: a Scene has many Setups; each Setup has many Takes (tk_of_stp). Scenes may be Internal or External; External scenes are located at a Location. Capture codes, descriptions, and take measurements.",
+    "actual_output": "@startuml\n\nabstract class Scene {\n    - code: String\n    - description: String\n    --\n    + Scene(code: String, description: String)\n    + getCode(): String\n    + getDescription(): String\n    + setCode(code: String): void\n    + setDescription(description: String): void\n}\n\nclass Setup {\n    - code: String\n    - description: String\n    - scene: Scene\n    --\n    + Setup(code: String, description: String, scene: Scene)\n    + getCode(): String\n    + getDescription(): String\n    + setCode(code: String): void\n    + setDescription(description: String): void\n    + getScene(): Scene\n}\n\nclass Take {\n    - number: int\n    - filmLength: double\n    - reelCode: String\n    - setup: Setup\n    --\n    + Take(number: int, filmLength: double, reelCode: String, setup: Setup)\n    + getNumber(): int\n    + getFilmLength(): double\n    + getReelCode(): String\n    + setNumber(number: int): void\n    + setFilmLength(length: double): void\n    + setReelCode(code: String): void\n    + isValidNumber(): boolean\n    + getSetup(): Setup\n}\n\nclass Location {\n    - code: String\n    - address: String\n    - description: String\n    --\n    + Location(code: String, address: String, description: String)\n    + getCode(): String\n    + getAddress(): String\n    + getDescription(): String\n    + setCode(code: String): void\n    + setAddress(address: String): void\n    + setDescription(description: String): void\n}\n\nclass InternalScene {\n    --\n    + InternalScene(code: String, description: String)\n    + isTheaterScene(): boolean\n}\n\nclass ExternalScene {\n    - sceneType: String\n    - location: Location\n    --\n    + ExternalScene(code: String, description: String, sceneType: String, location: Location)\n    + getSceneType(): String\n    + setSceneType(type: String): void\n    + isDayScene(): boolean\n    + isNightScene(): boolean\n    + isValidSceneType(): boolean\n    + getLocation(): Location\n    + setLocation(location: Location): void\n}\n\nScene \"1\" *-- \"1..*\" Setup : contains >\nSetup \"1\" *-- \"1..*\" Take : contains >\nScene <|-- InternalScene\nScene <|-- ExternalScene\nExternalScene \"1..*\" -- \"1\" Location : filmed at >\n\nnote bottom of Take\n  number must be positive\nend note\n\nnote right of ExternalScene\n  sceneType can be \"day\" or \"night\"\nend note\n\n@enduml",
+    "expected_output": "@startuml\nclass Take{\n    nbr: integer\n    filmed_meters : Real\n    reel : string\n}\nclass Setup{\n    code: string\n    photographic_pars: Text\n}\nclass Scene{\n    code: string\n    description: Text\n}\nclass Internal{\n    theater: string\n}\nclass External{\n    night_scene : boolean\n}\nclass Location{\n    name: string\n    address: string\n    description: text\n}\nTake \"1..*\" -- \"1\" Setup: tk_of_stp\nSetup \"1..*\" -- \"1\" Scene: stp_for_scn\nScene <|-- Internal\nScene <|-- External\nExternal \"0..*\" -- \"1\" Location : located\n\n@enduml",
+    "metadata": {
+      "run_id": "case2-ai"
+    }
+  },
+  {
+    "input": "Model a movie shooting domain: a Scene has many Setups; each Setup has many Takes (tk_of_stp). Scenes may be Internal or External; External scenes are located at a Location. Capture codes, descriptions, and take measurements.",
+    "actual_output": "@startuml\n\nclass Internals {\n    -teather:String\n}\n\nclass Externals {\n    -night_scene:Boolean\n}\n\nclass Location {\n    -name:String\n    -address:String\n    -description:String\n}\n\nclass Scene {\n    -code:String\n    -description:String\n    +filmed()\n}\n\nclass Setup {\n    -code:String\n    -photographic_parameters:String\n}\n\nclass Takes {\n    -natural_number:int\n    -filmed_metres:Real\n    -reel:String\n}\n\nInternals --|> Scene\nExternals --|> Scene\nExternals \"0..*\" -- \"1\" Location : located\nScene \"1\" -- \"1..*\" Setup : setup_for_scene\nSetup \"1\" -- \"1..*\" Takes : takes_of_setup\n\n@enduml",
+    "expected_output": "@startuml\nclass Take{\n    nbr: integer\n    filmed_meters : Real\n    reel : string\n}\nclass Setup{\n    code: string\n    photographic_pars: Text\n}\nclass Scene{\n    code: string\n    description: Text\n}\nclass Internal{\n    theater: string\n}\nclass External{\n    night_scene : boolean\n}\nclass Location{\n    name: string\n    address: string\n    description: text\n}\nTake \"1..*\" -- \"1\" Setup: tk_of_stp\nSetup \"1..*\" -- \"1\" Scene: stp_for_scn\nScene <|-- Internal\nScene <|-- External\nExternal \"0..*\" -- \"1\" Location : located\n\n@enduml",
+    "metadata": {
+      "run_id": "case2-human"
+    }
+  },
+  {
+    "input": "Model a document editor. A Document has many Pages. A Page can show Trimming (date, time, pageNumber) and may contain Characters, Tables, and Pictures. Characters, Tables and Pictures can appear in Cells; tables aggregate cells. Capture basic operations like insert/hide/edit.",
+    "actual_output": "@startuml\n\npackage Document {\n  class Document {\n    - title: String\n    + createNewDocument(): Boolean\n    + openDocument(path: String): Boolean\n    + saveDocument(path: String): Boolean\n    + printDocument(): Boolean\n  }\n\n  class Page {\n    - pageNumber: Integer\n  }\n\n  class Header {\n    + addDate(date: Date): void\n    + addTime(time: Time): void\n    + addPageNumber(): void\n  }\n\n  class Body {\n    + addSentence(sentence: Sentence): void\n    + insertPicture(picture: Picture): void\n    + insertTable(table: Table): void\n  }\n\n  class Footer {\n    + addDate(date: Date): void\n    + addTime(time: Time): void\n    + addPageNumber(): void\n  }\n\n  class Sentence {\n    + addWord(word: Word): void\n    + addPunctuation(punctuation: Punctuation): void\n  }\n\n  class Word {\n    + addCharacter(character: Character): void\n  }\n\n  class Punctuation {\n    - value: char\n  }\n\n  class Picture {\n    - width: Integer\n    - height: Integer\n  }\n\n  class Table {\n    - rowCount: Integer\n    - columnCount: Integer\n    + addRow(): TableRow\n    + addColumn(): TableColumn\n    + getCell(row: Integer, column: Integer): TableCell\n  }\n\n  class TableRow {\n    - rowIndex: Integer\n  }\n\n  class TableColumn {\n    - columnIndex: Integer\n  }\n\n  class TableCell {\n    - rowIndex: Integer\n    - columnIndex: Integer\n    + addText(text: Text): void\n    + addPicture(picture: Picture): void\n  }\n\n  abstract class Character {\n    - value: char\n    + getValue(): char\n  }\n\n  class Letter extends Character {\n    + isUpperCase(): Boolean\n    + isLowerCase(): Boolean\n  }\n\n  class Digit extends Character {\n    + getNumericValue(): Integer\n  }\n\n  class SpecialCharacter extends Character {\n    + getCategory(): String\n  }\n\n  class Text {\n    - content: String\n    + getText(): String\n    + setText(content: String): void\n  }\n\n  class Image {\n    - path: String\n    - format: String\n    + load(): Boolean\n    + getSize(): Integer\n  }\n\n  class Date {\n    - day: Integer\n    - month: Integer\n    - year: Integer\n    + toString(): String\n  }\n\n  class Time {\n    - hour: Integer\n    - minute: Integer\n    - second: Integer\n    + toString(): String\n  }\n}\n\nclass User {\n  - name: String\n  + createNewDocument(): Document\n  + openDocument(path: String): Document\n  + enterText(text: String): void\n  + saveDocument(document: Document, path: String): Boolean\n  + printDocument(document: Document): Boolean\n}\n\nclass Keyboard {\n  + captureInput(): String\n}\n\n' Relationships with proper multiplicity and types\nDocument \"1\" o-- \"1..*\" Page : contains >\nPage \"1\" *-- \"1\" Header : has >\nPage \"1\" *-- \"1\" Body : has >\nPage \"1\" *-- \"1\" Footer : has >\n\nBody \"1\" o-- \"0..*\" Sentence : contains >\nBody \"1\" o-- \"0..*\" Picture : may contain >\nBody \"1\" o-- \"0..*\" Table : may contain >\n\nSentence \"1\" o-- \"1..*\" Word : contains >\nSentence \"1\" o-- \"0..*\" Punctuation : contains >\n\nWord \"1\" o-- \"1..*\" Character : composed of >\n\nTable \"1\" *-- \"1..*\" TableRow : has >\nTable \"1\" *-- \"1..*\" TableColumn : has >\nTable \"1\" *-- \"1..*\" TableCell : contains >\n\n' Grid structure of table\nTableRow \"1\" -- \"1..*\" TableCell : contains >\nTableColumn \"1\" -- \"1..*\" TableCell : contains >\nTableCell \"1\" -- \"1\" TableRow : belongs to >\nTableCell \"1\" -- \"1\" TableColumn : belongs to >\n\nTableCell \"1\" o-- \"0..1\" Text : may contain >\nTableCell \"1\" o-- \"0..1\" Picture : may contain >\n\nPicture \"1\" -- \"1\" Image : displays >\n\nHeader \"1\" o-- \"0..1\" Date : may display >\nHeader \"1\" o-- \"0..1\" Time : may display >\nFooter \"1\" o-- \"0..1\" Date : may display >\nFooter \"1\" o-- \"0..1\" Time : may display >\n\nUser \"1\" -- \"0..*\" Document : opens/saves/prints >\nUser \"1\" -- \"1\" Keyboard : uses >\nKeyboard \"1\" -- \"1\" Document : inputs text to >\n\nPunctuation \"1\" -- \"1\" Character : is a >\n\n@enduml",
+    "expected_output": "@startuml\nclass Document{\n    - numberOfPages\n    + open()\n    + save()\n    + print()\n    + new()\n}\nclass Page{\n    - pageNumber\n    + newPage()\n    + hideHeader()\n    + hideFooter()\n    + insertPicture()\n    + insertTable()\n}\nclass Trimming{\n    - date\n    - time\n    - pageNumber\n    + display()\n    + change()\n    + hide()\n}\nclass Character{\n    - ASCIICode\n    - type\n    + normal()\n    + italic()\n    + bold()\n    + underline()\n}\nclass Table{\n    - rows\n    - columns\n    + insertRow()\n    + insertColumn()\n    + newTable()\n    + insertPicture()\n}\nclass Picture{\n    - imageType\n    - imageSize\n    + insert()\n    + delete()\n}\nclass Cell{\n    - cellFormat\n    + edit()\n}\nDocument \"1\" *-- \"1..*\" Page\nPage \"1\" o--  \"0..1\" Trimming\nPage \"1\" o--  \"0..*\" Character\nPage \"1\" o--  \"0..*\" Table\nPage \"1\" o--  \"0..*\" Picture\nCharacter \"0..*\" --o \"1\" Cell\nTable \"1\" *-- \"1..*\" Cell  \nPicture \"0..*\" --o \"1\" Cell\n\n\n@enduml",
+    "metadata": {
+      "run_id": "case3-ai"
+    }
+  },
+  {
+    "input": "Model a document editor. A Document has many Pages. A Page can show Trimming (date, time, pageNumber) and may contain Characters, Tables, and Pictures. Characters, Tables and Pictures can appear in Cells; tables aggregate cells. Capture basic operations like insert/hide/edit.",
+    "actual_output": "@startuml\n\nclass Header {\n    -date:Date\n    -time:Time\n    -pageNumber:int\n}\n\nclass Footer {\n    -date:Date\n    -time:Time\n    -pageNumber:int\n}\n\nclass User {\n    +open()\n    +save()\n    +print()\n    +new()\n}\n\nclass Document {\n    -numberOfPages:int\n}\n\nclass Page {\n    -header:Header\n    -body:Body\n    -footer:Footer\n}\n\nclass Body {\n    -sentences:List(Sentence)\n}\n\nclass Sentence {\n    -words:List(Word)\n    -punctuationList(Puntuaction)\n}\n\nclass Word {\n    -letter:String\n    -digits:String\n    -special character:String\n}\n\nclass Puntuaction {\n    -character:String\n}\n\nclass Table {\n    -rows:int\n    -columns:int\n}\n\nclass Cell {\n    -text:String\n    -picture:Picture\n}\n\nclass Picture {\n    -imageType:String\n    -imageSize:String\n}\n\nHeader \"0..1\" --* \"1\" Page\nFooter \"0..1\" --* \"1\" Page\nPage \"1..*\" --* \"1\" Document\nUser \"1\" -- \"0..*\" Document\nPage \"1\" *-- \"1\" Body\nBody \"1\" --o \"0..*\" Sentence\nSentence \"1\" o-- \"0..*\" Word\nSentence \"1\" o-- \"0..*\" Puntuaction\nBody \"1\" o-- \"0..*\" Table\nBody \"1\" o-- \"0..*\" Picture\nTable \"1\" *-- \"1..*\" Cell\nPicture \"0...*\" --o \"1\" Cell\n\n@enduml",
+    "expected_output": "@startuml\nclass Document{\n    - numberOfPages\n    + open()\n    + save()\n    + print()\n    + new()\n}\nclass Page{\n    - pageNumber\n    + newPage()\n    + hideHeader()\n    + hideFooter()\n    + insertPicture()\n    + insertTable()\n}\nclass Trimming{\n    - date\n    - time\n    - pageNumber\n    + display()\n    + change()\n    + hide()\n}\nclass Character{\n    - ASCIICode\n    - type\n    + normal()\n    + italic()\n    + bold()\n    + underline()\n}\nclass Table{\n    - rows\n    - columns\n    + insertRow()\n    + insertColumn()\n    + newTable()\n    + insertPicture()\n}\nclass Picture{\n    - imageType\n    - imageSize\n    + insert()\n    + delete()\n}\nclass Cell{\n    - cellFormat\n    + edit()\n}\nDocument \"1\" *-- \"1..*\" Page\nPage \"1\" o--  \"0..1\" Trimming\nPage \"1\" o--  \"0..*\" Character\nPage \"1\" o--  \"0..*\" Table\nPage \"1\" o--  \"0..*\" Picture\nCharacter \"0..*\" --o \"1\" Cell\nTable \"1\" *-- \"1..*\" Cell  \nPicture \"0..*\" --o \"1\" Cell\n\n\n@enduml",
+    "metadata": {
+      "run_id": "case3-human"
+    }
+  },
+   {
+    "input": "Model a medical domain with Patients, Families, Appointments, Doctors, Visits and Prescriptions. Families have insured information. Doctors have primary care responsibilities. Prescriptions are issued during visits.",
+    "actual_output": "@startuml\npackage \"Patient Record and Scheduling System\" {\n...\n}\n@enduml",
+    "expected_output": "@startuml\nclass FamilyInsured {\n  Name of Family\n  Address\n  Telephone\n  Insurance Carrier\n  Policy number\n}\n...\n@enduml",
+    "metadata": {
+      "run_id": "case4-ai"
+    }
+  },
+  {
+    "input": "Model a medical domain with Patients, Families, Appointments, Doctors, Visits and Prescriptions. Families have insured information. Doctors have primary care responsibilities. Prescriptions are issued during visits.",
+    "actual_output": "@startuml\n\nclass Receptionist {\n    +enterinfopatient()\n    +scheduleappointment()\n}\n...\n@enduml",
+    "expected_output": "@startuml\nclass FamilyInsured {\n  Name of Family\n  Address\n  Telephone\n  Insurance Carrier\n  Policy number\n}\n...\n@enduml",
+    "metadata": {
+      "run_id": "case4-human"
+    }
+  },
+  {
+    "input": "Model a movie shop with Users, Subscribers, Cards, Orders, Movies, Rentals and Purchases. Capture hire and buy relations.",
+    "actual_output": "@startuml\npackage \"Movie Shop\" {\n...\n}\n@enduml",
+    "expected_output": "@startuml\nclass User {\n  +Nome\n  +Cognome\n}\n...\n@enduml",
+    "metadata": {
+      "run_id": "case5-ai"
+    }
+  },
+  {
+    "input": "Model a movie shop with Users, Subscribers, Cards, Orders, Movies, Rentals and Purchases. Capture hire and buy relations.",
+    "actual_output": "@startuml\n\nclass User {\n    -firstname:String\n    -lastname:String\n}\n...\n@enduml",
+    "expected_output": "@startuml\nclass User {\n  +Nome\n  +Cognome\n}\n...\n@enduml",
+    "metadata": {
+      "run_id": "case5-human"
+    }
+  },
+  {
+    "input": "Model an airline domain with Airlines, Flights, Airports, Aircrafts, AircraftTypes and Pilots with roles Captain, Copilot, Navigator.",
+    "actual_output": "@startuml\npackage Airline {\n...\n}\n@enduml",
+    "expected_output": "@startuml\nclass Airline {\n  ID\n  name\n}\n...\n@enduml",
+    "metadata": {
+      "run_id": "case6-ai"
+    }
+  },
+  {
+    "input": "Model an airline domain with Airlines, Flights, Airports, Aircrafts, AircraftTypes and Pilots with roles Captain, Copilot, Navigator.",
+    "actual_output": "@startuml\n\nclass Airline {\n    -id:String\n}\n...\n@enduml",
+    "expected_output": "@startuml\nclass Airline {\n  ID\n  name\n}\n...\n@enduml",
+    "metadata": {
+      "run_id": "case6-human"
+    }
+  },
+  {
+    "input": "Model a bank system with Customers, Accounts, Investment and Saving accounts, Stocks and Stock Orders.",
+    "actual_output": "@startuml\npackage \"Bank System\" {\n...\n}\n@enduml",
+    "expected_output": "@startuml\nclass Customer {\n  name : String\n  address : String\n}\n...\n@enduml",
+    "metadata": {
+      "run_id": "case7-ai"
+    }
+  },
+  {
+    "input": "Model a bank system with Customers, Accounts, Investment and Saving accounts, Stocks and Stock Orders.",
+    "actual_output": "@startuml\n\nclass Customer {\n    -name:String\n    -address:String\n}\n...\n@enduml",
+    "expected_output": "@startuml\nclass Customer {\n  name : String\n  address : String\n}\n...\n@enduml",
+    "metadata": {
+      "run_id": "case7-human"
+    }
+  },
+  {
+    "input": "Model a veterinary clinic with Animals, Breeds, Conditions, Appointments, Owners and Physicians.",
+    "actual_output": "@startuml\npackage \"Veterinary Clinic\" {\n...\n}\n@enduml",
+    "expected_output": "@startuml\nclass Animal {\n  ID\n  Name\n}\n...\n@enduml",
+    "metadata": {
+      "run_id": "case8-ai"
+    }
+  },
+  {
+    "input": "Model a veterinary clinic with Animals, Breeds, Conditions, Appointments, Owners and Physicians.",
+    "actual_output": "@startuml\n\nclass Animal {\n    -name:String\n    -id:int\n}\n...\n@enduml",
+    "expected_output": "@startuml\nclass Animal {\n  ID\n  Name\n}\n...\n@enduml",
+    "metadata": {
+      "run_id": "case8-human"
+    }
+  },
+  {
+    "input": "Model a car repair shop with Employees, Owners, Cars, CarModels, Makes, AssemblyServices, PartAccessories and PartTypes.",
+    "actual_output": "@startuml\npackage \"Auto Repair Shop\" {\n...\n}\n@enduml",
+    "expected_output": "@startuml\nclass Person {\n  ID\n  NAME\n  ADDRESS\n}\n...\n@enduml",
+    "metadata": {
+      "run_id": "case9-ai"
+    }
+  },
+  {
+    "input": "Model a car repair shop with Employees, Owners, Cars, CarModels, Makes, AssemblyServices, PartAccessories and PartTypes.",
+    "actual_output": "@startuml\n\nclass Employee {\n    -id:int\n    -name:String\n    -address:String\n}\n...\n@enduml",
+    "expected_output": "@startuml\nclass Person {\n  ID\n  NAME\n  ADDRESS\n}\n...\n@enduml",
+    "metadata": {
+      "run_id": "case9-human"
+    }
+  },
+  {
+    "input": "Model a restaurant system with Ingredients, Dishes, Meals, Tables, Clients and Waiters. Capture quantities and times served.",
+    "actual_output": "@startuml\npackage \"Restaurant Management System\" {\n...\n}\n@enduml",
+    "expected_output": "@startuml\nclass Ingredient {\n  Name\n  Unit\n  Stock\n}\n...\n@enduml",
+    "metadata": {
+      "run_id": "case10-ai"
+    }
+  },
+  {
+    "input": "Model a restaurant system with Ingredients, Dishes, Meals, Tables, Clients and Waiters. Capture quantities and times served.",
+    "actual_output": "@startuml\n\nclass Ingredient {\n    -name:String\n    -measuringunits:String\n    -quantity:float\n}\n...\n@enduml",
+    "expected_output": "@startuml\nclass Ingredient {\n  Name\n  Unit\n  Stock\n}\n...\n@enduml",
+    "metadata": {
+      "run_id": "case10-human"
+    }
+  }
+]

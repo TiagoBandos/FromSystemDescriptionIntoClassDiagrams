@@ -1,0 +1,85 @@
+@startuml
+package "Bank System" {
+
+  class Customer {
+    - name: String
+    - address: String
+    + getName(): String
+    + setName(name: String): void
+    + getAddress(): String
+    + setAddress(address: String): void
+  }
+
+  abstract class Account {
+    - balance: double
+    + getBalance(): double
+    + deposit(amount: double): void
+    + withdraw(amount: double): boolean
+    # setBalance(balance: double): void
+  }
+
+  class SavingsAccount extends Account {
+    - interestRate: double
+    + getInterestRate(): double
+    + setInterestRate(rate: double): void
+    + calculateInterest(): double
+    + applyInterest(): void
+  }
+
+  class InvestmentAccount extends Account {
+    + getStocks(): List<Stock>
+    + addStock(stock: Stock): void
+    + removeStock(stock: Stock): boolean
+  }
+
+  class Stock {
+    - ticker: String
+    - companyName: String
+    + getTicker(): String
+    + getCompanyName(): String
+    + setCompanyName(name: String): void
+  }
+
+  class BankService {
+    - commissionRate: double
+    + getCommissionRate(): double
+    + setCommissionRate(rate: double): void
+    + buyStock(account: InvestmentAccount, stock: Stock, quantity: int, price: double): StockOrder
+    + sellStock(account: InvestmentAccount, stock: Stock, quantity: int, price: double): StockOrder
+    - applyCommission(order: StockOrder): double
+  }
+
+  class StockOrder {
+    - stock: Stock
+    - quantity: int
+    - price: double
+    - commission: double
+    - orderDate: Date
+    + getStock(): Stock
+    + getQuantity(): int
+    + getPrice(): double
+    + getCommission(): double
+    + setCommission(commission: double): void
+    + getOrderDate(): Date
+    + getTotalCost(): double
+  }
+
+  Customer "1" -- "*" Account : owns >
+  InvestmentAccount "1" o-- "*" Stock : holds >
+  BankService "1" -- "*" StockOrder : processes >
+  BankService ..> InvestmentAccount : uses
+  BankService ..> Stock : uses
+  Bank "1" -- "1" BankService : provides >
+
+  class Bank {
+    - name: String
+    + getName(): String
+    + setName(name: String): void
+    + getCustomers(): List<Customer>
+    + addCustomer(customer: Customer): void
+    + removeCustomer(customer: Customer): boolean
+  }
+
+  Bank "1" -- "*" Customer : serves >
+}
+@enduml

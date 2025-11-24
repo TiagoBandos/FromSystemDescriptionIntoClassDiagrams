@@ -1,0 +1,38 @@
+@startuml
+' --- Diagram 1: Courier/Delivery System ---
+class Person {
+  VAT
+  NAME
+  PHONE
+}
+
+class Customer {
+  ADDRESS
+}
+
+class Courier
+class Package {
+  Id
+  Weight
+  Urgency
+}
+
+class DeliveryCenter {
+  NAME
+  Address
+}
+
+class DateTimeRecord {
+  DateTimeArrival
+  DateTimeDeparture
+}
+
+Person <|-- Customer
+Person <|-- Courier
+Customer "1" -- "*" Package : Sender
+Customer "1" -- "*" Package : Recipient
+Courier "1" -- "*" DeliveryCenter
+Package "*" -- "1" DeliveryCenter : Dropoff point
+Package "*" ..> DateTimeRecord
+Courier "1" -- "*" Package
+@enduml

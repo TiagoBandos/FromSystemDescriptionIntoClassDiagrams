@@ -1,0 +1,107 @@
+' Abstract classes and interfaces
+abstract class Content {
+    + render(): void
+}
+
+' Main classes
+class User {
+    - username: String
+    + openDocument(path: String): Document
+    + createNewDocument(): Document
+    + saveDocument(doc: Document): void
+    + printDocument(doc: Document): void
+}
+
+class Document {
+    - name: String
+    - created: DateTime
+    - modified: DateTime
+    + addPage(): void
+    + deletePage(pageNumber: int): void
+    + save(): void
+    + print(): void
+}
+
+class Page {
+    - pageNumber: int
+    + getPageNumber(): int
+}
+
+class Header {
+    - showDateTime: boolean
+    - showPageNumber: boolean
+    + setDateTime(show: boolean): void
+    + setPageNumber(show: boolean): void
+}
+
+class Footer {
+    - showDateTime: boolean
+    - showPageNumber: boolean
+    + setDateTime(show: boolean): void
+    + setPageNumber(show: boolean): void
+}
+
+class Body {
+    + addContent(content: Content): void
+    + removeContent(content: Content): void
+}
+
+class Sentence {
+    + addWord(word: Word): void
+    + removeWord(word: Word): void
+}
+
+class Word {
+    - characters: List<Character>
+    + getText(): String
+}
+
+class Character {
+    - value: char
+    - type: CharacterType
+}
+
+class Picture {
+    - path: String
+    - size: Dimension
+    + resize(width: int, height: int): void
+}
+
+class Table {
+    - rowCount: int
+    - columnCount: int
+    + addRow(): void
+    + addColumn(): void
+    + getCell(row: int, column: int): Cell
+}
+
+class Cell {
+    + addContent(content: Content): void
+    + clearContent(): void
+}
+
+' Enums
+enum CharacterType {
+    LETTER
+    DIGIT
+    SPECIAL
+    PUNCTUATION
+}
+
+' Relationships
+User "1" -- "0..*" Document : manages >
+Document "1" *-- "1..*" Page : contains >
+Page "1" *-- "1" Header : has >
+Page "1" *-- "1" Footer : has >
+Page "1" *-- "1" Body : has >
+Body "1" *-- "0..*" Content : contains >
+Content <|-- Sentence
+Content <|-- Picture
+Content <|-- Table
+Sentence "1" *-- "1..*" Word : contains >
+Word "1" *-- "1..*" Character : contains >
+Table "1" *-- "0..*" Cell : contains >
+Cell "1" *-- "0..*" Content : contains >
+Character -- CharacterType : has >
+
+@enduml

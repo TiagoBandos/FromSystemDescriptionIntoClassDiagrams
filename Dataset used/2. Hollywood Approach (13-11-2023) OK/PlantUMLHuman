@@ -1,0 +1,41 @@
+@startuml
+
+class Internals {
+    -teather:String
+}
+
+class Externals {
+    -night_scene:Boolean
+}
+
+class Location {
+    -name:String
+    -address:String
+    -description:String
+}
+
+class Scene {
+    -code:String
+    -description:String
+    +filmed()
+}
+
+class Setup {
+    -code:String
+    -photographic_parameters:String
+}
+
+class Takes {
+    -natural_number:int
+    -filmed_metres:Real
+    -reel:String
+}
+
+Internals --|> Scene
+Externals --|> Scene
+Externals "0..*" -- "1" Location : located
+Scene "1" -- "1..*" Setup : setup_for_scene
+Setup "1" -- "1..*" Takes : takes_of_setup
+
+@enduml
+

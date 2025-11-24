@@ -1,0 +1,42 @@
+@startuml
+skinparam componentStyle rectangle
+skinparam interfaceStyle uml2
+
+actor "Project Manager" as PM
+
+'— Core system and project —
+component "Project Management\nSystem" as PMS
+component "Project" as PRJ
+
+'— Generic work-product contract —
+interface "IWorkProduct" as IWP
+
+'— Work products —
+component "Requirements" as REQ <<work product>>
+component "System Deliverable" as SYS <<work product>>
+
+'— Validation mechanisms —
+component "Workshop\nValidation" as VREQ
+component "System\nTesting" as VSYS
+
+'— Publication / deployment targets —
+component "Publication Media\n(Intranet / Paper)" as Media
+component "Deployment Platform" as Platform
+
+'===== Relationships =====
+PM  --> PMS  : manages
+PMS --> PRJ  : controls
+PM  --> PRJ  : leads
+
+PRJ ..> REQ : uses
+PRJ ..> SYS : produces
+
+REQ --|> IWP
+SYS --|> IWP
+
+REQ ..> VREQ    : validated by
+SYS ..> VSYS    : validated by
+
+REQ ..> Media   : published to
+SYS ..> Platform: deployed to
+@enduml

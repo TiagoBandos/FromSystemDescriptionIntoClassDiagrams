@@ -1,0 +1,44 @@
+@startuml
+
+class Animal {
+    -name:String
+    -id:int
+}
+
+class Owner {
+    -name:String
+    -address:String
+    -phonenumber:String
+    -id:int
+}
+
+class Physician {
+    -name:String
+    -address:String
+    -phonenumber:String
+    -id:int
+}
+
+class Appointment {
+    -startdate:Date
+    -starttime:Time
+}
+
+class Breed {
+    -type:String
+}
+
+class MedicalCondition {
+    -commonname:String
+    -scientificname:String
+}
+
+Animal "1..*" -- "0..1" Owner
+Owner "1" -- "0..*" Appointment
+Animal "1" -- "0..*" Appointment
+Appointment "0..*" -- "1" Physician
+Animal "0..*" -- "1" Breed
+Breed "0..*" -- "0..*" MedicalCondition
+MedicalCondition "0..*" -- "0..*" Appointment
+
+@enduml

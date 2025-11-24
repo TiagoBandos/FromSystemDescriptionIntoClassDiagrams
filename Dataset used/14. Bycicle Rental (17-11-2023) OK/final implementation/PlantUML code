@@ -1,0 +1,90 @@
+@startuml
+package "Bicycle Rental System" {
+
+    enum BikeType {
+        ROAD
+        MOUNTAIN
+        BMX
+        HYBRID
+    }
+
+    class Client {
+        - NIN: String {unique}
+        - TIN: String {unique, mandatory}
+        - name: String {mandatory}
+        - address: String
+        + getClientInfo(): String
+        + getTIN(): String
+        + getName(): String
+        + getAddress(): String
+        + setAddress(address: String): void
+    }
+
+    class BikeModel {
+        - name: String {unique}
+        - type: BikeType
+        - gears: int
+        + getBikeInfo(): String
+        + getName(): String
+        + getType(): BikeType
+        + getGears(): int
+    }
+
+    class Bike {
+        - id: String {unique}
+        - model: BikeModel
+        + getBikeInfo(): String
+        + getId(): String
+        + getModel(): BikeModel
+    }
+
+    class Store {
+        - name: String {unique, mandatory}
+        - address: String {mandatory}
+        + getStoreInfo(): String
+        + getName(): String
+        + getAddress(): String
+    }
+
+    class Reservation {
+        - reservationId: String {unique}
+        - pickupDate: Date
+        - client: Client
+        - bikeModel: BikeModel
+        - pickupStore: Store
+        + createReservation(client: Client, bikeModel: BikeModel, pickupStore: Store, pickupDate: Date): void
+        + getReservationInfo(): String
+        + getPickupDate(): Date
+        + getReservationId(): String
+        + getClient(): Client
+        + getBikeModel(): BikeModel
+        + getPickupStore(): Store
+    }
+
+    class Rental {
+        - pickupDate: Date
+        - returnDate: Date
+        - reservation: Reservation
+        - bike: Bike
+        - client: Client
+        - store: Store
+        + pickupBike(bike: Bike, actualPickupDate: Date): void
+        + returnBike(returnDate: Date): void
+        + getRentalInfo(): String
+        + getReturnDate(): Date
+        + getReservation(): Reservation
+        + getBike(): Bike
+        + getClient(): Client
+        + getStore(): Store
+    }
+
+    Client "1" -- "*" Reservation : makes >
+    BikeModel "1" -- "*" Bike : defines >
+    BikeModel "1" -- "*" Reservation : requests >
+    Store "1" -- "*" Reservation : pickup location >
+    Reservation "1" -- "0..1" Rental : becomes >
+    Bike "1" -- "0..1" Rental : is assigned to >
+    Store "1" -- "*" Rental : pickup/return location >
+    BikeModel -- BikeType : has >
+}
+@enduml

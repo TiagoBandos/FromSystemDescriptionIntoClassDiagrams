@@ -1,0 +1,42 @@
+@startuml
+' --- Diagram 2: Store/Order/Component System ---
+class Piece {
+  Ref
+  Price
+}
+
+class Component {
+  Code
+  Price
+}
+
+class ComponentType {
+  Name
+}
+
+class Line {
+  Type
+}
+
+class Order {
+  Number
+  Date
+}
+
+class Store {
+  Name
+  Address
+  FAX
+}
+
+class Quantity
+
+Piece "*" -- "1..*" Component
+Component "1" -- "*" ComponentType
+Piece "*" -- "1" Line
+Order "*" -- "1" Store
+Order "*" .. Quantity
+Piece "*" .. Quantity
+Line "*" .. Quantity
+Piece "*" -- "*" Order
+@enduml

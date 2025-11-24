@@ -1,0 +1,62 @@
+@startuml
+
+class Order_Status <<class_variables>> {
+    STATUS = ("new","hold","shipped","delivered","closed")
+}
+
+class Product {
+    -id:String
+    -name:String
+}
+
+class LineItem {
+    -price:float
+    -quantity:int
+}
+
+class Order {
+    -id:String
+    -status:String
+}
+
+class Payment {
+    -id:String
+    -amount:float
+}
+
+class Customer {
+    -id:String
+    -phone:String
+    -email:String
+    -address:String
+}
+
+class Account {
+    -id:String
+}
+
+class Shopping_Cart
+
+class Web_User {
+    -loginname:String
+    -state:String
+}
+
+class User_state <<class_variables>> {
+    STATE = ("new","active","temporary blocked","banned")
+}
+
+Product "1" -- "0..*" LineItem
+Shopping_Cart "1" -- "0..*" LineItem
+LineItem "0..*" -- "1" Order
+Payment "0..*" -- "1" Order
+Payment "0..*" -- "1" Account
+Customer "1" *-- "1" Account
+Account "1" *-- "1" Shopping_Cart
+Order "0..*" --* "1" Account
+Order ..> Order_Status
+Web_User <|-- User_state
+Web_User "1" -- "0..1" Shopping_Cart
+Web_User "0..1" -- "1" Customer
+
+@enduml 

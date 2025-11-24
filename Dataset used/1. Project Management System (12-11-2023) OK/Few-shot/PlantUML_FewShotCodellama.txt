@@ -1,0 +1,29 @@
+@startuml
+class Project {
+    - startDate: Date
+    - endDate: Date
+    - manager: Manager
+    - team: Team
+}
+
+class Manager {
+    - name: String
+    - email: String
+    - phoneNumber: String
+}
+
+class Team {
+    - members: List<Employee>
+}
+
+class Employee {
+    - name: String
+    - email: String
+    - phoneNumber: String
+}
+
+Project "1" *-- "1" Manager : managerOf
+Manager "0..*" *-- "1" Team : teamLeader
+Team "1" o-- "many" Employee : employees
+Employee "0..1" --o "1" Project : project
+@enduml

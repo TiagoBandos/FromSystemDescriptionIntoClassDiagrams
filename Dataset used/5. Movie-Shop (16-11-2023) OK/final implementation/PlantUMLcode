@@ -1,0 +1,80 @@
+@startuml
+package "Movie Shop" {
+
+  class User {
+    - name: String
+    - email: String
+    - address: String
+    + buyMovie(movie: Movie): Order
+    + browseMovies(): List<Movie>
+  }
+
+  class Subscriber extends User {
+    + rentMovie(movie: Movie): Rental
+    + rechargeCard(amount: Double): void
+  }
+
+  class Movie {
+    - title: String
+    - director: String
+    - genre: String
+    - price: Double
+    - inStock: Boolean
+    + order(): Order
+    + isAvailable(): Boolean
+    + orderWhenUnavailable(): Order
+  }
+
+  class Order {
+    - orderDate: Date
+    - orderStatus: OrderStatus
+    - user: User
+    - movie: Movie
+    + updateStatus(newStatus: OrderStatus): void
+    + getTotal(): Double
+  }
+
+  enum OrderStatus {
+    PENDING
+    FULFILLED
+    CANCELLED
+  }
+
+  class Card {
+    - cardNumber: String
+    - balance: Double
+    + deductAmount(amount: Double): Boolean
+    + addAmount(amount: Double): void
+    + getBalance(): Double
+  }
+
+  class Catalog {
+    - movieList: List<Movie>
+    + searchByTitle(title: String): List<Movie>
+    + searchByGenre(genre: String): List<Movie>
+    + searchByDirector(director: String): List<Movie>
+    + getAllMovies(): List<Movie>
+    + addMovie(movie: Movie): void
+    + removeMovie(movie: Movie): void
+  }
+
+  class Rental {
+    - rentalDate: Date
+    - returnDate: Date
+    - subscriber: Subscriber
+    - movie: Movie
+    + calculateFee(): Double
+    + processReturn(): void
+    + updateCardBalance(): void
+  }
+
+  User "1" -- "*" Order
+  Order "*" -- "1" Movie
+  Subscriber "1" *-- "1" Card
+  Catalog "1" -- "*" Movie
+  Subscriber "1" -- "*" Rental
+  Rental "*" -- "1" Movie
+  Rental "*" -- "1" Card
+  User "1" -- "1" Catalog : browses >
+}
+@enduml

@@ -1,0 +1,63 @@
+@startuml
+
+' Classes and their attributes
+class Project {
+  -startDate: Date
+  -endDate: Date
+}
+
+class Team {
+  -name: String
+}
+
+class ProjectManager {
+  -name: String
+}
+
+class WorkProduct {
+  -description: String
+  -percentComplete: Float
+  -validate()
+}
+
+class Requirement {
+  -mediaType: String
+  -publish()
+}
+
+class System {
+  -platform: String
+  -deploy()
+}
+
+class Validation {
+  -type: String
+  -execute()
+}
+
+' Relationships
+ProjectManager "1" *--> "1..*" Project : leads
+ProjectManager --> Project : initiates/terminates
+
+Team "1" --> "1" Project : executes
+
+Project "1" *--> "1..*" Requirement : has as input
+Project "1" *--> "1" System : produces as output
+
+Requirement <|-- WorkProduct : extends
+System <|-- WorkProduct : extends
+
+WorkProduct "1" --> "0..1" Validation : may have
+
+' Notes for specific validations
+note right of Requirement
+  Validated with users
+  in workshops
+end note
+
+note right of System
+  Validated by testing
+  against requirements
+end note
+
+@enduml

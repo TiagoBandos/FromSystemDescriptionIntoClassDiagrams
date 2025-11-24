@@ -1,0 +1,12 @@
+# rag2-requirements.txt
+requests
+python-dotenv
+langchain
+langchain-community
+chromadb
+pypdf
+sentence-transformers
+torch
+huggingface-hub
+
+

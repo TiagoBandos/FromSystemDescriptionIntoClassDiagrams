@@ -1,0 +1,40 @@
+@startuml ProjectManagementSystem
+
+package "Project Management System" {
+    component "Project Manager" as PM
+    component "Project" as Project {
+        component "Work Product" as WP
+        component "Requirements" as Req
+        component "System" as Sys
+    }
+    component "Team" as Team
+    component "Validation" as Validation
+    component "Publication" as Publication
+    component "Deployment" as Deployment
+}
+
+PM --> Project : manages
+Project --> Team : leads
+Project --> WP : uses
+WP <|-- Req
+WP <|-- Sys
+
+Req --> Validation : «uses»\nvalidate
+Sys --> Validation : «uses»\nvalidate
+
+Req --> Publication : «uses»\npublish
+Sys --> Deployment : «uses»\ndeploy
+
+note right of Req
+  Description
+  % complete
+  Validated in user workshops
+end note
+
+note right of Sys
+  Description
+  % complete
+  Validated by testing
+end note
+
+@enduml

@@ -1,0 +1,15 @@
+# Requirements for Google Generative AI Evaluation
+langchain-google-genai
+deepeval
+google-cloud-aiplatform
+vertexai
+# Evaluation requirements
+langchain-community
+rouge-score
+nltk
+transformers
+sentencepiece
+torch
+# For Ollama integration
+langchain-core
+chromadb

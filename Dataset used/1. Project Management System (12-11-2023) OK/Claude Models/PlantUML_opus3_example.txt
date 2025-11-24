@@ -1,0 +1,39 @@
+@startuml
+class ProjectManager {
+  + manageProject(p: Project)
+}
+
+class ProjectManagementSystem
+
+class Project {
+  - startDate
+  - endDate
+  + initiate()
+  + terminate()
+}
+
+class Team
+
+class WorkProduct {
+  - description
+  - percentComplete
+  + validate()
+}
+
+class Requirement {
+  + publish()
+}
+
+class System {
+  + deploy()
+}
+
+ProjectManager --> ProjectManagementSystem : uses
+ProjectManager --> Team : leads
+
+Project *-- Requirement : uses as input
+Project *-- System : produces as output
+
+Requirement --|> WorkProduct
+System --|> WorkProduct
+@enduml

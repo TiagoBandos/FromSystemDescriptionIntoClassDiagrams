@@ -1,0 +1,45 @@
+@startuml
+skinparam componentStyle rectangle
+
+' Actors
+actor "Project Manager" as Manager
+
+' Core system
+component "Project Management System" as PMS
+
+' Project and work products
+component Project
+abstract component WorkProduct
+component Requirements
+component System
+
+' Validation mechanisms
+component "Workshop Validation" as WorkshopValidation
+component "Test Validation" as TestValidation
+
+' Publication media
+package "Publication Media" {
+  component Intranet
+  component Paper
+}
+
+' Deployment target
+component Platform
+
+' Relationships
+Manager --> PMS : operates
+PMS --> Project : manages
+Project ..> Requirements : «input»
+Project ..> System : «output»
+
+Requirements -up-|> WorkProduct
+System -up-|> WorkProduct
+
+Requirements ..> WorkshopValidation : «validated via»
+System ..> TestValidation : «validated via»
+
+Requirements ..> Intranet : «published on»
+Requirements ..> Paper : «published as»
+
+System ..> Platform : «deployed to»
+@enduml

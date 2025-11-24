@@ -1,0 +1,53 @@
+@startuml
+abstract class WorkProduct {
+    - description: String
+    - percentComplete: float
+    + getDescription(): String
+    + getPercentComplete(): float
+    {abstract} validate(): boolean
+}
+
+class Requirements {
+    - publicationMedia: List<String>
+    + publishOn(media: String): void
+    + validate(): boolean
+}
+
+class System {
+    - deploymentPlatform: String
+    + deployOn(platform: String): void
+    + validate(): boolean
+}
+
+class Project {
+    - startDate: Date
+    - endDate: Date
+    - status: ProjectStatus
+    + initiate(): void
+    + terminate(): void
+}
+
+class ProjectManager {
+    + leadTeam(team: Team): void
+}
+
+class Team {
+    - members: List<String>
+}
+
+enum ProjectStatus {
+    INITIATED
+    IN_PROGRESS
+    COMPLETED
+    TERMINATED
+}
+
+WorkProduct <|-- Requirements
+WorkProduct <|-- System
+
+Project "1" *-- "1..*" WorkProduct : contains
+ProjectManager "1" --> "1" Team : leads
+Project "1" --> "1" ProjectManager : managed by
+
+note right of WorkProduct: Common characteristics:\n- Description\n- Percent Complete\n- Validation
+@enduml

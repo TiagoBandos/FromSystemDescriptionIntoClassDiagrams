@@ -1,0 +1,39 @@
+@startuml
+
+class Adult {
+    -idcard:int
+}
+
+class UnderAged {
+    -studentcard:int
+}
+
+class User {
+    -firstname:String
+    -lastname:String
+    +borrow()
+    +return()
+}
+
+class Book {
+    -title:String
+    -author:String
+}
+
+class Library {
+    -Books:list<Book>
+}
+
+class History {
+    -Books:List<Book>
+    -date:List<date>
+}
+
+Adult <|-- User
+UnderAged <|-- User
+User "1" -- "0..4" Book
+User "1" *-- "1" History
+Library "1" o-- "0..*" Book
+History "0..*" o-- "0..*" Book
+
+@enduml

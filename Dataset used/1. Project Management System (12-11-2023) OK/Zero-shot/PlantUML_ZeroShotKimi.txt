@@ -1,0 +1,81 @@
+@startuml
+
+' ========== ENUMS ==========
+enum ProjectStatus {
+    INITIATED
+    IN_PROGRESS
+    COMPLETED
+    TERMINATED
+}
+
+enum WorkProductType {
+    REQUIREMENT
+    SYSTEM
+}
+
+' ========== ABSTRACT & BASE CLASSES ==========
+abstract class WorkProduct {
+    + description : String
+    + percentageCompleted : Integer
+    + validate() : Boolean
+}
+
+interface Validatable {
+    + validate() : Boolean
+}
+
+' ========== CLASSES ==========
+class Project {
+    - startDate : Date
+    - endDate   : Date
+    - status    : ProjectStatus
+    + initiate() : void
+    + terminate() : void
+}
+
+class ProjectManager {
+    + name : String
+}
+
+class Team {
+    + teamName : String
+}
+
+class Requirement {
+    + publish(media : String) : void
+}
+
+class System {
+    + platform : String
+    + deploy() : void
+}
+
+class Workshop {
+    + date : Date
+    + attendees : List<String>
+}
+
+class Test {
+    + scenario : String
+    + passed : Boolean
+}
+
+' ========== RELATIONSHIPS ==========
+' Generalization
+WorkProduct <|-- Requirement
+WorkProduct <|-- System
+WorkProduct ..|> Validatable
+
+' Associations
+Project "1" *-- "1..*" Requirement : input >
+Project "1" *-- "1" System : produces >
+Project "1" *-- "1" Team : executes >
+Project "1" *-- "1" ProjectManager : leads >
+
+' Aggregations & Dependencies
+WorkProduct --> "0..1" Validatable : uses >
+Requirement --> "0..*" Workshop : validated by >
+System --> "1..*" Test : validated by >
+System --> "1" Requirement : tested against >
+
+@enduml

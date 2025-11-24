@@ -1,0 +1,36 @@
+@startuml
+' --- Diagram 7: Library Borrowing System ---
+interface User {
+  -first_name: String
+  -last_name: String
+  -borrow_his: List<Borrow>
+  +borrow()
+  +return()
+}
+
+class Adult {
+  -id:int
+}
+class UnderAged {
+  -id_student:int
+}
+
+class Borrow {
+  -date: Date
+  -book: Book
+}
+class Book {
+  -author:String
+  -title:String
+}
+class Library {
+  -Books: List<Book>
+}
+
+User <|.. Adult
+User <|.. UnderAged
+User "1" -- "1..4" Book : borrow
+User "1" o-- "*" Borrow
+Borrow  -->  Book
+Library  o--  Book
+@enduml

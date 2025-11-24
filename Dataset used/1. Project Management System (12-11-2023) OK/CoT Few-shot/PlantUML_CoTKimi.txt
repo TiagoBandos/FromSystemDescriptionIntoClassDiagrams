@@ -1,0 +1,93 @@
+@startuml
+    abstract class WorkProduct {
+        - description: string
+        - percentComplete: integer
+        --
+        + getDescription(): string
+        + getPercentComplete(): integer
+        {abstract} validate(): void
+    }
+
+    class Project {
+        - startDate: date
+        - endDate: date
+        - status: string
+        --
+        + initiate(): void
+        + terminate(reason: string): void
+        + getStatus(): string
+    }
+
+    class Requirements {
+        --
+        + validateWithUsers(workshop: Workshop): void
+        + publish(mediaType: MediaType): void
+    }
+
+    class System {
+        - deployedPlatform: Platform
+        --
+        + testAgainstRequirements(requirements: Requirements): boolean
+        + deploy(platform: Platform): void
+    }
+
+    class ProjectManager {
+        - name: string
+        - employeeId: string
+        --
+        + createProject(details: ProjectDetails): Project
+        + manageProject(project: Project): void
+        + leadTeam(team: Team): void
+    }
+
+    class Team {
+        - teamName: string
+        - members: List<string>
+        --
+        + executeProject(project: Project): void
+        + getMembers(): List<string>
+    }
+
+    class Workshop {
+        - workshopId: string
+        - participants: List<string>
+        --
+        + conductValidation(requirements: Requirements): void
+    }
+
+    enum MediaType {
+        INTRANET
+        PAPER
+    }
+
+    enum Platform {
+        WINDOWS
+        LINUX
+        MAC
+        WEB
+    }
+
+    ' Inheritance relationships
+    WorkProduct <|-- Requirements
+    WorkProduct <|-- System
+
+    ' Associations
+    ProjectManager "1" -- "1" Team : leads
+    ProjectManager "1" -- "0..*" Project : manages
+    Project "1" *-- "1" Requirements : uses
+    Project "1" *-- "1" System : produces
+    Team "1" -- "0..*" Project : executes
+
+    ' Dependencies
+    Requirements ..> Workshop : uses
+    Requirements ..> MediaType : uses
+    System ..> Platform : uses
+    System ..> Requirements : tests_against
+
+    ' Note about validation
+    note right of WorkProduct
+        Validation is type-specific
+        and implemented by subclasses
+    end note
+
+@enduml

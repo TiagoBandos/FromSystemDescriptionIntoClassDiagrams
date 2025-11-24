@@ -1,0 +1,62 @@
+@startuml
+class Project {
+    startDate: Date
+    endDate: Date
+}
+
+class Team {
+}
+
+class Requirement {
+    description: String
+    completionPercentage: float
+}
+
+class System {
+    description: String
+    completionPercentage: float
+}
+
+class WorkProduct {
+    description: String
+    completionPercentage: float
+}
+
+class Validation {
+}
+
+class UserWorkshopValidation extends Validation {
+}
+
+class TestValidation extends Validation {
+}
+
+class PublicationMedium {
+}
+
+class Intranet extends PublicationMedium {
+}
+
+class PaperForm extends PublicationMedium {
+}
+
+class Platform {
+}
+
+Project "1" -- "1" Team : leads
+Project "1" *-- "0..*" Requirement : has
+Project "1" *-- "0..*" System : produces
+
+Requirement --|> WorkProduct
+System --|> WorkProduct
+
+WorkProduct "1" -- "1" Validation : validated by
+
+UserWorkshopValidation --|> Validation : type
+TestValidation --|> Validation : type
+
+Requirement "1" *-- "0..*" PublicationMedium : published on
+
+System "1" *-- "0..*" Platform : deployed on
+
+@enduml

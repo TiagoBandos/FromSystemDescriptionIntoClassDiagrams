@@ -1,0 +1,65 @@
+@startuml
+class ProjectManager {
+    + name: String
+    + initiateProject()
+    + terminateProject()
+}
+
+class Team {
+    + members: List<String>
+    + executeProject()
+}
+
+class Project {
+    + name: String
+    + startDate: Date
+    + endDate: Date
+    + status: ProjectStatus
+    + initiate()
+    + terminate()
+}
+
+class WorkProduct {
+    <<abstract>>
+    + description: String
+    + completionPercentage: Float
+    + validate()
+}
+
+class Requirements {
+    + publishOnIntranet()
+    + publishOnPaper()
+    + validateWithUsers()
+}
+
+class System {
+    + platform: String
+    + deploy()
+    + testAgainstRequirements()
+}
+
+class Validation {
+    <<interface>>
+    + validate()
+}
+
+ProjectManager "1" -- "1..*" Project : leads
+Project "1" -- "1" Team : executed by
+Project "1" -- "1..*" Requirements : has input
+Project "1" -- "1..*" System : produces output
+
+WorkProduct <|-- Requirements
+WorkProduct <|-- System
+
+Requirements ..|> Validation : <<implements>>
+System ..|> Validation : <<implements>>
+
+Requirements "1" -- "1..*" System : validated by
+
+
+@enduml
+
+
+note for Requirements "Validated through user workshops"
+note for System "Validated by testing against requirements"
+ADICIONOU ESTAS NOTAS COM SINTAXE ERRADA O QUE PREFOCOU ERROS DE SINTAXE 

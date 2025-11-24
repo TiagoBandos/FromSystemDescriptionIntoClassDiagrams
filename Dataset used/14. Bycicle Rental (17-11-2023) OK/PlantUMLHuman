@@ -1,0 +1,50 @@
+@startuml
+
+class Client {
+    -NIN:String
+    -TIN:String
+    -name:String
+    -address:String
+    +reserveabike()
+}
+
+class Bycicle {
+    -id:String
+}
+
+class BycicleModel {
+    -name:String
+    -nofgears:int
+}
+
+class Reservation {
+    -pickup_day:Date
+    -return_date:Date
+}
+
+class Store {
+    -name:String
+    -address:String
+}
+
+class Type {
+    -name:String
+}
+
+class Road
+class Mountain
+class BMX
+class Hybrid
+
+Client "1" -- "0..*" Reservation
+Reservation "0..*" -- "1" Store
+Bycicle "0..*" -- "1" BycicleModel
+Bycicle "0..*" -- "1" Store
+Reservation "0..*" -- "1" Bycicle
+BycicleModel "0..*" -- "1" Type
+Type <|-- Road
+Type <|-- Mountain
+Type <|-- BMX
+Type <|-- Hybrid
+
+@enduml

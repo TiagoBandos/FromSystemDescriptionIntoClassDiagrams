@@ -1,0 +1,51 @@
+@startuml
+class Project {
+    - startDate: Date
+    - endDate: Date
+    + initiate()
+    + terminate()
+}
+
+class ProjectManager {
+    - name: String
+    + leadProject()
+}
+
+class Team {
+    - teamMembers: List
+    + executeProject()
+}
+
+abstract class WorkProduct {
+    - description: String
+    - workCompletedPercentage: Float
+    + validate(): Boolean
+}
+
+class Requirements {
+    - publicationMedia: List<String>
+    + validateWithUsers()
+}
+
+class System {
+    - deploymentPlatforms: List<String>
+    + testAgainstRequirements()
+}
+
+class Validation {
+    - type: String
+    + performValidation(): Boolean
+}
+
+' Relationships
+ProjectManager "1" -- "1..*" Project : manages
+Project "1" -- "1" Team : has
+Project "1" *-- "1" Requirements : input
+Project "1" *-- "1" System : output
+
+WorkProduct <|-- Requirements
+WorkProduct <|-- System
+
+Requirements "1" -- "1" Validation : has
+System "1" -- "1" Validation : has
+@enduml

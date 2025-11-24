@@ -1,0 +1,11 @@
+Build a software application to manage filmed scenes for realizing a movie, by following the "Hollywood Approach".
+Every scene shall be identified by a code and it is described by a text in natural language.
+Every scene is filmed at least from one different position.
+Each position is a setup.
+Setup is characterized by a code (a string) and a text in natural language where the photographic parameters are noted (e.g., aperture, exposure, focal length, filters, etc.)
+Each setup is related to a single scene 
+Every setup has at least one take filmed in.
+A take has a positive natural number, a real number representing the number of meters of film that have been used for shooting the take, and the code (string) of the reel where the film is stored.
+A take is associated to a single setup.
+Scenes can be internals, filmed in a theater, or a externals, filmed in a location and can either be "day scene" or "night scene".
+Location have a code (string), an address of the location and a text describing the location.

@@ -1,0 +1,38 @@
+@startuml
+class Project {
+    - startDate: Date
+    - endDate: Date
+    - requirements: List<Requirement>
+    - system: System
+    - status: String
+}
+
+class Manager {
+    - name: String
+    - email: String
+    - phoneNumber: String
+    - role: String
+}
+
+class Team {
+    - members: List<Employee>
+}
+
+class Employee {
+    - name: String
+    - email: String
+    - phoneNumber: String
+}
+
+class Requirement {
+    - description: Text
+    - percentComplete: Integer
+    - validated: Boolean
+}
+
+class System {
+    - version: String
+    - deploymentPlatforms: List<String>
+    - workProductType: String
+}
+@enduml

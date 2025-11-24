@@ -1,0 +1,74 @@
+@startuml
+
+class Receptionist {
+    +enterinfopatient()
+    +scheduleappointment()
+}
+
+class Patient {
+    -name:String
+    -gender:String
+    -birthdate:Date
+    -lastvisitdate:Date
+    -allergies:String
+    -notes:String
+}
+
+class Family {
+    -nameofamilyhead:String
+    -address:String
+    -telephone:String
+    -insurancecarrier:String
+    -policynumber:String
+}
+
+class Appointment {
+    -date:Date
+    -time:Time
+    -reason:String
+}
+
+class Doctor {
+    -name:String
+    -specialty:String
+    -address:String
+    -telephone:String
+    +viewpatienthistory()
+    +entertreatmentinformation()
+    +prescribemedication()
+    +seepatient()
+}
+
+class Nurse {
+    -memberName:String
+    +checkvisit()
+    +prescribemedication()
+    +printouthistory()
+}
+
+class Prescription {
+    -date:Date
+    -medication:String
+    -dosage:String
+}
+
+class Visit {
+    -date:Date
+    -reason:String
+    -diagnosisnotes:String
+    -treatmentnotes:String
+}
+
+Receptionist "1..*" -- "0..*" Patient : Enter Info
+Receptionist "1" -- "0..*" Appointment : Schedule
+Patient "1" -- "0..*" Appointment
+Patient "1..*" -- "1" Family
+Patient "1" -- "0...*" Visit
+Doctor "1" -- "1..*" Family
+Doctor "1" -- "1..*" Visit
+Nurse "0..*" -- "0..1" Visit : Keep Track
+Prescription "0..*" -- "1" Visit
+Appointment "0..1" -- "0...*" Visit
+
+@enduml
+
