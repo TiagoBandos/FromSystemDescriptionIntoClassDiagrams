@@ -111,7 +111,7 @@ class RAG :
             )
             self.client = ChatAnthropic(
                 model="claude-3-7-sonnet-20250219",
-                temperature=0.5,
+                temperature=0.2,
                 max_tokens=1000
             )
             self.loaded = False  # Track if already loaded
@@ -448,7 +448,7 @@ class SelfRefinement:
             response = self.client.messages.create(
                 model="claude-3-7-sonnet-20250219",
                 max_tokens=2000,
-                temperature=0.5,
+                temperature=0.2,
                 system= improve_system_prompt,
                 messages=[
                     {"role": "user", "content": improve_user_prompt},
